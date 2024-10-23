@@ -40,7 +40,7 @@ class RefreshHighlevelBookings extends Command
                 $Booking = Booking::where("booking_ref", $Reservation->externalBookingId)->where("checkin", null)->first();
                 if ($Booking != null) {
                    
-                    $Booking->checkin = $Reservation->checkedInString;
+                    $Booking->checkin = strtotime($Reservation->checkedInString);
                     $Booking->save();
                 }
             }
