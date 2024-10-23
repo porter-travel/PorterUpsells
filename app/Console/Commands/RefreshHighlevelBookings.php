@@ -38,7 +38,7 @@ class RefreshHighlevelBookings extends Command
             foreach ($HotelBookingsService->fetchReservations() as $Reservation) {
                 // Find hotel id
                 $Booking = Booking::where("booking_ref", $Reservation->externalBookingId)->where("checkin", null)->first();
-                if ($Booking != null) {
+                if ($Booking != null && $Reservation->checkedInString!=null) {
                    
                     $Booking->checkin = strtotime($Reservation->checkedInString);
                     $Booking->save();
