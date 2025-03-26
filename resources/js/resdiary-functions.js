@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const stayDateInput = document.querySelector("[data-stay-date-selector]:checked"); // Only get selected/checked input
         if (stayDateInput) {
             const date = stayDateInput.value;
-            const hotel_id = document.getElementById('hotel_id').value;
+            const hotel_id = document.querySelector('[data-hotel-id]').value;
 
             // Get the CSRF token from the meta tag
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');

@@ -13,9 +13,11 @@ class ResDiaryController extends Controller
 
     public $is_test = false;
 
-    public function __construct($is_test = false){
+    public function __construct($is_test = false)
+    {
         $this->is_test = $is_test;
     }
+
     public function install(Request $request)
     {
         // Generate the code verifier and challenge
@@ -149,11 +151,16 @@ class ResDiaryController extends Controller
     public function getAvailability(Request $request)
     {
 
-        $hotel_id = $request->hotel_id ?? 2;
+        $hotel_id = $request->hotel_id;
         $date = $request->date ?? "2024-11-15"; //date('Y-m-d');
         $partySize = $request->party_size ?? 2;
 
-        $hotel = Hotel::find($hotel_id);
+        if (!is_numeric($hotel_id)) {
+            $hotel = Hotel::where('slug', $hotel_id)->first();
+        } else {
+            $hotel = Hotel::find($hotel_id);
+        }
+
         $access_token = $hotel->connections->where('key', 'resdiary_access_token')->first()->value;
 //        dd($access_token);
         $resdiary_microsite_name = $hotel->connections->where('key', 'resdiary_microsite_name')->first()->value;

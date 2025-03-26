@@ -103,7 +103,7 @@
 
                             @csrf
                             <input type="hidden" data-product-id name="product_id" value="{{$product->id}}">
-                            <input type="hidden" name="hotel_id" value="{{$hotel_id}}">
+                            <input type="hidden" data-hotel-id name="hotel_id" value="{{$hotel_id}}">
                             <input type="hidden" name="product_name" value="{{$product->name}}">
 
                             <input id="maxQtyInput" type="hidden" name="max_qty" value=""/>
