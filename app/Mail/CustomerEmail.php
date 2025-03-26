@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Mail;
-
+use Illuminate\Mail\Mailables\Address;
 use App\Models\Hotel;
 use App\Models\Product;
 use Illuminate\Bus\Queueable;
@@ -60,6 +60,7 @@ class CustomerEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
+            from: new Address(env('MAIL_FROM_ADDRESS', 'hi@enhancemystay.com'), $this->hotel->name),
             subject: $this->subject,
         );
     }

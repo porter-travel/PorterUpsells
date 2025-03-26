@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const stayDateInput = document.querySelector("[data-stay-date-selector]:checked"); // Only get selected/checked input
         if (stayDateInput) {
             const date = stayDateInput.value;
+            const hotel_id = document.getElementById('hotel_id').value;
 
             // Get the CSRF token from the meta tag
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -12,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
             axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
 
             // Make the axios request with the stay date value
-            axios.post('/resdiary/get-availability', { date: date })
+            axios.post('/resdiary/get-availability', { date: date, hotel_id: hotel_id })
                 .then(response => {
                     console.log("Response:", response.data);
                     processAvailableTimes(response.data);
@@ -24,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("No date selected.");
         }
     }
+
 
     // Initial fetch on page load
     const formComponent = document.querySelector("[data-requires-resdiary-booking]");
