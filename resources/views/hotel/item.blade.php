@@ -77,7 +77,7 @@
                 <div class="lg:basis-1/2 basis-full lg:pl-4">
                     <div class="mt-4 lg:mt-0">
                         <p class="open-sans text-3xl mb-2 hotel-text-color">{{$product->name}}</p>
-                        <div class="w-full h-[300px]">
+                        <div class="w-full">
                             <div class="my-4 hotel-text-color">
                                 {!! $product->description !!}
                             </div>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div style="margin-top: 2rem;">
             {!! $product->embed_code !!}
             </div>
 
