@@ -8,6 +8,7 @@ use App\Http\Controllers\FulfilmentController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\HotelEmailController;
 use App\Http\Controllers\IntegrationTokenController;
+use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;

@@ -8,9 +8,9 @@
     <x-slot:favicon>{{$hotel->logo}}</x-slot:favicon>
 
     @include('hotel.partials.css-overrides', ['hotel' => $hotel])
-<script>
-    const productVariations = {!!  json_encode($variations) !!}
-</script>
+    <script>
+        const productVariations = {!!  json_encode($variations) !!}
+    </script>
 
     <style>
         .fancy-checkbox {
@@ -67,144 +67,172 @@
             </a>
         </div>
     </div>
-    <div class="narrow-container mx-auto p-4 mt-4">
 
-        @if($have_details)
-            <form
-                @if(isset($specifics['requires_resdiary_booking']) && $specifics['requires_resdiary_booking']) data-requires-resdiary-booking
-                @endif
-                @if(isset($specifics['resdiary_promotion_id']) && $specifics['resdiary_promotion_id']) data-resdiary-promotion-id="{{$specifics['resdiary_promotion_id']}}"
-                @endif
-                @if($type == 'calendar') data-calendar @endif
-
-
-                id="addToCart" action="/cart/add" method="post">
-                @endif
-                <div class="flex flex-wrap items-end">
-                    <div class="lg:basis-1/2 basis-full lg:pr-4">
-                        @include ('hotel.partials.product-image', ['item' => $product])
-                    </div>
-                    <div class="lg:basis-1/2 basis-full lg:pl-4">
-                        <div class="mt-4 lg:mt-0">
-                            <p class="open-sans text-3xl mb-2 hotel-text-color">{{$product->name}}</p>
-                            <p id="price" data-currency="{{strtoupper($hotel->user->currency)}}" class="open-sans text-xl mb-6 hotel-text-color">
-                                @if(is_countable($variations) && count($variations) <= 1)
-                                <x-money-display :amount="$product->price"
-                                                 :currency="$hotel->user->currency"></x-money-display>
-                                @else
-                                    <x-money-display :amount="$variations[0]->price"
-                                                     :currency="$hotel->user->currency"></x-money-display>
-                                    @endif
-                            </p>
-                            {{--                    <small>Tax Included</small>--}}
-                        </div>
-
-                        <div>
-
-                            @csrf
-                            <input type="hidden" data-product-id name="product_id" value="{{$product->id}}">
-                            <input type="hidden" data-hotel-id name="hotel_id" value="{{$hotel_id}}">
-                            <input type="hidden" name="product_name" value="{{$product->name}}">
-
-                            <input id="maxQtyInput" type="hidden" name="max_qty" value=""/>
-                            @if(isset($specifics['resdiary_promotion_id']) && $specifics['resdiary_promotion_id'])
-                                <input name="resdiary_promotion_id" value="{{$specifics['resdiary_promotion_id']}}"
-                                       type="hidden">
-                            @endif
-                            <div @if(is_countable($variations) && count($variations) <= 1) style="display: none"
-                                 @endif class="mt-4">
-                                @if($type == 'calendar')
-                                    <input type="hidden" name="product_type" value="calendar">
-                                @elseif($type == 'restaurant')
-                                    <input type="hidden" name="product_type" value="restaurant">
-                                @elseif(is_countable($variations) && count($variations) <= 1)
-                                    <input type="hidden" name="product_type" value="simple">
-                                @else
-                                    <input type="hidden" name="product_type" value="variable">
-                                @endif
-                                <label class="block w-full hotel-text-color" for="options">Options</label>
-                                <select id="options" name="variation_id">
-                                    @foreach($variations as $variation)
-                                        <option value="{{$variation->id}}">{{$variation->name}} -
-                                            <x-money-display :amount="$variation->price"
-                                                             :currency="$hotel->user->currency"></x-money-display>
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mt-4">
-                                @if(isset($specifics['resdiary_promotion_id']) && $specifics['resdiary_promotion_id'])
-                                    <x-input-label class="hotel-text-color text-xl" for="quantity"
-                                                   :value="__('Number of Guests')"/>
-                                @else
-                                    <x-input-label class="hotel-text-color text-xl" for="quantity"
-                                                   :value="__('Quantity')"/>
-                                @endif
-                                <div class="w-[100px]">
-                                    <x-number-input :id="'quantity'" :key="'quantity'" :quantity="1"/>
-                                </div>
+    @if($product->embed_code)
+        <div class="narrow-container mx-auto p-4 mt-4">
+            <div class="flex flex-wrap items-start">
+                <div class="lg:basis-1/2 basis-full lg:pr-4">
+                    @include ('hotel.partials.product-image', ['item' => $product])
+                </div>
+                <div class="lg:basis-1/2 basis-full lg:pl-4">
+                    <div class="mt-4 lg:mt-0">
+                        <p class="open-sans text-3xl mb-2 hotel-text-color">{{$product->name}}</p>
+                        <div class="w-full">
+                            <div class="my-4 hotel-text-color">
+                                {!! $product->description !!}
                             </div>
 
-
                         </div>
-
-
                     </div>
                 </div>
+            </div>
+            <div style="margin-top: 2rem;">
+                {!! $product->embed_code !!}
+            </div>
 
-                <div class="mt-4">
-                    @if($have_details)
-                        @if(isset($dateArray['error']))
-                            <div class="bg-black text-white p-4">{{$dateArray['error']}}</div>
-                        @else
-                            @include('hotel.partials.select-product-date', ['dateArray' => $dateArray, 'specifics' => $specifics])
-                            @if(isset($specifics['requires_resdiary_booking']) && $specifics['requires_resdiary_booking'])
-                                <div class="flex">
-                                    <div class="basis-full sm:basis-1/2 md:basis-1/3 pr-2">
-                                        <div id="resdiary_time_selector"></div>
-                                    </div>
-                                </div>
-                            @endif
 
-                            @if($type == 'calendar')
-                                <div class="flex">
-                                    <div class="basis-full sm:basis-1/2 pr-2">
-                                        <div id="calendar_product_time_selector"></div>
-                                    </div>
-                                </div>
-                            @endif
-                            <x-primary-button
-                                id="addToCartButton"
-                                :disabled="!$have_details"
-                                class=" justify-center mt-4 w-full md:w-1/2 hotel-button-color hotel-button-text-color">
-                                Add to basket
-                            </x-primary-button>
-                        @endif
-                    @else
-                        @include('hotel.partials.select-stay-dates', [
-                            'arrival_date' => session()->get('arrival_date'),
-                            'departure_date' => session()->get('departure_date'),
-                            'specifics' => $specifics,
-                            'date_picker_title' => $date_picker_title,
-                            ])
+        </div>
+    @else
+        <div class="narrow-container mx-auto p-4 mt-4">
+
+            @if($have_details)
+                <form
+                    @if(isset($specifics['requires_resdiary_booking']) && $specifics['requires_resdiary_booking']) data-requires-resdiary-booking
                     @endif
-                </div>
+                    @if(isset($specifics['resdiary_promotion_id']) && $specifics['resdiary_promotion_id']) data-resdiary-promotion-id="{{$specifics['resdiary_promotion_id']}}"
+                    @endif
+                    @if($type == 'calendar') data-calendar @endif
 
 
-                <div id="success" class="hidden">
-                    {{--                        <div class="fixed inset-0 bg-grey/50"></div>--}}
-                    <div
-                        class="fixed right-4 bottom-4 w-[250px] text-black hotel-accent-color-50 my-4 p-2 block"><p>
-                            Added to your basket!</p>
-                        <a class="underline font-bold" href="/hotel/{{$hotel_id}}/cart">Proceed to basket</a>
+                    id="addToCart" action="/cart/add" method="post">
+                    @endif
+                    <div class="flex flex-wrap items-end">
+                        <div class="lg:basis-1/2 basis-full lg:pr-4">
+                            @include ('hotel.partials.product-image', ['item' => $product])
+                        </div>
+                        <div class="lg:basis-1/2 basis-full lg:pl-4">
+                            <div class="mt-4 lg:mt-0">
+                                <p class="open-sans text-3xl mb-2 hotel-text-color">{{$product->name}}</p>
+                                <p id="price" data-currency="{{strtoupper($hotel->user->currency)}}"
+                                   class="open-sans text-xl mb-6 hotel-text-color">
+                                    @if(is_countable($variations) && count($variations) <= 1)
+                                        <x-money-display :amount="$product->price"
+                                                         :currency="$hotel->user->currency"></x-money-display>
+                                    @else
+                                        <x-money-display :amount="$variations[0]->price"
+                                                         :currency="$hotel->user->currency"></x-money-display>
+                                    @endif
+                                </p>
+                                {{--                    <small>Tax Included</small>--}}
+                            </div>
+
+                            <div>
+
+                                @csrf
+                                <input type="hidden" data-product-id name="product_id" value="{{$product->id}}">
+                                <input type="hidden" name="hotel_id" value="{{$hotel_id}}">
+                                <input type="hidden" name="product_name" value="{{$product->name}}">
+
+                                <input id="maxQtyInput" type="hidden" name="max_qty" value=""/>
+                                @if(isset($specifics['resdiary_promotion_id']) && $specifics['resdiary_promotion_id'])
+                                    <input name="resdiary_promotion_id" value="{{$specifics['resdiary_promotion_id']}}"
+                                           type="hidden">
+                                @endif
+                                <div @if(is_countable($variations) && count($variations) <= 1) style="display: none"
+                                     @endif class="mt-4">
+                                    @if($type == 'calendar')
+                                        <input type="hidden" name="product_type" value="calendar">
+                                    @elseif($type == 'restaurant')
+                                        <input type="hidden" name="product_type" value="restaurant">
+                                    @elseif(is_countable($variations) && count($variations) <= 1)
+                                        <input type="hidden" name="product_type" value="simple">
+                                    @else
+                                        <input type="hidden" name="product_type" value="variable">
+                                    @endif
+                                    <label class="block w-full hotel-text-color" for="options">Options</label>
+                                    <select id="options" name="variation_id">
+                                        @foreach($variations as $variation)
+                                            <option value="{{$variation->id}}">{{$variation->name}} -
+                                                <x-money-display :amount="$variation->price"
+                                                                 :currency="$hotel->user->currency"></x-money-display>
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="mt-4">
+                                    @if(isset($specifics['resdiary_promotion_id']) && $specifics['resdiary_promotion_id'])
+                                        <x-input-label class="hotel-text-color text-xl" for="quantity"
+                                                       :value="__('Number of Guests')"/>
+                                    @else
+                                        <x-input-label class="hotel-text-color text-xl" for="quantity"
+                                                       :value="__('Quantity')"/>
+                                    @endif
+                                    <div class="w-[100px]">
+                                        <x-number-input :id="'quantity'" :key="'quantity'" :quantity="1"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
                     </div>
-                </div>
 
-                <div class="mt-4 hotel-text-color">
-                    {!! $product->description !!}
-                </div>
-                @if($have_details)
-            </form>
-        @endif
-    </div>
+                    <div class="mt-4">
+                        @if($have_details)
+                            @if(isset($dateArray['error']))
+                                <div class="bg-black text-white p-4">{{$dateArray['error']}}</div>
+                            @else
+                                @include('hotel.partials.select-product-date', ['dateArray' => $dateArray, 'specifics' => $specifics])
+                                @if(isset($specifics['requires_resdiary_booking']) && $specifics['requires_resdiary_booking'])
+                                    <div class="flex">
+                                        <div class="basis-full sm:basis-1/2 md:basis-1/3 pr-2">
+                                            <div id="resdiary_time_selector"></div>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if($type == 'calendar')
+                                    <div class="flex">
+                                        <div class="basis-full sm:basis-1/2 pr-2">
+                                            <div id="calendar_product_time_selector"></div>
+                                        </div>
+                                    </div>
+                                @endif
+                                <x-primary-button
+                                    id="addToCartButton"
+                                    :disabled="!$have_details"
+                                    class=" justify-center mt-4 w-full md:w-1/2 hotel-button-color hotel-button-text-color">
+                                    Add to basket
+                                </x-primary-button>
+                            @endif
+                        @else
+                            @include('hotel.partials.select-stay-dates', [
+                                'arrival_date' => session()->get('arrival_date'),
+                                'departure_date' => session()->get('departure_date'),
+                                'specifics' => $specifics,
+                                'date_picker_title' => $date_picker_title,
+                                ])
+                        @endif
+                    </div>
+
+
+                    <div id="success" class="hidden">
+                        {{--                        <div class="fixed inset-0 bg-grey/50"></div>--}}
+                        <div
+                            class="fixed right-4 bottom-4 w-[250px] text-black hotel-accent-color-50 my-4 p-2 block"><p>
+                                Added to your basket!</p>
+                            <a class="underline font-bold" href="/hotel/{{$hotel_id}}/cart">Proceed to basket</a>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 hotel-text-color">
+                        {!! $product->description !!}
+                    </div>
+                    @if($have_details)
+                </form>
+            @endif
+        </div>
+    @endif
 </x-guest-layout>

@@ -18,13 +18,18 @@
                         <input type="hidden" name="product_id" value="{{$product->id}}">
                         <input type="hidden" name="hotel_id" value="{{$hotel->id}}">
 
+
+
+                        @if($type == 'restaurant')
+                            @include('admin.product.partials.restaurant-fields', ['product' => $product, 'method' => 'update'])
+                        @else
                         @include('admin.product.partials.core-fields', ['method' => 'update', 'product' => $product])
 
 
                         @include('admin.product.partials.specifics', ['method' => 'update'])
+@endif
 
-
-                        <div id="variantContainer">
+                        <div @if($type == 'restaurant') class="hidden" @endif id="variantContainer">
                             <div class="my-6 flex items-center justify-between flex-wrap">
                                 <h3 class="text-xl mr-4">Variations</h3>
 
@@ -67,7 +72,7 @@
                                             <input value="{{$variation->price}}"
                                                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full px-3 py-2"
                                                    id="price" type="number" step=".01"
-                                                   name="variants[{{$key}}][variant_price]" required="required"
+                                                   name="variants[{{$key}}][variant_price]"
                                                    placeholder="12.34">
                                         </div>
 

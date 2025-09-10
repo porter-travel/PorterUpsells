@@ -49,25 +49,21 @@
         <x-input-error :messages="$errors->get('name')" class="mt-2"/>
     </div>
 
-    <div class="md:basis-1/2 basis-full md:pl-4 mt-4">
-        <x-input-label class="text-black font-sans" for="price" :value="__('Price')"/>
-        <x-text-input id="price" class="block mt-1 w-full px-3 py-2" type="number" name="price"
-                      :value="$product->price"
-                       step=".01" placeholder="12.34"/>
-        <x-input-error :messages="$errors->get('price')" class="mt-2"/>
-    </div>
 </div>
 <div class="mt-4">
     <div class="flex items-center justify-between">
         <x-input-label class="text-black font-sans" :value="__('Description')"/>
 
-{{--        <button class="bg-blue p-1 border-blue rounded-xl" type="button" id="rewriteProductDescription">✨</button>--}}
+        {{--        <button class="bg-blue p-1 border-blue rounded-xl" type="button" id="rewriteProductDescription">✨</button>--}}
     </div>
 
     <div id="description" class="block mt-1 w-full px-3 py-2 rounded-b-md quill-text-editor" type="text">
         {!! $product->description !!}</div>
     <input id="realDescription" type="hidden" name="description" value="{{ $product->description }}" required>
     <x-input-error :messages="$errors->get('description')" class="mt-2"/>
+
+    <x-input-label class="text-black font-sans mt-4" for="embed_code" value="Embed Code"/>
+    <textarea name="embed_code" id="embed_code">{{$product->embed_code}}</textarea>
 </div>
 
 <script>
@@ -92,6 +88,9 @@
         });
 
         const btn = document.getElementById('rewriteProductDescription');
+        if(!btn) {
+            return;
+        }
         btn.addEventListener('click', function () {
             const description = document.querySelector('#realDescription').value;
             fetch('/admin/chat/rewrite-product-descriptions', {

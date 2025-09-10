@@ -15,13 +15,15 @@
                         <input type="hidden" name="hotel_id" value="{{$hotel->id}}">
                         <input type="hidden" name="type" value="{{$type}}">
 
-                        @include('admin.product.partials.core-fields', ['product' => new \App\Models\Product(), 'method' => 'create'])
+                        @if($type == 'restaurant')
+                            @include('admin.product.partials.restaurant-fields', ['product' => new \App\Models\Product(), 'method' => 'create'])
+                        @else
+                            @include('admin.product.partials.core-fields', ['product' => new \App\Models\Product(), 'method' => 'create'])
+                            @include('admin.product.partials.specifics', ['method' => 'create', 'type' => $type])
 
+                        @endif
 
-                        @include('admin.product.partials.specifics', ['method' => 'create', 'type' => $type])
-
-
-                        <div id="variantContainer">
+                        <div @if($type == 'restaurant') class="hidden" @endif id="variantContainer">
                             <div class="my-6 flex items-center justify-between flex-wrap">
                                 <h3 class="text-xl mr-4">Variations</h3>
 
@@ -30,7 +32,8 @@
                                     <button data-id="0"
                                             class="add-item flex items-center px-8 py-2 bg-mint rounded-full"
                                             role="button">
-                                        <img style="pointer-events: none" src="/img/icons/plus.svg" alt="add" class="mr-2">
+                                        <img style="pointer-events: none" src="/img/icons/plus.svg" alt="add"
+                                             class="mr-2">
                                         Add a variation
                                     </button>
                                 </div>

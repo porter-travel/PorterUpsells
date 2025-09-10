@@ -62,6 +62,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const triggerUnavailabilityModal = document.getElementById('triggerUnavailabilityModal');
+    if (!triggerUnavailabilityModal) {
+        console.warn('Trigger button for unavailability modal not found.');
+        return;
+    }
     triggerUnavailabilityModal.addEventListener('click', function () {
         document.getElementById('unavailabilityModal').classList.remove('hidden');
     });

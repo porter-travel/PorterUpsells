@@ -159,8 +159,9 @@ class ProductController extends Controller
         $product->status = $request->status;
         $product->name = $request->name;
         $product->description = strip_tags($request->description, '<p><a><strong><em><ul><li><ol><br>');
-        $product->price = $request->price;
+        $product->price = $request->price ?? null;
         $product->hotel_id = $request->hotel_id;
+        $product->embed_code = $request->embed_code ?? null;
         $product->image = $url;
         $product->type = $request->type;
         $product->save();
@@ -184,7 +185,7 @@ class ProductController extends Controller
         } else {
             $product->variations()->create([
                 'name' => $request->name,
-                'price' => $request->price,
+                'price' => $request->price ?? null,
                 'image' => $url
             ]);
         }
@@ -212,7 +213,7 @@ class ProductController extends Controller
         Validator::make($request->all(), [
             'name' => 'required',
             'description' => 'required',
-            'price' => 'required',
+            'price' => 'nullable|numeric|min:0',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ], [
             'image.max' => 'The image must be no larger than 1MB.',
@@ -234,6 +235,10 @@ class ProductController extends Controller
 
         if ($request->price) {
             $product->price = $request->price;
+        }
+
+        if( $request->embed_code) {
+            $product->embed_code = $request->embed_code;
         }
 
 
