@@ -141,6 +141,11 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/hotel/{id}/email/customise', [HotelEmailController::class, 'show'])->name('email.customise');
     Route::post('/admin/hotel/{hotel_id}/email/store-customisations', [HotelEmailController::class, 'storeCustomisations'])->name('email.store-customisations');
 
+
+    Route::get('/admin/hotel/{hotel_id}/email/v2/list', [\App\Http\Controllers\HotelEmailController::class, 'listTemplates'])->name('email-v2.list-templates');
+
+    Route::get('/admin/hotel/{id}/overview', [OverviewController::class, 'index'])->name('overview.index');
+
     Route::post('/admin/chat/rewrite-product-descriptions', [ChatController::class, 'rewrite_product_descriptions'])->name('chat.rewrite-product-descriptions');
 });
 
