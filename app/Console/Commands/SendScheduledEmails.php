@@ -35,12 +35,13 @@ class SendScheduledEmails extends Command
             ->where('scheduled_at', '<=', $now)
             ->where('scheduled_at', '>=', $oneHourAgo)
             ->whereNull('sent_at')
-            ->get(['id', 'booking_id']);
+            ->get(['id', 'booking_id', 'hotel_email_id', 'email_type']);
 //
-
+//var_dump($emails->toArray());
 //        dd($emails);
 
         foreach ($emails as $email) {
+//            var_dump($email);
             $booking = Booking::find($email->booking_id);
 // Prepare request data to call CustomerEmailController@send
             $request = new \Illuminate\Http\Request();
@@ -50,6 +51,8 @@ class SendScheduledEmails extends Command
                 'departure_date' => $booking->departure_date,
                 'email_address' => $booking->email_address,
                 'booking_ref' => $booking->booking_ref,
+                'hotel_email_id' => $email->hotel_email_id,
+                'email_type' => $email->email_type,
             ]);
 
 // Call the send method of CustomerEmailController

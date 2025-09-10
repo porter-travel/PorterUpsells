@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Mail;
+
+use App\Models\HotelEmail;
 use Illuminate\Mail\Mailables\Address;
 use App\Models\Hotel;
 use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -40,9 +41,11 @@ class CustomerEmail extends Mailable
         $days = (strtotime($content['arrival_date']) - strtotime(date('Y-m-d'))) / (60 * 60 * 24);
         $days == 1 ? $this->days = '1 day' : $this->days = $days . ' days';
         $this->subject = 'Your booking at ' . $hotel->name . ' is coming up in ' . $days;
-
-        $email_content = $hotel->hotelEmails->where('email_type', 'pre-arrival-email')->first();
-
+        if (isset($content['hotel_email_id']) && $content['hotel_email_id'] != null) {
+            $email_content = HotelEmail::find($content['hotel_email_id']);
+        } else {
+            $email_content = $hotel->hotelEmails->where('email_type', 'pre-arrival-email')->first();
+        }
         $this->key_message = nl2br($this->replacePlaceholders($email_content->key_message, $content, $hotel, $this->days));
         $this->button_text = $email_content->button_text;
         $this->featured_products = json_decode($email_content->featured_products);
@@ -61,15 +64,15 @@ class CustomerEmail extends Mailable
     public function envelope(): Envelope
     {
 
-        if($this->hotel->id == 15){
+        if ($this->hotel->id == 15) {
             $sender = 'enquiries@riversideaymestrey.co.uk';
-        } elseif($this->hotel->id == 12 || $this->hotel->id == 13 || $this->hotel->id == 14){
+        } elseif ($this->hotel->id == 12 || $this->hotel->id == 13 || $this->hotel->id == 14) {
             $sender = 'jason@cjbfoodgroup.com';
         } else {
             $sender = env('MAIL_FROM_ADDRESS');
         }
         return new Envelope(
-            from: new Address( $sender,$this->hotel->name),
+            from: new Address($sender, $this->hotel->name),
             subject: $this->subject,
         );
     }
@@ -121,7 +124,8 @@ class CustomerEmail extends Mailable
         return strtr($template, $placeholders);
     }
 
-    private function nl2br_custom($string) {
+    private function nl2br_custom($string)
+    {
         // Replace newlines with <br> tags
         return str_replace(["\r\n", "\n", "\r"], '<br>', $string);
     }

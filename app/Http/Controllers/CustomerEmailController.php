@@ -26,12 +26,14 @@ class CustomerEmailController extends Controller
         $departure_date = $request->departure_date;
         $email_address = $request->email_address;
         $booking_ref = $request->booking_ref;
+        $hotel_email_id = $request->hotel_email_id;
+        $email_type = $request->email_type;
 
 
         TrackEmailSends::dispatch($hotel->id);
 
 
-        $content = compact('guest_name', 'arrival_date', 'departure_date', 'booking_ref', 'email_address');
+        $content = compact('guest_name', 'arrival_date', 'departure_date', 'booking_ref', 'email_address', 'hotel_email_id', 'email_type');
 
 
         // Send email
