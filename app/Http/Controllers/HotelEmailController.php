@@ -105,7 +105,7 @@ class HotelEmailController extends Controller
             $email_templates = HotelMeta::where('hotel_id', $hotel_id)->where('key', 'custom-email-schedule')->first();
             return view('admin.emails.templates', [
                 'hotel' => $hotel,
-                'email_templates' => json_decode($email_templates->value) ?? []
+                'email_templates' => isset($email_templates->value) ? json_decode($email_templates->value) : []
             ]);
         } else {
             return redirect()->route('dashboard');
