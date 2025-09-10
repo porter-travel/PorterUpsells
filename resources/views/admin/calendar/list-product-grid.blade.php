@@ -17,7 +17,7 @@
                                         @include ('hotel.partials.product-image', ['item' => $product])
                                     </div>
                                     <div>
-                                        <h3 class="hotel-text-color open-sans text-sm md:text-xl">{{$product->name}}</h3>
+                                        <h3 class="hotel-text-color poppins text-sm md:text-xl">{{$product->name}}</h3>
 
                                     </div>
                                 </a>

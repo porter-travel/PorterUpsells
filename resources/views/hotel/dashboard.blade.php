@@ -22,7 +22,7 @@
             </div>
 
             <div class="md:basis-5/12 basis-full md:pl-12 pt-4 md:pt-0">
-                <p class="hotel-text-color open-sans font-semibold md:text-2xl mb-6">Welcome, {{$data['name'] ?? ''}}</p>
+                <p class="hotel-text-color poppins font-semibold md:text-2xl mb-6">Welcome, {{$data['name'] ?? ''}}</p>
 {{--                <div class="flex items-start justify-start mb-3">--}}
 {{--                    <div>--}}
                 {{--                    <svg class="mr-2 mt-1" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">--}}
@@ -30,7 +30,7 @@
                 {{--                        <path d="M5.78906 11.543L8.53906 14.293L14.7266 8.10547" stroke="#5A5A5A" stroke-width="2" stroke-linecap="round"/>--}}
                 {{--                    </svg>--}}
 {{--                    </div>--}}
-{{--                    <p class="open-sans md:text-xl pl-2 hotel-text-color">It’s just {{$data['days_until_arrival']}} days until you arrive!</p>--}}
+{{--                    <p class="poppins md:text-xl pl-2 hotel-text-color">It’s just {{$data['days_until_arrival']}} days until you arrive!</p>--}}
 {{--                </div>--}}
                 <div class="flex items-start justify-start mb-3">
 <div>
@@ -39,7 +39,7 @@
                             <path d="M5.78906 11.543L8.53906 14.293L14.7266 8.10547" stroke="#5A5A5A" stroke-width="2" stroke-linecap="round"/>
                         </svg>
 </div>
-                <p class="open-sans md:text-xl pl-2 hotel-text-color">To personalise your stay, select from the options below.</p>
+                <p class="poppins md:text-xl pl-2 hotel-text-color">To personalise your stay, select from the options below.</p>
                 </div>
             </div>
         </div>
@@ -68,9 +68,9 @@
                     <div class="w-full mb-2">
                         @include ('hotel.partials.product-image', ['item' => $product])                    </div>
                     <div>
-                        <h3 class="hotel-text-color open-sans text-sm md:text-xl">{{$product->name}}</h3>
+                        <h3 class="hotel-text-color poppins text-sm md:text-xl">{{$product->name}}</h3>
                         @if($product->price)
-                        <p class="hotel-text-color open-sans text-sm md:text-xl font-semibold"><strong>
+                        <p class="hotel-text-color poppins text-sm md:text-xl font-semibold"><strong>
                                 @if(is_countable($product->variations) && count($product->variations) <= 1)
                                     <x-money-display :amount="$product->price"
                                                      :currency="$hotel->user->currency"></x-money-display>

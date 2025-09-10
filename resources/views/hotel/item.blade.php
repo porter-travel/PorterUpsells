@@ -76,7 +76,7 @@
                 </div>
                 <div class="lg:basis-1/2 basis-full lg:pl-4">
                     <div class="mt-4 lg:mt-0">
-                        <p class="open-sans text-3xl mb-2 hotel-text-color">{{$product->name}}</p>
+                        <p class="poppins text-3xl mb-2 hotel-text-color">{{$product->name}}</p>
                         <div class="w-full">
                             <div class="my-4 hotel-text-color">
                                 {!! $product->description !!}
@@ -112,9 +112,9 @@
                         </div>
                         <div class="lg:basis-1/2 basis-full lg:pl-4">
                             <div class="mt-4 lg:mt-0">
-                                <p class="open-sans text-3xl mb-2 hotel-text-color">{{$product->name}}</p>
+                                <p class="poppins text-3xl mb-2 hotel-text-color">{{$product->name}}</p>
                                 <p id="price" data-currency="{{strtoupper($hotel->user->currency)}}"
-                                   class="open-sans text-xl mb-6 hotel-text-color">
+                                   class="poppins text-xl mb-6 hotel-text-color">
                                     @if(is_countable($variations) && count($variations) <= 1)
                                         <x-money-display :amount="$product->price"
                                                          :currency="$hotel->user->currency"></x-money-display>

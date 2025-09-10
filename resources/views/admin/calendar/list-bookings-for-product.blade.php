@@ -109,14 +109,14 @@
                                                     @if($slot['booking']['name'] == '__block__')
 
                                                         <div class="mx-2 h-full bg-pink rounded-lg p-2 overflow-hidden">
-                                                            <p class="text-sm open-sans">BLOCK</p>
+                                                            <p class="text-sm poppins">BLOCK</p>
                                                             <p>{{substr($slot['booking']['start_time'], 0, -3)}}
                                                                 - {{substr($slot['booking']['end_time'], 0, -3)}}</p>
                                                         </div>
                                                     @else
 
                                                         <div class="mx-2 h-full bg-lightBlue rounded-lg p-2 overflow-hidden">
-                                                            <p class="text-sm open-sans">{{$slot['booking']['name']}}</p>
+                                                            <p class="text-sm poppins">{{$slot['booking']['name']}}</p>
                                                             @if($slot['booking']['room_number'])
                                                                 <p class="text-xs">
                                                                     Room: {{$slot['booking']['room_number']}}</p>

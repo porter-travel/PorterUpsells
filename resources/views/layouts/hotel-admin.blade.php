@@ -3,30 +3,30 @@
 <x-app-layout>
     @if(isset($hotel))
         <x-slot name="hotelNav">
-            <div class="bg-lightBlue">
+            <div class="bg-black text-white">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div class="py-6 flex items-center justify-start">
-                        <h1 class="text-2xl font-extrabold text-black leading-tight mr-6">
+                        <h1 class="text-2xl font-extrabold text-white leading-tight mr-6">
                             {{ $hotel->name }}:
                         </h1>
 
                         <ul class="flex items-center justify-start">
-                            <li class="mr-4 text-xl">
+                            <li class="mr-4 text-lg">
                                 <a href="{{route('hotel.edit', ['id' => $hotel->id])}}">Manage Property</a>
                             </li>
-                            <li class="mr-4 text-xl">
+                            <li class="mr-4 text-lg">
                                 <a href="{{route('orders.listv2', ['hotel_id' => $hotel->id])}}">Orders</a>
                             </li>
-                            <li class="mr-4 text-xl">
+                            <li class="mr-4 text-lg">
                                 <a href="{{route('bookings.list', ['id' => $hotel->id])}}">Guests</a>
                             </li>
-                            <li class="mr-4 text-xl">
+                            <li class="mr-4 text-lg">
                                 <a href="{{route('calendar.list-product-grid', ['id' => $hotel->id])}}">Calendar</a>
                             </li>
-                            <li class="mr-4 text-xl">
-                                <a href="{{route('email.customise', ['id' => $hotel->id])}}">Emails</a>
+                            <li class="mr-4 text-lg">
+                                <a href="{{route('email-v2.list-templates', ['hotel_id' => $hotel->id])}}">Emails</a>
                             </li>
-                            <li class="mr-4 text-xl">
+                            <li class="mr-4 text-lg">
                                 <a href="{{route('overview.index', ['id' => $hotel->id])}}">Overview</a>
                             </li>
 

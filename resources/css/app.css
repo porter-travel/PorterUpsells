@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 
+
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
@@ -35,12 +37,17 @@ details > summary::-webkit-details-marker {
     }
 }
 
-.grandstander {
-    font-family: 'Grandstander', display;
+.clash-display {
+    font-family: 'ClashDisplay-Bold', sans-serif;
 }
 
-.open-sans {
-    font-family: 'Open Sans', sans-serif;
+.poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3, h4{
+    font-family: 'ClashDisplay-Bold', sans-serif;
+    font-weight: 700;
 }
 
 .container{

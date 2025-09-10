@@ -1,4 +1,4 @@
-<p class="open-sans text-2xl mb-6">Colour Scheme</p>
+<p class="poppins text-2xl mb-6">Colour Scheme</p>
 @csrf
 
 <div class="flex flex-wrap justify-between my-4">

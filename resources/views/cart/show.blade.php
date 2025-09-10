@@ -11,7 +11,7 @@
                 </svg>
             </a>
 
-            <p class="md:text-4xl text-xl font-bold open-sans hotel-text-color">Your Cart</p>
+            <p class="md:text-4xl text-xl font-bold poppins hotel-text-color">Your Cart</p>
 
 
 

@@ -77,7 +77,7 @@
             @csrf
             <div class="flex items-end justify-start">
                 <div class="mr-12">
-                    <p class="open-sans text-2xl mb-6">Logo</p>
+                    <p class="poppins text-2xl mb-6">Logo</p>
                     <img src="{{$hotel->logo}}" alt="hotel" class="h-[70px] rounded-3xl mr-2"/>
                 </div>
 
@@ -96,7 +96,7 @@
             @csrf
             <div class="flex items-end justify-start">
                 <div class="mr-12">
-                    <p class="open-sans text-2xl mb-6">Cover Image</p>
+                    <p class="poppins text-2xl mb-6">Cover Image</p>
                     <img alt="current featured image" class="w-[140px] h-auto"
                          src="{{$hotel->featured_image}}">
                 </div>

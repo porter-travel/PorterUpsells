@@ -22,7 +22,7 @@
 
                         <div class="flex flex-wrap sm:flex-nowrap items-center justify-between max-w-[600px] mx-auto">
                             <div class="mt-2  basis-full sm:basis-1/2 sm:pr-2">
-                                <x-input-label class="hotel-main-box-text-color open-sans" for="arrival-date" :value="__('Arrival Date')"/>
+                                <x-input-label class="hotel-main-box-text-color poppins" for="arrival-date" :value="__('Arrival Date')"/>
                                 <x-text-input id="arrival-date" class="block mt-1 w-full p-4" type="date" name="arrival_date"
                                               :value="old('arrival_date')"
                                               required placeholder="Arrival Date"/>
@@ -30,7 +30,7 @@
                             </div>
 
                             <div class="mt-2  basis-full sm:basis-1/2 sm:pl-2">
-                                <x-input-label class="hotel-main-box-text-color open-sans" for="departure-date" :value="__('Departure Date')"/>
+                                <x-input-label class="hotel-main-box-text-color poppins" for="departure-date" :value="__('Departure Date')"/>
                                 <x-text-input id="departure-date" class="block mt-1 w-full p-4" type="date" name="departure_date"
                                                :value="old('departure_date')"
                                               required placeholder="Departure Date"/>
@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="mt-2 max-w-[600px] mx-auto ">
-                            <x-input-label class="hotel-main-box-text-color open-sans" for="email-address" :value="__('Email Address')"/>
+                            <x-input-label class="hotel-main-box-text-color poppins" for="email-address" :value="__('Email Address')"/>
                             <x-text-input id="email-address" class="block mt-1 w-full p-4" type="email" name="email_address"
                                           :value="old('email_address')"
                                           required placeholder="Email Address"/>
@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="mt-2 max-w-[600px] mx-auto ">
-                            <x-input-label class="hotel-main-box-text-color open-sans" for="email-address" :value="__('Booking Reference')"/>
+                            <x-input-label class="hotel-main-box-text-color poppins" for="email-address" :value="__('Booking Reference')"/>
                             <x-text-input id="email-address" class="block mt-1 w-full p-4" type="text" name="booking_ref"
                                           :value="old('booking_ref')"
                                            placeholder="Booking Reference"/>

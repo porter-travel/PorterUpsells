@@ -1,3 +1,4 @@
+@php use App\Helpers\Money; @endphp
 <div class="border rounded-3xl border-darkGrey p-4">
 
     <table class="body-wrap"

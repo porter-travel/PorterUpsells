@@ -1,6 +1,6 @@
 <x-hotel-admin-layout :hotel="$hotel">
     <x-slot name="header">
-        <h2 class="font-extrabold open-sans text-2xl text-black leading-tight uppercase">
+        <h2 class="font-extrabold poppins text-2xl text-black leading-tight uppercase">
             {{ __('Edit Product: ') . $product->name }}
         </h2>
     </x-slot>

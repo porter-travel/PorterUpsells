@@ -11,10 +11,10 @@
                 @include ('hotel.partials.hotel-logo', ['hotel' => $hotel])
             </div>
 
-            <p class="hotel-main-box-text-color font-bold text-center open-sans text-2xl">
+            <p class="hotel-main-box-text-color font-bold text-center poppins text-2xl">
                 Personalise your upcoming stay at {{$hotel->name}}
             </p>
-            <p class="open-sans hotel-main-box-text-color text-center">In partnership with Enhance My Stay</p>
+            <p class="poppins hotel-main-box-text-color text-center">In partnership with Enhance My Stay</p>
 
             <form method="post" action="/createSession">
 
@@ -22,7 +22,7 @@
                 <input type="hidden" name="hotel_slug" value="{{$hotel->slug ?? $hotel->id}}">
                 @csrf
                 <div class="mt-2 max-w-[600px] mx-auto">
-                    <x-input-label class="hotel-main-box-text-color open-sans" for="name" :value="__('Name')"/>
+                    <x-input-label class="hotel-main-box-text-color poppins" for="name" :value="__('Name')"/>
                     <x-text-input id="name" class="block mt-1 w-full p-4" type="text" name="name"
                                   :value="$name ?: old('name')"
                                   required placeholder="Name"/>
@@ -31,7 +31,7 @@
 
                 <div class="flex flex-wrap sm:flex-nowrap items-center justify-between max-w-[600px] mx-auto">
                 <div class="mt-2  basis-full sm:basis-1/2 sm:pr-2">
-                    <x-input-label class="hotel-main-box-text-color open-sans" for="arrival-date" :value="__('Arrival Date')"/>
+                    <x-input-label class="hotel-main-box-text-color poppins" for="arrival-date" :value="__('Arrival Date')"/>
                     <x-text-input id="arrival-date" class="block mt-1 w-full p-4" type="date" name="arrival_date"
                                   :value="$arrival_date ?: old('arrival_date')"
                                   required placeholder="Arrival Date"/>
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="mt-2  basis-full sm:basis-1/2 sm:pl-2">
-                    <x-input-label class="hotel-main-box-text-color open-sans" for="departure-date" :value="__('Departure Date')"/>
+                    <x-input-label class="hotel-main-box-text-color poppins" for="departure-date" :value="__('Departure Date')"/>
                     <x-text-input id="departure-date" class="block mt-1 w-full p-4" type="date" name="departure_date"
                                   :value="$departure_date ?: old('departure_date')"
                                   required placeholder="Departure Date"/>
@@ -49,7 +49,7 @@
 
                 </div>
                 <div class="mt-2 max-w-[600px] mx-auto ">
-                    <x-input-label class="hotel-main-box-text-color open-sans" for="email-address" :value="__('Email Address')"/>
+                    <x-input-label class="hotel-main-box-text-color poppins" for="email-address" :value="__('Email Address')"/>
                     <x-text-input id="email-address" class="block mt-1 w-full p-4" type="email" name="email_address"
                                   :value="$email_address ?: old('email_address')"
                                   required placeholder="Email Address"/>

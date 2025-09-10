@@ -13,7 +13,7 @@ export default {
         colors: {
             'gold': '#BB9C7C',
             'blue': '#051532',
-            'black' : '#000000',
+            'black' : '#1a1a1a',
             'teal' : '#95F2F2',
             'white' : '#FFFFFF',
             'grey': '#EFEFEF',
@@ -27,7 +27,7 @@ export default {
         },
         extend: {
             fontFamily: {
-                sans: ['open-sans', ...defaultTheme.fontFamily.sans],
+                sans: ['poppins', ...defaultTheme.fontFamily.sans],
             },
         },
     },

@@ -3,12 +3,12 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start">
                 <img src="{{$hotel->logo}}" alt="hotel" class="h-[70px] rounded-3xl mr-2"/>
-                <h2 class="font-extrabold open-sans text-2xl text-black leading-tight uppercase">
+                <h2 class="font-extrabold poppins text-2xl text-black leading-tight uppercase">
                     {{ $hotel->name }}
                 </h2>
             </div>
             <div>
-                <p id="confirmation-text" class="open-sans font-semibold">Your upsell link</p>
+                <p id="confirmation-text" class="poppins font-semibold">Your upsell link</p>
                 <div class="flex items-center">
                     <input id="hotel-welcome-url" type="text" disabled class="border-darkGrey/50 rounded-lg mr-4"
                            value="{{env('APP_URL')}}/hotel/{{$hotel->slug}}/welcome">
@@ -38,7 +38,7 @@
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="py-6 text-gray-900">
                     <div class="mb-6 flex items-center justify-between">
-                        <h2 class="font-extrabold open-sans text-2xl text-black leading-tight uppercase">Products</h2>
+                        <h2 class="font-extrabold poppins text-2xl text-black leading-tight uppercase">Products</h2>
                         <details class="relative z-10">
                             <summary
                                 class="flex items-center px-12 py-2 bg-mint rounded-full cursor-pointer">

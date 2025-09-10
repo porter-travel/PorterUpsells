@@ -43,7 +43,7 @@
 
                         @endif
                     @else
-                        <h2 class="text-2xl grandstander">Get Paid</h2>
+                        <h2 class="text-2xl clash-display">Get Paid</h2>
                     <p class="text-large">To start receiving payouts, please share your business details (key legal and financial information) plus the account details where you wish to receive funds</p>
                     <p class="text-large mb-6"><strong>Payout Schedule:</strong> Daily - 7 day rolling basis</p>
                         <a href="{{route('profile.edit')}}">
