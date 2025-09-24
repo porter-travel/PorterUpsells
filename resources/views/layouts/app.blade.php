@@ -31,7 +31,7 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <link rel="stylesheet" href="{{asset('fonts/clash.css?1')}}">
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/builder.js'])
 </head>
 <body class="font-sans antialiased">
 <div class="min-h-screen bg-gray-100">

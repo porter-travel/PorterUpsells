@@ -8,6 +8,7 @@ use App\Http\Controllers\FulfilmentController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\HotelEmailController;
 use App\Http\Controllers\IntegrationTokenController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\ProductController;
@@ -152,6 +153,37 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/hotel/{id}/overview', [OverviewController::class, 'index'])->name('overview.index');
 
     Route::post('/admin/chat/rewrite-product-descriptions', [ChatController::class, 'rewrite_product_descriptions'])->name('chat.rewrite-product-descriptions');
+
+
+    Route::get('/media', [MediaController::class, 'index'])->name('media.index');
+    Route::get('/media/{media}/edit', [MediaController::class, 'edit'])->name('media.edit');
+    Route::post('/media/upload', [MediaController::class, 'upload'])->name('media.upload');
+    Route::post('/media/upload/ajax', [MediaController::class, 'uploadAJAX'])->name('media.uploadAJAX');
+    Route::put('/media/{media}', [MediaController::class, 'update'])->name('media.update');
+    Route::post('/media/list/ajax', [MediaController::class, 'listAjax'])->name('media.listAjax');
+
+
+
+    Route::get('/builder', function () {
+        return view('admin.builder.builder');
+    });
+
+    Route::post('/builder/save', function (\Illuminate\Http\Request $request) {
+        // For POC, just save JSON to storage
+        $blocks = $request->input('blocks', []);
+        \Storage::disk('local')->put('template.json', json_encode($blocks, JSON_PRETTY_PRINT));
+
+        return response()->json(['status' => 'ok']);
+    });
+
+    Route::get('/builder/preview', function () {
+        $blocks = json_decode(\Storage::disk('local')->get('template.json'), true);
+        return view('email.builder-template', compact('blocks'));
+    });
+
+
+
+
 });
 
 Route::middleware('auth')->group(function () {
