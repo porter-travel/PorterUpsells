@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div id="builder" data-type="email"></div>
+                <div id="builder" data-type="email" data-hotel-id="{{$hotel_id}}" data-template-id="{{$template_id}}"></div>
             </div>
         </div>
     </div>

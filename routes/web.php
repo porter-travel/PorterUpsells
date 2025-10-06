@@ -15,6 +15,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResDiaryController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\EmailTemplatesController;
 use App\Http\Middleware\IsSuperUser;
 use App\Models\Hotel;
 use Illuminate\Support\Facades\Route;
@@ -163,18 +164,13 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::post('/media/list/ajax', [MediaController::class, 'listAjax'])->name('media.listAjax');
 
 
+    Route::get('/admin/hotel/{hotel_id}/email/v2/list', [EmailTemplatesController::class, 'listTemplates'])->name('email-v2.list-templates');
 
-    Route::get('/builder', function () {
-        return view('admin.builder.builder');
-    });
+    Route::get('/admin/hotel/{hotel_id}/email_builder', [EmailTemplatesController::class, 'create'])->name('email.builder');
+    Route::get('/admin/hotel/{hotel_id}/email_builder/{template_id}/edit', [EmailTemplatesController::class, 'edit'])->name('email.builder.edit');
+    Route::get('/admin/hotel/{hotel_id}/email_builder/{template_id}/template_data', [EmailTemplatesController::class, 'getTemplateData'])->name('email.builder.get-template-data');
 
-    Route::post('/builder/save', function (\Illuminate\Http\Request $request) {
-        // For POC, just save JSON to storage
-        $blocks = $request->input('blocks', []);
-        \Storage::disk('local')->put('template.json', json_encode($blocks, JSON_PRETTY_PRINT));
-
-        return response()->json(['status' => 'ok']);
-    });
+    Route::post('/admin/hotel/{hotel_id}/email_builder/store', [EmailTemplatesController::class, 'store'])->name('email.builder.store');
 
     Route::get('/builder/preview', function () {
         $blocks = json_decode(\Storage::disk('local')->get('template.json'), true);

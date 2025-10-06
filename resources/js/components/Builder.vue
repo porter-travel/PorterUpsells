@@ -86,7 +86,7 @@
 
 <script setup>
 
-import { defineProps } from 'vue';
+import {defineProps, onMounted} from 'vue';
 
 
 import { ref } from 'vue';
@@ -107,9 +107,47 @@ const props = defineProps({
         required: true,
         validator: (value) => ['email', 'webpage'].includes(value),
     },
+    hotelId: {
+        type: Number,
+        required: false,
+    },
+    templateId: {
+        type: Number,
+        required: false,
+    }
 });
 
 const blocks = ref([]);
+const templateId = ref(props.templateId || null);
+
+onMounted(() => {
+    console.log(props);
+    if (templateId.value) {
+        // Fetch existing template data
+        axios.get(`/admin/hotel/${props.hotelId}/email_builder/${templateId.value}/template_data`)
+            .then(response => {
+                if (response.data && response.data.template.body) {
+                    try {
+                        blocks.value = JSON.parse(response.data.template.body);
+                        console.log('blocks', blocks);
+                    } catch (e) {
+                        console.error('Failed to parse template body:', e);
+                    }
+                }
+                if (response.data) {
+                    console.log(response.data);
+                    emailMeta.value.email_name = response.data.template.name || '';
+                    emailMeta.value.email_subject = response.data.template.subject || '';
+                    emailMeta.value.when_to_send = response.data.template.when_to_send || 'before_arrival';
+                    emailMeta.value.days = response.data.template.days || 1;
+                    emailMeta.value.time = response.data.template.time || '12:00';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching template data:', error);
+            });
+    }
+})
 const componentsMap = {
     TitleBlock,
     ContentBlock,
@@ -184,29 +222,29 @@ const addBlock = (type) => {
 };
 
 const saveContent = () => {
-    // Convert the reactive blocks array to a plain JavaScript object
-    const contentToSave = JSON.stringify({
-        blocks: blocks.value,
-        meta: emailMeta.value, // Include the metadata in your save function
-    }, null, 2);
 
-    // Create a Blob with the JSON data
-    const blob = new Blob([contentToSave], {type: 'application/json'});
-
-    // Create a temporary URL for the Blob
-    const url = URL.createObjectURL(blob);
-
-    // Create a temporary anchor element
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'email-template.json'; // Set the filename
-
-    // Simulate a click on the anchor element to trigger the download
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-    // Revoke the URL to free up resources
-    URL.revokeObjectURL(url);
+    axios.post(`/admin/hotel/${props.hotelId}/email_builder/store`, {
+        name: emailMeta.value.email_name,
+        subject: emailMeta.value.email_subject,
+        when_to_send: emailMeta.value.when_to_send,
+        days: emailMeta.value.days,
+        time: emailMeta.value.time,
+        body: JSON.stringify(blocks.value, null, 2),
+        type: 'email',
+        is_active: true,
+        template_id: templateId.value,
+    }).then(response => {
+        if (response.data.success) {
+            alert(response.data.success);
+            if (!templateId.value && response.data.template_id) {
+                templateId.value = response.data.template_id;
+            }
+        } else {
+            alert('Failed to save content.');
+        }
+    }).catch(error => {
+        console.error('Error saving content:', error);
+        alert('An error occurred while saving content.');
+    })
 };
 </script>

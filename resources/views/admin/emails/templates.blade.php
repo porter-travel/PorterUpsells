@@ -14,12 +14,11 @@
 
                     @foreach($email_templates as $template)
                         <div class="py-2 border-b flex items-center justify-between">
-                            <a href="{{route('email-v2.edit-template', ['hotel_id' => $hotel->id, 'template_id' => $template->email_id])}}">
-                                <h4 class="font-semibold">{{$template->email_name}}</h4>
-                            </a>
+                            <a href="{{route('email.builder.edit', ['hotel_id' => $hotel->id, 'template_id' => $template->id])}}">
+                                <h4 class="font-semibold">{{$template->name}}</h4>
                             <div class="flex items-center justify-end">
                                 <span class="mr-4">{{$template->days}} {{$template->days > 1 ? 'Days' : 'Day'}} {{$template->when_to_send == 'before' ? 'Before Arrival ' : ($template->when_to_send == 'after_arrival' ? 'After Arrival' : 'After Checkout')}}</span>
-                            <a href="{{route('email-v2.delete-template', $template->email_id)}}">
+                            <a href="{{route('email-v2.delete-template', $template->id)}}">
                                 <img src="/img/icons/remove.svg"
                                      alt="remove"
                                      class=" w-6 h-6"/>
