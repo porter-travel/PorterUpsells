@@ -29,6 +29,9 @@ export default {
             fontFamily: {
                 sans: ['open-sans', ...defaultTheme.fontFamily.sans],
             },
+            boxShadow: {
+                glow: '0 24px 60px -30px rgba(99, 102, 241, 0.6)',
+            },
         },
     },
 
