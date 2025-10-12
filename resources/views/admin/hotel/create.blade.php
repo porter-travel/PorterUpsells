@@ -7,7 +7,7 @@
 
     <div class="py-10">
         <div class="mx-auto max-w-6xl space-y-8 px-4 sm:px-6 lg:px-8">
-            <div class="rounded-3xl border border-slate-200 bg-white px-6 py-8 shadow-sm sm:px-10">
+            <div class="rounded-3xl border border-slate-200 bg-gradient-to-r from-white via-indigo-50 to-white px-6 py-8 shadow-sm sm:px-10">
                 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
                         <p class="text-sm font-semibold uppercase tracking-widest text-slate-500">New property</p>
@@ -18,7 +18,7 @@
                         </p>
                     </div>
                     <div class="flex w-full max-w-xs items-center gap-3 rounded-2xl bg-slate-900/5 p-4 text-sm text-slate-600 md:w-auto">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-white">1</div>
+                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 text-white shadow-lg shadow-indigo-500/30">1</div>
                         <div>
                             <p class="font-semibold text-slate-800">Step 1 of 3</p>
                             <p class="text-xs">Core property information</p>
@@ -35,10 +35,7 @@
                         <section class="space-y-6">
                             <div class="flex items-center gap-3">
                                 <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-6 9 6-9 6-9-6z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 15l9 6 9-6" />
-                                    </svg>
+                                    <i data-lucide="building-2" class="h-5 w-5"></i>
                                 </div>
                                 <div>
                                     <h2 class="text-lg font-semibold text-slate-900">Property details</h2>
@@ -79,10 +76,7 @@
                         <section class="space-y-6">
                             <div class="flex items-center gap-3">
                                 <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5l6.75 6.75a1.5 1.5 0 002.12 0L21 5.25" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 21h-15A1.5 1.5 0 013 19.5v-15" />
-                                    </svg>
+                                    <i data-lucide="images" class="h-5 w-5"></i>
                                 </div>
                                 <div>
                                     <h2 class="text-lg font-semibold text-slate-900">Imagery</h2>
@@ -93,7 +87,7 @@
                             <div class="grid gap-6 md:grid-cols-2">
                                 <div class="space-y-3">
                                     <x-input-label class="font-medium text-slate-700" for="logo" :value="__('Brand logo')" />
-                                    <label for="logo" class="group relative flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 px-6 py-8 text-center transition hover:border-slate-400 hover:bg-white">
+                                    <label for="logo" class="group relative flex min-h-[220px] flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 px-6 py-8 text-center transition hover:border-slate-400 hover:bg-white">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-10 w-10 text-slate-400 transition group-hover:text-slate-500">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V3.75m0 12.75l3-3m-3 3l-3-3" />
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 12.75v6a1.5 1.5 0 001.5 1.5h15a1.5 1.5 0 001.5-1.5v-6" />
@@ -108,7 +102,7 @@
                                 </div>
                                 <div class="space-y-3">
                                     <x-input-label class="font-medium text-slate-700" for="featured_image" :value="__('Featured image')" />
-                                    <label for="featured_image" class="group relative flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 px-6 py-8 text-center transition hover:border-slate-400 hover:bg-white">
+                                    <label for="featured_image" class="group relative flex min-h-[220px] flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 px-6 py-8 text-center transition hover:border-slate-400 hover:bg-white">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-10 w-10 text-slate-400 transition group-hover:text-slate-500">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5v13.5H3.75z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l3.75-3.75a1.5 1.5 0 012.12 0l5.13 5.13" />
@@ -137,42 +131,36 @@
                     </form>
                 </div>
 
-                <aside class="flex flex-col gap-6 rounded-3xl border border-transparent bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 p-8 text-slate-100 shadow-xl shadow-indigo-500/10">
+                <aside class="flex flex-col gap-6 rounded-3xl border border-transparent bg-gradient-to-br from-indigo-800 via-purple-800 to-violet-900 p-8 text-slate-100 shadow-xl shadow-indigo-900/30">
                     <div class="space-y-3">
-                        <p class="text-sm font-semibold uppercase tracking-widest text-indigo-200/70">Success checklist</p>
-                        <h2 class="text-2xl font-semibold text-white">Tips for a compelling listing</h2>
+                        <p class="text-sm font-semibold uppercase tracking-widest text-indigo-200/80">Success checklist</p>
+                        <h2 class="text-2xl font-semibold text-indigo-200">Tips for a compelling listing</h2>
                         <p class="text-sm text-indigo-100/80">Stand out in search results by showcasing what makes your property unique. Here's what our top-performing partners do.</p>
                     </div>
                     <ul class="space-y-4 text-sm">
-                        <li class="flex items-start gap-3">
-                            <span class="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-indigo-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
-                                    <path fill-rule="evenodd" d="M16.704 5.29a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0l-3.25-3.25a.75.75 0 111.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z" clip-rule="evenodd" />
-                                </svg>
+                        <li class="flex items-start gap-4">
+                            <span class="mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-indigo-100 shadow-inner shadow-indigo-900/40">
+                                <i data-lucide="check" class="h-4 w-4"></i>
                             </span>
-                            <div>
+                            <div class="space-y-1">
                                 <p class="font-medium text-white">Use a clear, descriptive name</p>
                                 <p class="text-indigo-100/70">Highlight neighbourhood, property style or signature amenities.</p>
                             </div>
                         </li>
-                        <li class="flex items-start gap-3">
-                            <span class="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-indigo-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
-                                    <path fill-rule="evenodd" d="M16.704 5.29a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0l-3.25-3.25a.75.75 0 111.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z" clip-rule="evenodd" />
-                                </svg>
+                        <li class="flex items-start gap-4">
+                            <span class="mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-indigo-100 shadow-inner shadow-indigo-900/40">
+                                <i data-lucide="map-pin" class="h-4 w-4"></i>
                             </span>
-                            <div>
+                            <div class="space-y-1">
                                 <p class="font-medium text-white">Pinpoint the address</p>
                                 <p class="text-indigo-100/70">Accurate location details make it easy for guests to find you and boost trust.</p>
                             </div>
                         </li>
-                        <li class="flex items-start gap-3">
-                            <span class="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-indigo-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
-                                    <path fill-rule="evenodd" d="M16.704 5.29a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0l-3.25-3.25a.75.75 0 111.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z" clip-rule="evenodd" />
-                                </svg>
+                        <li class="flex items-start gap-4">
+                            <span class="mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-indigo-100 shadow-inner shadow-indigo-900/40">
+                                <i data-lucide="camera" class="h-4 w-4"></i>
                             </span>
-                            <div>
+                            <div class="space-y-1">
                                 <p class="font-medium text-white">Show off the space</p>
                                 <p class="text-indigo-100/70">Upload bright, high-resolution imagery that captures your best angles.</p>
                             </div>

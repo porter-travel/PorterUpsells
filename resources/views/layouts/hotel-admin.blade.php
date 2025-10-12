@@ -147,7 +147,7 @@
             <div class="px-6 pb-6">
                 <a
                     href="{{ route('hotel.create') }}"
-                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/25 hover:bg-slate-800"
+                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:from-indigo-500 hover:via-purple-500 hover:to-violet-500"
                 >
                     <i data-lucide="plus" class="w-4 h-4"></i>
                     Add new property
@@ -163,11 +163,11 @@
                 <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay" class="h-9">
             </a>
         </div>
-        <div class="mt-10 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 p-6 text-white shadow-xl">
-            <p class="text-sm uppercase tracking-widest text-white/70">Your portfolio</p>
-            <p class="mt-3 text-3xl font-semibold">{{ $hotels->count() }}</p>
-            <p class="mt-2 text-sm text-white/70">Active properties connected to Enhance My Stay.</p>
-            <a href="{{ route('hotel.create') }}" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-sm font-semibold hover:bg-white/20">
+        <div class="mt-10 rounded-2xl bg-gradient-to-br from-indigo-700 via-purple-700 to-violet-800 p-6 text-white shadow-xl shadow-indigo-800/30">
+            <p class="text-sm uppercase tracking-widest text-indigo-100/80">Your portfolio</p>
+            <p class="mt-3 text-3xl font-semibold text-white">{{ $hotels->count() }}</p>
+            <p class="mt-2 text-sm text-indigo-100/80">Active properties connected to Enhance My Stay.</p>
+            <a href="{{ route('hotel.create') }}" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-indigo-600 shadow-sm transition hover:bg-indigo-50">
                 <i data-lucide="plus" class="w-4 h-4"></i>
                 New property
             </a>
