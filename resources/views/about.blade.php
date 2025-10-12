@@ -15,7 +15,7 @@
     <div class="container">
         <div class="logo">
             <a href="/">
-                <img src="fe/images/logo.png" alt="Enhance My Stay Logo">
+                <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay Logo">
             </a>
         </div>
         <nav class="nav">
@@ -123,7 +123,7 @@
         <div class="footer-content">
             <!-- Left Side: Logo -->
             <div class="footer-left">
-                <img src="fe/images/logo.png" alt="Enhance My Stay Logo" class="footer-logo" />
+                <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay Logo" class="footer-logo" />
             </div>
 
             <!-- Right Side: Mascot -->
