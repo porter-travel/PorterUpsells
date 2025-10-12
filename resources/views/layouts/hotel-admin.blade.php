@@ -1,7 +1,72 @@
 @props(['hotel' => null])
 
 @php
-    $hotels = auth()->user()->hotels ?? [];
+    $user = auth()->user();
+    $hotels = collect($user?->hotels ?? []);
+    $currentHotelId = $hotel?->id;
+
+    $navigation = [
+        [
+            'label' => 'Overview',
+            'icon' => 'layout-dashboard',
+            'href' => route('dashboard'),
+            'active' => request()->routeIs('dashboard'),
+        ],
+        [
+            'label' => 'Products & Experiences',
+            'icon' => 'sparkles',
+            'href' => $hotel ? route('hotel.edit', ['id' => $hotel->id]) : route('hotel.create'),
+            'active' => request()->routeIs('hotel.edit'),
+            'disabled' => ! $hotel,
+        ],
+        [
+            'label' => 'Orders',
+            'icon' => 'shopping-bag',
+            'href' => $hotel ? route('orders.listv2', ['hotel_id' => $hotel->id]) : route('hotel.create'),
+            'active' => request()->routeIs('orders.*'),
+            'disabled' => ! $hotel,
+        ],
+        [
+            'label' => 'Guests',
+            'icon' => 'users',
+            'href' => $hotel ? route('bookings.list', ['id' => $hotel->id]) : route('hotel.create'),
+            'active' => request()->routeIs('bookings.*'),
+            'disabled' => ! $hotel,
+        ],
+        [
+            'label' => 'Performance',
+            'icon' => 'line-chart',
+            'href' => route('performance.index', ['hotel_id' => $currentHotelId]),
+            'active' => request()->routeIs('performance.*'),
+        ],
+        [
+            'label' => 'Calendar',
+            'icon' => 'calendar-days',
+            'href' => $hotel ? route('calendar.list-product-grid', ['id' => $hotel->id]) : route('hotel.create'),
+            'active' => request()->routeIs('calendar.*'),
+            'disabled' => ! $hotel,
+        ],
+        [
+            'label' => 'Fulfilment',
+            'icon' => 'key-round',
+            'href' => route('fulfilment-keys.list'),
+            'active' => request()->routeIs('fulfilment-keys.*'),
+        ],
+        [
+            'label' => 'Account Settings',
+            'icon' => 'settings',
+            'href' => route('profile.edit'),
+            'active' => request()->routeIs('profile.*'),
+        ],
+        [
+            'label' => 'Info Pages',
+            'icon' => 'book-open-check',
+            'href' => '#',
+            'active' => false,
+            'disabled' => true,
+            'badge' => 'Soon',
+        ],
+    ];
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -27,40 +92,161 @@
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
-<body class="font-sans antialiased">
-<div class="min-h-screen bg-gray-100 flex">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r">
-        <nav class="p-4 space-y-2 text-lg">
-            <a href="{{ $hotel ? route('hotel.edit', ['id' => $hotel->id]) : '#' }}" class="block px-4 py-2 hover:bg-gray-100">Products</a>
-            <a href="{{ $hotel ? route('orders.listv2', ['hotel_id' => $hotel->id]) : '#' }}" class="block px-4 py-2 hover:bg-gray-100">Orders</a>
-            <a href="{{ $hotel ? route('bookings.list', ['id' => $hotel->id]) : '#' }}" class="block px-4 py-2 hover:bg-gray-100">Guests</a>
-            <a href="{{ route('performance.index') }}" class="block px-4 py-2 hover:bg-gray-100">Performance</a>
-            <a href="{{ $hotel ? route('calendar.list-product-grid', ['id' => $hotel->id]) : '#' }}" class="block px-4 py-2 hover:bg-gray-100">Calendar</a>
-            <a href="{{ route('fulfilment-keys.list') }}" class="block px-4 py-2 hover:bg-gray-100">Fulfilment</a>
-            <a href="{{ $hotel ? route('hotel.edit', ['id' => $hotel->id]) : '#' }}" class="block px-4 py-2 hover:bg-gray-100">Branding</a>
-            <a href="{{ $hotel ? route('hotel.edit', ['id' => $hotel->id]) : '#' }}" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
-            <span class="block px-4 py-2 text-gray-400">Info Pages (Coming Soon)</span>
-        </nav>
-    </aside>
-    <div class="flex-1 flex flex-col">
-        <header class="h-16 bg-white border-b flex items-center justify-between px-4">
-            <a href="{{ route('dashboard') }}">
-                <img src="/img/logo.svg" alt="logo" class="h-8">
+<body class="font-sans antialiased bg-slate-100 text-slate-900">
+<div
+    x-data="{ sidebarOpen: false }"
+    class="min-h-screen flex bg-slate-50"
+>
+    <!-- Mobile sidebar -->
+    <div
+        x-cloak
+        x-show="sidebarOpen"
+        class="fixed inset-0 z-40 flex lg:hidden"
+        role="dialog"
+        aria-modal="true"
+    >
+        <div class="fixed inset-0 bg-slate-950/60" @click="sidebarOpen = false"></div>
+        <aside class="relative ml-0 h-full w-72 max-w-full bg-white shadow-xl">
+            <div class="flex items-center justify-between px-6 py-4 border-b">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
+                    <img src="/img/logo.svg" alt="Enhance My Stay" class="h-8">
+                </a>
+                <button
+                    type="button"
+                    @click="sidebarOpen = false"
+                    class="inline-flex items-center justify-center rounded-full p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100"
+                >
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <nav class="flex-1 overflow-y-auto px-4 py-6 space-y-1">
+                @foreach($navigation ?? [] as $item)
+                    <a
+                        href="{{ $item['href'] }}"
+                        @class([
+                            'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition',
+                            'text-slate-400 pointer-events-none opacity-60' => $item['disabled'] ?? false,
+                            'bg-slate-900 text-white shadow-lg shadow-slate-900/20' => $item['active'],
+                            'text-slate-600 hover:bg-slate-100 hover:text-slate-900' => !($item['active']),
+                        ])
+                    >
+                        <i data-lucide="{{ $item['icon'] }}" class="w-5 h-5"></i>
+                        <span>{{ $item['label'] }}</span>
+                        @if(!empty($item['badge']))
+                            <span class="ml-auto inline-flex items-center rounded-full bg-slate-900/10 px-2 py-0.5 text-xs font-semibold text-slate-900">
+                                {{ $item['badge'] }}
+                            </span>
+                        @endif
+                    </a>
+                @endforeach
+            </nav>
+            <div class="px-6 pb-6">
+                <a
+                    href="{{ route('hotel.create') }}"
+                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/25 hover:bg-slate-800"
+                >
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    Add new property
+                </a>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Desktop sidebar -->
+    <aside class="hidden lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-slate-200 lg:bg-white lg:px-6 lg:py-8">
+        <div class="flex items-center gap-3">
+            <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
+                <img src="/img/logo.svg" alt="Enhance My Stay" class="h-9">
             </a>
-            <div>
-                <select onchange="if(this.value) window.location.href=this.value" class="border rounded p-2">
-                    @foreach($hotels as $h)
-                        <option value="{{ route('hotel.edit', ['id' => $h->id]) }}" @selected($hotel && $h->id === $hotel->id)>{{ $h->name }}</option>
-                    @endforeach
-                    <option value="{{ route('hotel.create') }}">Add New Property</option>
-                </select>
+        </div>
+        <div class="mt-10 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 p-6 text-white shadow-xl">
+            <p class="text-sm uppercase tracking-widest text-white/70">Your portfolio</p>
+            <p class="mt-3 text-3xl font-semibold">{{ $hotels->count() }}</p>
+            <p class="mt-2 text-sm text-white/70">Active properties connected to Enhance My Stay.</p>
+            <a href="{{ route('hotel.create') }}" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-sm font-semibold hover:bg-white/20">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                New property
+            </a>
+        </div>
+        <nav class="mt-10 flex-1 space-y-1">
+            @foreach($navigation ?? [] as $item)
+                <a
+                    href="{{ $item['href'] }}"
+                    @class([
+                        'group flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition',
+                        'text-slate-400 pointer-events-none opacity-60' => $item['disabled'] ?? false,
+                        'bg-slate-900 text-white shadow-lg shadow-slate-900/15' => $item['active'],
+                        'text-slate-600 hover:bg-slate-100 hover:text-slate-900' => !($item['active']),
+                    ])
+                >
+                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900/5 group-hover:bg-slate-900/10">
+                        <i data-lucide="{{ $item['icon'] }}" class="h-5 w-5"></i>
+                    </span>
+                    <span>{{ $item['label'] }}</span>
+                    @if(!empty($item['badge']))
+                        <span class="ml-auto inline-flex items-center rounded-full bg-slate-900/10 px-2 py-0.5 text-xs font-semibold text-slate-900">
+                            {{ $item['badge'] }}
+                        </span>
+                    @endif
+                </a>
+            @endforeach
+        </nav>
+        <div class="mt-8 rounded-2xl border border-slate-200 p-5 text-sm">
+            <p class="font-semibold text-slate-900">Need help?</p>
+            <p class="mt-1 text-slate-600">Visit our help centre for onboarding guides, best practices, and support.</p>
+            <a href="mailto:support@enhancemystay.com" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-slate-900 hover:text-slate-700">
+                <i data-lucide="life-buoy" class="w-4 h-4"></i>
+                Contact support
+            </a>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col">
+        <header class="sticky top-0 z-30 border-b border-slate-200 bg-white/80 backdrop-blur">
+            <div class="flex h-20 items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
+                <div class="flex items-center gap-3">
+                    <button
+                        type="button"
+                        class="inline-flex items-center justify-center rounded-xl border border-slate-200 p-2 text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400 lg:hidden"
+                        @click="sidebarOpen = true"
+                    >
+                        <i data-lucide="menu" class="h-5 w-5"></i>
+                    </button>
+                    <div class="hidden md:flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2">
+                        <i data-lucide="search" class="h-4 w-4 text-slate-400"></i>
+                        <input
+                            type="search"
+                            placeholder="Search anything..."
+                            class="w-48 bg-transparent text-sm focus:outline-none"
+                        >
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="hidden sm:flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm">
+                        <i data-lucide="bell" class="h-4 w-4 text-slate-400"></i>
+                        <span class="text-slate-500">Notifications</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="hidden text-right sm:block">
+                            <p class="text-sm font-semibold text-slate-900">{{ auth()->user()->name ?? 'Account' }}</p>
+                            <p class="text-xs text-slate-500">{{ auth()->user()->email ?? '' }}</p>
+                        </div>
+                        <div class="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 text-sm font-semibold uppercase text-white">
+                            {{ collect(explode(' ', auth()->user()->name ?? ''))
+                                ->map(fn($part) => substr($part, 0, 1))
+                                ->join('') ?: 'EM' }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
-        <main class="flex-1 p-6">
+        <main class="flex-1 px-4 py-8 sm:px-6 lg:px-10">
             @isset($header)
-                <div class="mb-4">
+                <div class="mb-6">
                     {{ $header }}
                 </div>
             @endisset
@@ -68,5 +254,18 @@
         </main>
     </div>
 </div>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    const refreshLucideIcons = () => {
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+    };
+
+    document.addEventListener('alpine:init', refreshLucideIcons);
+    document.addEventListener('DOMContentLoaded', refreshLucideIcons);
+    document.addEventListener('turbo:load', refreshLucideIcons);
+    document.addEventListener('livewire:navigated', refreshLucideIcons);
+</script>
 </body>
-</html>
+ </html>
