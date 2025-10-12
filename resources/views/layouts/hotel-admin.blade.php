@@ -96,17 +96,21 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="font-sans antialiased bg-slate-950 text-slate-100">
+
+<body class="font-sans antialiased bg-slate-950 text-slate-900">
+
 <div class="relative min-h-screen overflow-hidden">
     <div class="pointer-events-none absolute inset-0 overflow-hidden">
         <div class="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-gradient-to-br from-indigo-500/40 via-sky-400/30 to-transparent blur-3xl"></div>
         <div class="absolute right-[-18rem] top-1/2 h-[28rem] w-[28rem] -translate-y-1/2 rounded-full bg-gradient-to-br from-sky-500/40 via-emerald-400/30 to-transparent blur-3xl"></div>
         <div class="absolute bottom-[-14rem] left-1/2 h-[26rem] w-[26rem] -translate-x-1/2 rounded-full bg-gradient-to-br from-purple-500/35 via-pink-400/25 to-transparent blur-3xl"></div>
     </div>
-    <div class="relative z-10 mx-auto flex min-h-screen w-full max-w-[1440px] flex-col px-4 py-6 sm:px-6 lg:px-12">
+
+    <div class="relative z-10 mx-auto flex min-h-screen w-full max-w-[1440px] flex-col px-4 py-6 text-slate-900 sm:px-6 lg:px-12">
         <div
             x-data="{ sidebarOpen: false }"
-            class="flex min-h-[calc(100vh-3rem)] flex-1 overflow-hidden rounded-3xl border border-white/10 bg-white/10 text-slate-100 shadow-[0_45px_120px_-60px_rgba(15,23,42,0.9)] backdrop-blur-2xl lg:flex-row"
+            class="flex min-h-[calc(100vh-3rem)] flex-1 overflow-hidden rounded-3xl border border-white/10 bg-white/15 shadow-[0_45px_120px_-60px_rgba(15,23,42,0.9)] backdrop-blur-2xl lg:flex-row"
+
         >
         <!-- Mobile sidebar -->
         <div
@@ -117,7 +121,9 @@
             aria-modal="true"
         >
             <div class="fixed inset-0 bg-slate-950/70 backdrop-blur" @click="sidebarOpen = false"></div>
-            <aside class="relative ml-0 h-full w-72 max-w-full bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 shadow-2xl shadow-slate-950/40">
+
+            <aside class="relative ml-0 h-full w-72 max-w-full bg-gradient-to-b from-indigo-900 via-slate-900 to-slate-950 text-white shadow-2xl shadow-slate-950/40">
+
                 <div class="flex items-center justify-between border-b border-white/5 px-6 py-4">
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
                         <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay" class="h-8">
@@ -164,7 +170,9 @@
         </div>
 
         <!-- Desktop sidebar -->
-        <aside class="hidden lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-white/10 lg:bg-white/5 lg:px-6 lg:py-8 lg:backdrop-blur-xl">
+
+        <aside class="hidden text-white lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-white/10 lg:bg-gradient-to-b lg:from-indigo-900/95 lg:via-slate-900/90 lg:to-slate-950/95 lg:px-6 lg:py-8 lg:backdrop-blur-xl">
+
             <div class="flex items-center gap-3">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
                     <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay" class="h-9">
@@ -213,7 +221,9 @@
         </aside>
 
         <div class="flex-1 flex flex-col bg-white/95 text-slate-900">
-            <header class="sticky top-0 z-30 border-b border-slate-200/60 bg-white/80 backdrop-blur-xl shadow-[0_25px_65px_-45px_rgba(15,23,42,0.45)]">
+
+            <header class="sticky top-0 z-30 border-b border-slate-200/60 bg-gradient-to-r from-white/95 via-sky-50 to-emerald-50 backdrop-blur-xl shadow-[0_25px_65px_-45px_rgba(15,23,42,0.45)]">
+
                 <div class="flex h-20 items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
                     <div class="flex items-center gap-3">
                         <button
@@ -233,9 +243,11 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-4">
-                        <div class="hidden sm:flex items-center gap-3 rounded-2xl border border-slate-200/70 bg-gradient-to-r from-indigo-50 to-sky-50 px-3 py-2 text-sm text-slate-600 shadow-sm">
-                            <i data-lucide="bell" class="h-4 w-4 text-indigo-400"></i>
-                            <span class="text-slate-600">Notifications</span>
+
+                        <div class="hidden sm:flex items-center gap-3 rounded-2xl border border-slate-200/70 bg-gradient-to-r from-indigo-100/80 via-sky-100 to-emerald-100/80 px-3 py-2 text-sm text-slate-600 shadow-sm">
+                            <i data-lucide="bell" class="h-4 w-4 text-indigo-500"></i>
+                            <span class="text-slate-700">Notifications</span>
+
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="hidden text-right sm:block">
@@ -251,10 +263,12 @@
                     </div>
                 </div>
             </header>
-            <main class="flex-1 overflow-y-auto bg-gradient-to-br from-white/95 via-white/90 to-indigo-50/60 px-4 py-10 sm:px-8 lg:px-12">
+
+            <main class="flex-1 overflow-y-auto bg-gradient-to-br from-white via-sky-50/80 to-indigo-50/70 px-4 py-10 sm:px-8 lg:px-12">
                 <div class="mx-auto w-full max-w-7xl space-y-10">
                     @isset($header)
-                        <div class="rounded-3xl border border-indigo-100/70 bg-white/85 p-8 shadow-lg shadow-indigo-500/10">
+                        <div class="rounded-3xl border border-indigo-100/70 bg-gradient-to-r from-white via-indigo-50 to-sky-50 p-8 shadow-lg shadow-indigo-500/10">
+
                             {{ $header }}
                         </div>
                     @endisset
