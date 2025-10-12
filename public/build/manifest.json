@@ -4,7 +4,9 @@
     "src": "public/img/icons/check.svg"
   },
   "resources/css/app.css": {
+
     "file": "assets/app-Yg8euxFe.css",
+
     "src": "resources/css/app.css",
     "isEntry": true
   },
