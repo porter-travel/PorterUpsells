@@ -16,14 +16,14 @@
                 </p>
             </div>
             <div class="grid w-full max-w-xl grid-cols-2 gap-4 sm:grid-cols-3">
-                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div class="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur">
                     <div class="flex items-center justify-between text-xs font-semibold uppercase text-slate-400">
                         Properties
                         <i data-lucide="building-2" class="h-4 w-4 text-slate-300"></i>
                     </div>
                     <p class="mt-3 text-2xl font-semibold text-slate-900">{{ $hotelsCollection->count() }}</p>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div class="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur">
                     <div class="flex items-center justify-between text-xs font-semibold uppercase text-slate-400">
                         Stripe status
                         <i data-lucide="credit-card" class="h-4 w-4 text-slate-300"></i>
@@ -32,12 +32,12 @@
                         {{ $user->stripe_account_active ? 'Active' : 'Pending' }}
                     </p>
                 </div>
-                <a href="{{ route('hotel.create') }}" class="flex flex-col justify-between rounded-2xl border border-dashed border-slate-300 bg-white p-4 shadow-sm transition hover:border-slate-400 hover:bg-slate-50">
+                <a href="{{ route('hotel.create') }}" class="flex flex-col justify-between rounded-2xl border border-transparent bg-gradient-to-br from-indigo-50 via-white to-white p-4 shadow-sm transition hover:shadow-md">
                     <div class="flex items-center justify-between text-xs font-semibold uppercase text-slate-400">
                         Quick action
-                        <i data-lucide="plus-circle" class="h-4 w-4 text-slate-300"></i>
+                        <i data-lucide="sparkles" class="h-4 w-4 text-indigo-400"></i>
                     </div>
-                    <p class="mt-3 text-base font-semibold text-slate-900">Add property</p>
+                    <p class="mt-3 text-base font-semibold text-indigo-600">Add property</p>
                 </a>
             </div>
         </div>
@@ -53,11 +53,11 @@
                             <p class="text-sm text-slate-500">Switch into a property to design on-brand experiences and manage fulfilment.</p>
                         </div>
                         <div class="flex gap-2">
-                            <a href="{{ route('hotel.create') }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:border-slate-300 hover:text-slate-900">
+                            <a href="{{ route('hotel.create') }}" class="inline-flex items-center gap-2 rounded-xl border border-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:from-indigo-500 hover:via-purple-500 hover:to-violet-500">
                                 <i data-lucide="plus" class="h-4 w-4"></i>
                                 New property
                             </a>
-                            <a href="{{ route('performance.index', ['hotel_id' => $primaryHotel?->id]) }}" class="inline-flex items-center gap-2 rounded-xl border border-transparent bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 hover:bg-slate-800">
+                            <a href="{{ route('performance.index', ['hotel_id' => $primaryHotel?->id]) }}" class="inline-flex items-center gap-2 rounded-xl border border-transparent bg-white/90 px-4 py-2 text-sm font-semibold text-indigo-700 shadow-sm backdrop-blur transition hover:bg-white">
                                 <i data-lucide="bar-chart-3" class="h-4 w-4"></i>
                                 View performance
                             </a>
@@ -113,18 +113,18 @@
                     </div>
                 </section>
             @else
-                <section class="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center shadow-sm">
+                <section class="rounded-3xl border border-transparent bg-gradient-to-br from-indigo-50 via-white to-white p-10 text-center shadow-sm">
                     <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-slate-900/10">
-                        <i data-lucide="building-2" class="h-8 w-8 text-slate-600"></i>
+                        <i data-lucide="building-2" class="h-8 w-8 text-indigo-600"></i>
                     </div>
                     <h2 class="mt-6 text-2xl font-semibold text-slate-900">Create your first property</h2>
                     <p class="mt-3 text-sm text-slate-500">Design your guest marketplace, set up fulfilment, and start accepting curated upsells in minutes.</p>
                     <div class="mt-6 flex flex-wrap justify-center gap-3">
-                        <a href="{{ route('hotel.create') }}" class="inline-flex items-center gap-2 rounded-xl border border-transparent bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-900/20 hover:bg-slate-800">
+                        <a href="{{ route('hotel.create') }}" class="inline-flex items-center gap-2 rounded-xl border border-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:from-indigo-500 hover:via-purple-500 hover:to-violet-500">
                             <i data-lucide="sparkles" class="h-4 w-4"></i>
                             Create property
                         </a>
-                        <a href="mailto:support@enhancemystay.com" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900">
+                        <a href="mailto:support@enhancemystay.com" class="inline-flex items-center gap-2 rounded-xl border border-transparent bg-white/90 px-5 py-2.5 text-sm font-semibold text-indigo-700 shadow-sm backdrop-blur transition hover:bg-white">
                             <i data-lucide="message-circle" class="h-4 w-4"></i>
                             Talk to us
                         </a>
