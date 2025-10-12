@@ -113,7 +113,7 @@
         <aside class="relative ml-0 h-full w-72 max-w-full bg-white shadow-xl">
             <div class="flex items-center justify-between px-6 py-4 border-b">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                    <img src="/img/logo.svg" alt="Enhance My Stay" class="h-8">
+                    <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay" class="h-8">
                 </a>
                 <button
                     type="button"
@@ -160,7 +160,7 @@
     <aside class="hidden lg:flex lg:w-72 lg:flex-col lg:border-r lg:border-slate-200 lg:bg-white lg:px-6 lg:py-8">
         <div class="flex items-center gap-3">
             <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                <img src="/img/logo.svg" alt="Enhance My Stay" class="h-9">
+                <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay" class="h-9">
             </a>
         </div>
         <div class="mt-10 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 p-6 text-white shadow-xl">
