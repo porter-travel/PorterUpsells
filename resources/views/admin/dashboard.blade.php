@@ -97,11 +97,11 @@
                                         </div>
                                     </dl>
                                     <div class="flex flex-wrap gap-2">
-                                        <a href="{{ route('hotel.edit', ['id' => $hotel->id]) }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900">
+                                        <a href="{{ 'http://127.0.0.1:8080/admin/hotel/' . $hotel->id . '/branding' }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900">
                                             <i data-lucide="pen-square" class="h-4 w-4"></i>
                                             Edit brand
                                         </a>
-                                        <a href="{{ route('orders.listv2', ['hotel_id' => $hotel->id]) }}" class="inline-flex items-center gap-2 rounded-xl border border-transparent bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800">
+                                        <a href="{{ 'http://127.0.0.1:8080/admin/hotel/' . $hotel->id . '/orders/v2' }}" class="inline-flex items-center gap-2 rounded-xl border border-transparent bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800">
                                             <i data-lucide="shopping-cart" class="h-4 w-4"></i>
                                             Manage orders
                                         </a>
