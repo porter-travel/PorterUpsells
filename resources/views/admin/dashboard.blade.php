@@ -66,7 +66,13 @@
 
                     <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
                         @foreach($hotelsCollection as $hotel)
-                            <article class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                            <article
+                                class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                                role="link"
+                                tabindex="0"
+                                onclick="window.location.href='{{ route('hotel.edit', ['id' => $hotel->id]) }}'"
+                                onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); window.location.href='{{ route('hotel.edit', ['id' => $hotel->id]) }}'; }"
+                            >
                                 <div class="absolute inset-0 bg-gradient-to-br from-slate-900/0 via-slate-900/5 to-slate-900/10 opacity-0 transition group-hover:opacity-100"></div>
                                 <div class="aspect-[4/3] overflow-hidden">
                                     <img
@@ -97,17 +103,18 @@
                                         </div>
                                     </dl>
                                     <div class="flex flex-wrap gap-2">
-                                        <a href="{{ 'http://127.0.0.1:8080/admin/hotel/' . $hotel->id . '/branding' }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900">
+
+                                        <a href="{{ 'http://127.0.0.1:8080/admin/hotel/' . $hotel->id . '/branding' }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900" onclick="event.stopPropagation()">
                                             <i data-lucide="pen-square" class="h-4 w-4"></i>
                                             Edit brand
                                         </a>
-                                        <a href="{{ 'http://127.0.0.1:8080/admin/hotel/' . $hotel->id . '/orders/v2' }}" class="inline-flex items-center gap-2 rounded-xl border border-transparent bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800">
+                                        <a href="{{ 'http://127.0.0.1:8080/admin/hotel/' . $hotel->id . '/orders/v2' }}" class="inline-flex items-center gap-2 rounded-xl border border-transparent bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800" onclick="event.stopPropagation()">
+
                                             <i data-lucide="shopping-cart" class="h-4 w-4"></i>
                                             Manage orders
                                         </a>
                                     </div>
                                 </div>
-                                <a href="{{ route('hotel.edit', ['id' => $hotel->id]) }}" class="absolute inset-0" aria-label="Manage {{ $hotel->name }}"></a>
                             </article>
                         @endforeach
                     </div>
