@@ -1,112 +1,104 @@
 @if($errors->any())
-    <div class="bg-pink/50 border border-pink rounded-3xl p-4">
-        <ul>
+    <div class="rounded-2xl border border-rose-200 bg-rose-50/80 p-4 text-sm text-rose-700">
+        <p class="font-semibold">We spotted {{ $errors->count() }} issue{{ $errors->count() > 1 ? 's' : '' }} with your details:</p>
+        <ul class="mt-2 list-disc space-y-1 pl-5">
             @foreach($errors->all() as $error)
-                <li class="text-red">{{$error}}</li>
+                <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
 @endif
 
-<div class="flex flex-wrap">
-
-    {{--    {{dd($errors)}}--}}
-
-
-    <div class="md:basis-1/2 basis-full md:pr-4 mt-4">
-        <x-input-label class="text-black font-sans" for="image" :value="__('Product Image')"/>
-        <div class="flex items-end">
+<div class="grid gap-6 lg:grid-cols-[1fr_auto]">
+    <div class="space-y-3">
+        <x-input-label class="text-slate-700" for="image" :value="__('Product image')" />
+        <div class="flex flex-wrap items-center gap-4">
             @if($product->image)
-                <div class="mr-4">
-                    <img src="{{$product->image}}" alt="product"
-                         class="w-[64px] h-[64px] object-cover rounded-xl"/>
-                </div>
+                <img src="{{ $product->image }}" alt="product" class="h-16 w-16 rounded-2xl object-cover ring-2 ring-slate-200" />
             @endif
-            <input @if($method == 'create') required @endif type="file" name="image" id="image">
+            <input @if($method === 'create') required @endif type="file" name="image" id="image" class="text-sm text-slate-600" accept="image/*">
         </div>
-        <p class="text-sm text-gray-500 mt-2">Images should be 500x500 pixels in size and no larger than 1Mb.</p>
+        <p class="text-xs text-slate-500">Use a 500 × 500px image smaller than 1MB for the best guest experience.</p>
     </div>
-
-    <div class="md:basis-1/2 basis-full md:pr-4 mt-4 text-right">
-        <x-input-label class="text-black font-sans sr-only" for="status" :value="__('Status')"/>
-        <select class="border-[#C4C4C4] rounded-md" name="status" id="status">
-            <option {{$product->status == 'active' ? 'selected' : ''}} value="active">Active
-            </option>
-            <option {{$product->status == 'inactive' ? 'selected' : ''}} value="inactive">
-                Inactive
-            </option>
-            <option {{$product->status == 'draft' ? 'selected' : ''}} value="draft">Draft
-            </option>
+    <div class="flex flex-col items-start gap-2 self-end">
+        <x-input-label class="text-slate-700" for="status" :value="__('Status')" />
+        <select name="status" id="status" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200">
+            <option value="active" @selected($product->status === 'active')>Active</option>
+            <option value="inactive" @selected($product->status === 'inactive')>Inactive</option>
+            <option value="draft" @selected($product->status === 'draft')>Draft</option>
         </select>
     </div>
 </div>
-<div class="flex flex-wrap">
-    <div class="md:basis-1/2 basis-full md:pr-4 mt-4">
-        <x-input-label class="text-black font-sans" for="name" value="Name"/>
-        <x-text-input id="name" class="block mt-1 w-full px-3 py-2" type="text" name="name"
-                      :value="$product->name"
-                      required placeholder="Name"/>
-        <x-input-error :messages="$errors->get('name')" class="mt-2"/>
-    </div>
 
-    <div class="md:basis-1/2 basis-full md:pl-4 mt-4">
-        <x-input-label class="text-black font-sans" for="price" :value="__('Price')"/>
-        <x-text-input id="price" class="block mt-1 w-full px-3 py-2" type="number" name="price"
-                      :value="$product->price"
-                      required step=".01" placeholder="12.34"/>
-        <x-input-error :messages="$errors->get('price')" class="mt-2"/>
+<div class="grid gap-6 md:grid-cols-2">
+    <div class="space-y-3">
+        <x-input-label class="text-slate-700" for="name" value="Name" />
+        <x-text-input id="name" class="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm" type="text" name="name" :value="$product->name" required placeholder="Signature welcome amenity" />
+        <x-input-error :messages="$errors->get('name')" class="text-xs text-rose-600" />
+    </div>
+    <div class="space-y-3">
+        <x-input-label class="text-slate-700" for="price" :value="__('Price')" />
+        <x-text-input id="price" class="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm" type="number" name="price" :value="$product->price" required step=".01" placeholder="12.34" />
+        <x-input-error :messages="$errors->get('price')" class="text-xs text-rose-600" />
     </div>
 </div>
-<div class="mt-4">
+
+<div class="space-y-3">
     <div class="flex items-center justify-between">
-        <x-input-label class="text-black font-sans" :value="__('Description')"/>
-
-{{--        <button class="bg-blue p-1 border-blue rounded-xl" type="button" id="rewriteProductDescription">✨</button>--}}
+        <x-input-label class="text-slate-700" :value="__('Description')" />
     </div>
-
-    <div id="description" class="block mt-1 w-full px-3 py-2 rounded-b-md quill-text-editor" type="text">
-        {!! $product->description !!}</div>
+    <div id="description" class="quill-text-editor min-h-[180px] rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm">
+        {!! $product->description !!}
+    </div>
     <input id="realDescription" type="hidden" name="description" value="{{ $product->description }}" required>
-    <x-input-error :messages="$errors->get('description')" class="mt-2"/>
+    <x-input-error :messages="$errors->get('description')" class="text-xs text-rose-600" />
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const toolbarOptions = ['bold', 'italic', 'underline', 'strike', [{'header': false}],];
-
         const quill = new Quill('#description', {
             theme: 'snow',
             modules: {
                 toolbar: [
-                    ['bold', 'italic', 'underline'],   // Text styling
-                    [{'list': 'ordered'}, {'list': 'bullet'}], // Lists
-                    ['clean']  // Remove formatting
+                    ['bold', 'italic', 'underline'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    ['clean']
                 ]
             }
-
         });
 
-        quill.on('text-change', (delta, oldDelta, source) => {
-            document.querySelector('#realDescription').value = quill.root.innerHTML;
-
+        quill.on('text-change', () => {
+            const hiddenDescription = document.getElementById('realDescription');
+            if (hiddenDescription) {
+                hiddenDescription.value = quill.root.innerHTML;
+            }
         });
 
-        const btn = document.getElementById('rewriteProductDescription');
-        btn.addEventListener('click', function () {
-            const description = document.querySelector('#realDescription').value;
-            fetch('/admin/chat/rewrite-product-descriptions', {
-                method: 'POST',
-                body: JSON.stringify({'product_description': description}),
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json, text-plain, */*",
-                    "X-Requested-With": "XMLHttpRequest",
-                    'X-CSRF-TOKEN': document.querySelector('input[name=_token]').value
-                },}).then(response => response.json()).then(data => {
-                console.log(data);
-                quill.root.innerHTML = data.result;
-                document.querySelector('#realDescription').value = data.result;
+        const rewriteButton = document.getElementById('rewriteProductDescription');
+        if (rewriteButton) {
+            rewriteButton.addEventListener('click', function () {
+                const description = document.getElementById('realDescription')?.value ?? '';
+
+                fetch('/admin/chat/rewrite-product-descriptions', {
+                    method: 'POST',
+                    body: JSON.stringify({ 'product_description': description }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json, text-plain, */*',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('input[name=_token]')?.value ?? ''
+                    },
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        quill.root.innerHTML = data.result ?? '';
+                        const hiddenInput = document.getElementById('realDescription');
+                        if (hiddenInput) {
+                            hiddenInput.value = data.result ?? '';
+                        }
+                    })
+                    .catch(() => {});
             });
-        })
+        }
     });
 </script>

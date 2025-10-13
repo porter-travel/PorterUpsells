@@ -4,6 +4,31 @@
     $user = auth()->user();
     $hotels = collect($user?->hotels ?? []);
     $currentHotelId = $hotel?->id;
+    $activeHotel = $hotels->firstWhere('id', $currentHotelId) ?? $hotels->first();
+    $currentRoute = request()->route();
+    $currentRouteName = $currentRoute?->getName();
+    $currentRouteParameters = collect($currentRoute?->parameters() ?? []);
+    $hotelParameterKey = null;
+
+    if ($currentHotelId) {
+        $hotelParameterKey = $currentRouteParameters->search(function ($value) use ($currentHotelId) {
+            return (string) $value === (string) $currentHotelId;
+        });
+    }
+
+    $queryString = request()->getQueryString();
+
+    $buildHotelSwitchUrl = function ($hotelId) use ($currentRouteName, $currentRouteParameters, $hotelParameterKey, $queryString) {
+        if ($currentRouteName && $hotelParameterKey !== null && $hotelParameterKey !== false) {
+            $parameters = $currentRouteParameters->toArray();
+            $parameters[$hotelParameterKey] = $hotelId;
+            $url = route($currentRouteName, $parameters);
+
+            return $queryString ? $url . '?' . $queryString : $url;
+        }
+
+        return route('hotel.edit', ['id' => $hotelId]);
+    };
 
     $navigation = [
         [
@@ -164,6 +189,73 @@
                         </a>
                     @endforeach
                 </nav>
+                @if($hotels->isNotEmpty())
+                    <div class="px-4 pb-6">
+                        <div class="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner shadow-black/20">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-white/60">Managing</p>
+                            <div class="mt-3 flex items-center gap-3">
+                                @if($activeHotel?->logo)
+                                    <img src="{{ $activeHotel->logo }}" alt="{{ $activeHotel->name }} logo" class="h-10 w-10 rounded-xl object-cover ring-2 ring-white/30">
+                                @else
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-sm font-semibold uppercase text-white/80">
+                                        {{ collect(explode(' ', $activeHotel?->name ?? ''))
+                                            ->map(fn($part) => substr($part, 0, 1))
+                                            ->join('') ?: 'EM' }}
+                                    </div>
+                                @endif
+                                <div>
+                                    <p class="text-sm font-semibold text-white">{{ $activeHotel?->name ?? 'Select a property' }}</p>
+                                    @if($activeHotel?->address)
+                                        <p class="text-xs text-white/60">{{ $activeHotel->address }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                            @if($hotels->count() > 1)
+                                <div x-data="{ open: false }" class="relative mt-5">
+                                    <button
+                                        type="button"
+                                        @click="open = !open"
+                                        class="flex w-full items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/15"
+                                    >
+                                        Switch property
+                                        <i data-lucide="chevron-down" class="h-4 w-4 transition" :class="{ 'rotate-180': open }"></i>
+                                    </button>
+                                    <div
+                                        x-cloak
+                                        x-show="open"
+                                        @click.outside="open = false"
+                                        x-transition
+                                        class="absolute left-0 right-0 top-full z-10 mt-2 max-h-60 overflow-y-auto rounded-xl border border-white/10 bg-slate-950/95 p-2 backdrop-blur"
+                                    >
+                                        @foreach($hotels as $switchHotel)
+                                            @php
+                                                $switchUrl = $buildHotelSwitchUrl($switchHotel->id);
+                                            @endphp
+                                            <a
+                                                href="{{ $switchUrl }}"
+                                                class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition hover:bg-white/10 {{ $switchHotel->id === $activeHotel?->id ? 'bg-white/10 text-white' : 'text-white/80' }}"
+                                            >
+                                                @if($switchHotel->logo)
+                                                    <img src="{{ $switchHotel->logo }}" alt="{{ $switchHotel->name }} logo" class="h-8 w-8 rounded-lg object-cover">
+                                                @else
+                                                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold uppercase text-white/80">
+                                                        {{ collect(explode(' ', $switchHotel->name ?? ''))
+                                                            ->map(fn($part) => substr($part, 0, 1))
+                                                            ->join('') ?: 'EM' }}
+                                                    </div>
+                                                @endif
+                                                <span class="truncate">{{ $switchHotel->name }}</span>
+                                                @if($switchHotel->id === $activeHotel?->id)
+                                                    <span class="ml-auto rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-200">Active</span>
+                                                @endif
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
                 <div class="px-6 pb-6">
                     <a
                         href="{{ route('hotel.create') }}"
@@ -185,14 +277,86 @@
                     <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay" class="h-9">
                 </a>
             </div>
-            <div class="mt-10 rounded-2xl border border-white/10 bg-gradient-to-br from-indigo-600 via-purple-600 to-sky-500 p-6 text-white shadow-xl shadow-indigo-900/30">
-                <p class="text-sm uppercase tracking-widest text-white/70">Your portfolio</p>
-                <p class="mt-3 text-3xl font-semibold text-white">{{ $hotels->count() }}</p>
-                <p class="mt-2 text-sm text-white/70">Active properties connected to Enhance My Stay.</p>
-                <a href="{{ route('hotel.create') }}" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-white/15 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/25">
-                    <i data-lucide="plus" class="w-4 h-4"></i>
-                    New property
-                </a>
+            <div class="mt-10 space-y-6">
+                <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-indigo-600 via-purple-600 to-sky-500 p-6 text-white shadow-xl shadow-indigo-900/30">
+                    <p class="text-sm uppercase tracking-widest text-white/70">Your portfolio</p>
+                    <p class="mt-3 text-3xl font-semibold text-white">{{ $hotels->count() }}</p>
+                    <p class="mt-2 text-sm text-white/70">Active properties connected to Enhance My Stay.</p>
+                    <a href="{{ route('hotel.create') }}" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-white/15 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/25">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        New property
+                    </a>
+                </div>
+                @if($hotels->isNotEmpty())
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner shadow-black/20">
+                        <div class="flex items-start gap-3">
+                            @if($activeHotel?->logo)
+                                <img src="{{ $activeHotel->logo }}" alt="{{ $activeHotel->name }} logo" class="h-12 w-12 rounded-xl object-cover ring-2 ring-white/30">
+                            @else
+                                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-lg font-semibold uppercase text-white/80">
+                                    {{ collect(explode(' ', $activeHotel?->name ?? ''))
+                                        ->map(fn($part) => substr($part, 0, 1))
+                                        ->join('') ?: 'EM' }}
+                                </div>
+                            @endif
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-widest text-white/60">Managing</p>
+                                <p class="mt-1 text-lg font-semibold text-white">{{ $activeHotel?->name ?? 'Select a property' }}</p>
+                                @if($activeHotel?->address)
+                                    <p class="text-xs text-white/60">{{ $activeHotel->address }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        @if($hotels->count() > 1)
+                            <div x-data="{ open: false }" class="relative mt-5">
+                                <button
+                                    type="button"
+                                    @click="open = !open"
+                                    class="flex w-full items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/15"
+                                >
+                                    Switch property
+                                    <i data-lucide="chevron-down" class="h-4 w-4 transition" :class="{ 'rotate-180': open }"></i>
+                                </button>
+                                <div
+                                    x-cloak
+                                    x-show="open"
+                                    @click.outside="open = false"
+                                    x-transition
+                                    class="absolute left-0 right-0 top-full z-10 mt-2 max-h-64 overflow-y-auto rounded-xl border border-white/10 bg-slate-950/95 p-2 backdrop-blur"
+                                >
+                                    @foreach($hotels as $switchHotel)
+                                        @php
+                                            $switchUrl = $buildHotelSwitchUrl($switchHotel->id);
+                                        @endphp
+                                        <a
+                                            href="{{ $switchUrl }}"
+                                            class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition hover:bg-white/10 {{ $switchHotel->id === $activeHotel?->id ? 'bg-white/10 text-white' : 'text-white/80' }}"
+                                        >
+                                            @if($switchHotel->logo)
+                                                <img src="{{ $switchHotel->logo }}" alt="{{ $switchHotel->name }} logo" class="h-9 w-9 rounded-lg object-cover">
+                                            @else
+                                                <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold uppercase text-white/80">
+                                                    {{ collect(explode(' ', $switchHotel->name ?? ''))
+                                                        ->map(fn($part) => substr($part, 0, 1))
+                                                        ->join('') ?: 'EM' }}
+                                                </div>
+                                            @endif
+                                            <div class="flex-1 truncate">
+                                                <p class="truncate font-semibold">{{ $switchHotel->name }}</p>
+                                                @if($switchHotel->address)
+                                                    <p class="truncate text-[11px] text-white/50">{{ $switchHotel->address }}</p>
+                                                @endif
+                                            </div>
+                                            @if($switchHotel->id === $activeHotel?->id)
+                                                <span class="ml-auto rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-200">Active</span>
+                                            @endif
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                @endif
             </div>
             <nav class="mt-10 flex-1 space-y-1">
                 @foreach($navigation ?? [] as $item)
@@ -273,6 +437,34 @@
 
             <main class="flex-1 overflow-y-auto bg-gradient-to-br from-white via-sky-50/80 to-indigo-50/70 px-4 py-10 sm:px-8 lg:px-12">
                 <div class="mx-auto w-full max-w-7xl space-y-10">
+                    @if($activeHotel)
+                        <div class="flex flex-wrap items-center justify-between gap-3 rounded-3xl border border-indigo-100/60 bg-white/80 px-6 py-4 shadow-sm shadow-indigo-200/40">
+                            <div class="flex items-center gap-3">
+                                @if($activeHotel->logo)
+                                    <img src="{{ $activeHotel->logo }}" alt="{{ $activeHotel->name }} logo" class="h-10 w-10 rounded-2xl object-cover ring-2 ring-indigo-100">
+                                @else
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-100 text-sm font-semibold uppercase text-indigo-700">
+                                        {{ collect(explode(' ', $activeHotel->name ?? ''))
+                                            ->map(fn($part) => substr($part, 0, 1))
+                                            ->join('') ?: 'EM' }}
+                                    </div>
+                                @endif
+                                <div>
+                                    <p class="text-xs font-semibold uppercase tracking-widest text-indigo-500">Active property</p>
+                                    <p class="text-base font-semibold text-slate-900">{{ $activeHotel->name }}</p>
+                                </div>
+                            </div>
+                            @if($hotels->count() > 1)
+                                <a
+                                    href="{{ route('hotel.edit', ['id' => $activeHotel->id]) }}"
+                                    class="inline-flex items-center gap-2 rounded-xl border border-indigo-100 bg-indigo-50/70 px-3 py-1.5 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-100"
+                                >
+                                    <i data-lucide="sparkles" class="h-3.5 w-3.5"></i>
+                                    Manage brand
+                                </a>
+                            @endif
+                        </div>
+                    @endif
                     @isset($header)
                         <div class="rounded-3xl border border-indigo-100/70 bg-gradient-to-r from-white via-indigo-50 to-sky-50 p-8 shadow-lg shadow-indigo-500/10">
 
