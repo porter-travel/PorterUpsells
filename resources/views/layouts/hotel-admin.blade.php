@@ -396,7 +396,7 @@
             <header class="sticky top-0 z-30 border-b border-slate-200/60 bg-gradient-to-r from-white/95 via-sky-50 to-emerald-50 backdrop-blur-xl shadow-[0_25px_65px_-45px_rgba(15,23,42,0.45)]">
 
                 <div class="flex h-20 items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center">
                         <button
                             type="button"
                             class="inline-flex items-center justify-center rounded-xl border border-slate-200/70 bg-white/60 p-2 text-slate-500 transition hover:border-slate-300 hover:bg-white hover:text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 lg:hidden"
@@ -404,14 +404,6 @@
                         >
                             <i data-lucide="menu" class="h-5 w-5"></i>
                         </button>
-                        <div class="hidden md:flex items-center gap-2 rounded-2xl border border-slate-200/70 bg-white/70 px-3 py-2 shadow-sm">
-                            <i data-lucide="search" class="h-4 w-4 text-slate-400"></i>
-                            <input
-                                type="search"
-                                placeholder="Search anything..."
-                                class="w-48 bg-transparent text-sm text-slate-600 placeholder-slate-400 focus:outline-none"
-                            >
-                        </div>
                     </div>
                     <div class="flex items-center gap-4">
 
