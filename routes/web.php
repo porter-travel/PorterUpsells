@@ -68,6 +68,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('admin/hotel/create', [HotelController::class, 'create'] )->name('hotel.create');
 
     Route::get('admin/hotel/{id}/edit', [HotelController::class, 'edit'] )->name('hotel.edit');
+    Route::get('admin/hotel/{id}/branding', [HotelController::class, 'branding'] )->name('hotel.branding');
     Route::post('admin/hotel/{id}/update', [HotelController::class, 'update'] )->name('hotel.update');
 
     Route::get('admin/hotel/{id}/product/create/{type?}', [ProductController::class, 'create'] )->name('product.create');
