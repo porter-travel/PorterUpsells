@@ -4,7 +4,9 @@
     $user = auth()->user();
     $hotels = collect($user?->hotels ?? []);
     $currentHotelId = $hotel?->id;
-    $activeHotel = $hotels->firstWhere('id', $currentHotelId) ?? $hotels->first();
+    $activeHotel = $currentHotelId
+        ? $hotels->firstWhere('id', $currentHotelId)
+        : null;
     $currentRoute = request()->route();
     $currentRouteName = $currentRoute?->getName();
     $currentRouteParameters = collect($currentRoute?->parameters() ?? []);
@@ -192,21 +194,29 @@
                 @if($hotels->isNotEmpty())
                     <div class="px-4 pb-6">
                         <div class="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner shadow-black/20">
-                            <p class="text-xs font-semibold uppercase tracking-widest text-white/60">Managing</p>
+                            <p class="text-xs font-semibold uppercase tracking-widest text-white/60">
+                                {{ $activeHotel ? 'Managing' : 'No property selected' }}
+                            </p>
                             <div class="mt-3 flex items-center gap-3">
                                 @if($activeHotel?->logo)
                                     <img src="{{ $activeHotel->logo }}" alt="{{ $activeHotel->name }} logo" class="h-10 w-10 rounded-xl object-cover ring-2 ring-white/30">
-                                @else
+                                @elseif($activeHotel)
                                     <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-sm font-semibold uppercase text-white/80">
-                                        {{ collect(explode(' ', $activeHotel?->name ?? ''))
+                                        {{ collect(explode(' ', $activeHotel->name ?? ''))
                                             ->map(fn($part) => substr($part, 0, 1))
                                             ->join('') ?: 'EM' }}
+                                    </div>
+                                @else
+                                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white/60">
+                                        <i data-lucide="building-2" class="h-5 w-5"></i>
                                     </div>
                                 @endif
                                 <div>
                                     <p class="text-sm font-semibold text-white">{{ $activeHotel?->name ?? 'Select a property' }}</p>
                                     @if($activeHotel?->address)
                                         <p class="text-xs text-white/60">{{ $activeHotel->address }}</p>
+                                    @elseif(!$activeHotel)
+                                        <p class="text-xs text-white/60">Choose a property to manage.</p>
                                     @endif
                                 </div>
                             </div>
@@ -278,32 +288,31 @@
                 </a>
             </div>
             <div class="mt-10 space-y-6">
-                <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-indigo-600 via-purple-600 to-sky-500 p-6 text-white shadow-xl shadow-indigo-900/30">
-                    <p class="text-sm uppercase tracking-widest text-white/70">Your portfolio</p>
-                    <p class="mt-3 text-3xl font-semibold text-white">{{ $hotels->count() }}</p>
-                    <p class="mt-2 text-sm text-white/70">Active properties connected to Enhance My Stay.</p>
-                    <a href="{{ route('hotel.create') }}" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-white/15 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/25">
-                        <i data-lucide="plus" class="w-4 h-4"></i>
-                        New property
-                    </a>
-                </div>
                 @if($hotels->isNotEmpty())
                     <div class="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner shadow-black/20">
                         <div class="flex items-start gap-3">
                             @if($activeHotel?->logo)
                                 <img src="{{ $activeHotel->logo }}" alt="{{ $activeHotel->name }} logo" class="h-12 w-12 rounded-xl object-cover ring-2 ring-white/30">
-                            @else
+                            @elseif($activeHotel)
                                 <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-lg font-semibold uppercase text-white/80">
-                                    {{ collect(explode(' ', $activeHotel?->name ?? ''))
+                                    {{ collect(explode(' ', $activeHotel->name ?? ''))
                                         ->map(fn($part) => substr($part, 0, 1))
                                         ->join('') ?: 'EM' }}
                                 </div>
+                            @else
+                                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-white/60">
+                                    <i data-lucide="building-2" class="h-6 w-6"></i>
+                                </div>
                             @endif
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-widest text-white/60">Managing</p>
+                                <p class="text-xs font-semibold uppercase tracking-widest text-white/60">
+                                    {{ $activeHotel ? 'Managing' : 'No property selected' }}
+                                </p>
                                 <p class="mt-1 text-lg font-semibold text-white">{{ $activeHotel?->name ?? 'Select a property' }}</p>
                                 @if($activeHotel?->address)
                                     <p class="text-xs text-white/60">{{ $activeHotel->address }}</p>
+                                @elseif(!$activeHotel)
+                                    <p class="text-xs text-white/60">Choose a property to manage.</p>
                                 @endif
                             </div>
                         </div>
