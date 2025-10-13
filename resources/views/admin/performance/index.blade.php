@@ -104,7 +104,7 @@
 
     <div class="space-y-10">
         <section class="rounded-3xl border border-white/10 bg-white/80 p-6 shadow-lg shadow-indigo-200/20 backdrop-blur">
-            <x-date-filter-bar :startDate="$startDate" :endDate="$endDate" class="gap-6" />
+            <x-date-filter-bar :startDate="$startDate" :endDate="$endDate" :quickRanges="$quickRanges" class="gap-6" />
         </section>
 
         <section class="space-y-6">
