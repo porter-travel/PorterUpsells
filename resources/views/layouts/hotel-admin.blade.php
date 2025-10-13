@@ -147,7 +147,7 @@
         <div class="absolute bottom-[-14rem] left-1/2 h-[26rem] w-[26rem] -translate-x-1/2 rounded-full bg-gradient-to-br from-purple-500/35 via-pink-400/25 to-transparent blur-3xl"></div>
     </div>
 
-    <div class="relative z-10 mx-auto flex min-h-screen w-full max-w-[1440px] flex-col px-4 py-6 text-slate-900 sm:px-6 lg:px-12">
+    <div class="relative z-10 mx-auto flex min-h-screen w-full flex-col px-4 py-6 text-slate-900 sm:px-6 lg:px-10">
         <div
             x-data="{ sidebarOpen: false }"
             class="flex min-h-[calc(100vh-3rem)] flex-1 overflow-hidden rounded-3xl border border-white/10 bg-white/15 shadow-[0_45px_120px_-60px_rgba(15,23,42,0.9)] backdrop-blur-2xl lg:flex-row"
@@ -290,8 +290,8 @@
                 </div>
             </header>
 
-            <main class="flex-1 overflow-y-auto bg-gradient-to-br from-white via-sky-50/80 to-indigo-50/70 px-4 py-10 sm:px-8 lg:px-12">
-                <div class="mx-auto w-full max-w-7xl space-y-10">
+            <main class="flex-1 overflow-y-auto bg-gradient-to-br from-white via-sky-50/80 to-indigo-50/70 px-4 py-10 sm:px-6 lg:px-10">
+                <div class="mx-auto w-full space-y-10">
                     @if($activeHotel)
                         <div class="flex flex-wrap items-center gap-4 rounded-3xl border border-indigo-100/60 bg-white/80 px-6 py-4 shadow-sm shadow-indigo-200/40">
                             <div class="flex items-center gap-3">
