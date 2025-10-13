@@ -16,7 +16,14 @@
             'label' => 'Products & Experiences',
             'icon' => 'sparkles',
             'href' => $hotel ? route('hotel.edit', ['id' => $hotel->id]) : route('hotel.create'),
-            'active' => request()->routeIs('hotel.edit'),
+            'active' => request()->routeIs('hotel.edit') || request()->routeIs('product.*'),
+            'disabled' => ! $hotel,
+        ],
+        [
+            'label' => 'Branding',
+            'icon' => 'paintbrush',
+            'href' => $hotel ? route('hotel.branding', ['id' => $hotel->id]) : route('hotel.create'),
+            'active' => request()->routeIs('hotel.branding'),
             'disabled' => ! $hotel,
         ],
         [

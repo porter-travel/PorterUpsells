@@ -61,16 +61,16 @@
                                 class="content absolute bg-mint w-full top-[20px] pt-12 pb-4 rounded-b-[20px] -z-10">
                                 <ul class="list-none">
                                     <li class="pl-12 border-b border-darkGrey py-2"><a
-                                            href="/admin/hotel/{{$hotel->id}}/product/create/standard">Standard
+                                            href="{{ route('product.create', ['id' => $hotel->id, 'type' => 'standard']) }}">Standard
                                             Product</a></li>
                                     <li class="pl-12 border-b border-darkGrey py-2">
-                                        <a href="/admin/hotel/{{$hotel->id}}/product/create/calendar">
+                                        <a href="{{ route('product.create', ['id' => $hotel->id, 'type' => 'calendar']) }}">
                                             Calendar Product
                                         </a>
                                     </li>
                                     @if($hotel->property_type == 'hotel')
                                         <li class="pl-12 border-b border-darkGrey py-2">
-                                            <a href="/admin/hotel/{{$hotel->id}}/product/create/restaurant">
+                                            <a href="{{ route('product.create', ['id' => $hotel->id, 'type' => 'restaurant']) }}">
                                             <span style="color: grey">Restaurant
                                             Booking (coming soon)</span>
                                             </a>
@@ -87,7 +87,6 @@
                 </div>
 
             </div>
-            @include('admin.hotel.partials.property-details')
         </div>
     </div>
 

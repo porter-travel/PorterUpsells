@@ -23,6 +23,16 @@
                 </div>
             </div>
 
+            @if(isset($hotels) && $hotels->count())
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="space-y-8">
+                        @foreach($hotels as $hotel)
+                            @include('profile.partials.update-hotel-integrations-form', ['hotel' => $hotel])
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     @include('profile.partials.update-password-form')
