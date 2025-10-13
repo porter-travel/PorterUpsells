@@ -191,66 +191,7 @@
                         </a>
                     @endforeach
                 </nav>
-                @if($hotels->isNotEmpty())
-                    <div class="px-4 pb-6">
-                        <div class="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner shadow-black/20">
-                            <p class="text-xs font-semibold uppercase tracking-widest text-white/60">
-                                {{ $activeHotel ? 'Managing' : 'No property selected' }}
-                            </p>
-                            <div class="mt-3 flex items-center gap-3">
-                                @if($activeHotel?->logo)
-                                    <img src="{{ $activeHotel->logo }}" alt="{{ $activeHotel->name }} logo" class="h-10 w-10 rounded-xl object-cover ring-2 ring-white/30">
-                                @elseif($activeHotel)
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-sm font-semibold uppercase text-white/80">
-                                        {{ collect(explode(' ', $activeHotel->name ?? ''))
-                                            ->map(fn($part) => substr($part, 0, 1))
-                                            ->join('') ?: 'EM' }}
-                                    </div>
-                                @else
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-white/60">
-                                        <i data-lucide="building-2" class="h-5 w-5"></i>
-                                    </div>
-                                @endif
-                                <div>
-                                    <p class="text-sm font-semibold text-white">{{ $activeHotel?->name ?? 'Select a property' }}</p>
-                                    @if($activeHotel?->address)
-                                        <p class="text-xs text-white/60">{{ $activeHotel->address }}</p>
-                                    @elseif(!$activeHotel)
-                                        <p class="text-xs text-white/60">Choose a property to manage.</p>
-                                    @endif
-                                </div>
-                            </div>
-                            @if($hotels->count() > 1)
-                                <div x-data class="mt-5 space-y-2">
-                                    <label for="mobile-hotel-switch" class="text-xs font-semibold uppercase tracking-widest text-white/60">Switch property</label>
-                                    <div class="relative">
-                                        <select
-                                            id="mobile-hotel-switch"
-                                            @change="if($event.target.value) { window.location.href = $event.target.value }"
-                                            class="w-full appearance-none rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white/90 transition hover:border-white/20 focus:border-white/30 focus:outline-none"
-                                        >
-                                            <option value="" disabled {{ $activeHotel ? '' : 'selected' }}>Select a property</option>
-                                            @foreach($hotels as $switchHotel)
-                                                @php
-                                                    $switchUrl = $buildHotelSwitchUrl($switchHotel->id);
-                                                @endphp
-                                                <option
-                                                    value="{{ $switchUrl }}"
-                                                    {{ $switchHotel->id === $activeHotel?->id ? 'selected' : '' }}
-                                                >
-                                                    {{ $switchHotel->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-white/60">
-                                            <i data-lucide="chevron-down" class="h-4 w-4"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                @endif
+                {{-- Property details removed from mobile sidebar per request --}}
                 <div class="px-6 pb-6">
                     <a
                         href="{{ route('hotel.create') }}"
@@ -272,66 +213,7 @@
                     <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay" class="h-9">
                 </a>
             </div>
-            <div class="mt-10 space-y-6">
-                @if($hotels->isNotEmpty())
-                    <div class="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-inner shadow-black/20">
-                        <div class="flex items-start gap-3">
-                            @if($activeHotel?->logo)
-                                <img src="{{ $activeHotel->logo }}" alt="{{ $activeHotel->name }} logo" class="h-12 w-12 rounded-xl object-cover ring-2 ring-white/30">
-                            @elseif($activeHotel)
-                                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-lg font-semibold uppercase text-white/80">
-                                    {{ collect(explode(' ', $activeHotel->name ?? ''))
-                                        ->map(fn($part) => substr($part, 0, 1))
-                                        ->join('') ?: 'EM' }}
-                                </div>
-                            @else
-                                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-white/60">
-                                    <i data-lucide="building-2" class="h-6 w-6"></i>
-                                </div>
-                            @endif
-                            <div>
-                                <p class="text-xs font-semibold uppercase tracking-widest text-white/60">
-                                    {{ $activeHotel ? 'Managing' : 'No property selected' }}
-                                </p>
-                                <p class="mt-1 text-lg font-semibold text-white">{{ $activeHotel?->name ?? 'Select a property' }}</p>
-                                @if($activeHotel?->address)
-                                    <p class="text-xs text-white/60">{{ $activeHotel->address }}</p>
-                                @elseif(!$activeHotel)
-                                    <p class="text-xs text-white/60">Choose a property to manage.</p>
-                                @endif
-                            </div>
-                        </div>
-                        @if($hotels->count() > 1)
-                            <div x-data class="mt-5 space-y-2">
-                                <label for="desktop-hotel-switch" class="text-xs font-semibold uppercase tracking-widest text-white/60">Switch property</label>
-                                <div class="relative">
-                                    <select
-                                        id="desktop-hotel-switch"
-                                        @change="if($event.target.value) { window.location.href = $event.target.value }"
-                                        class="w-full appearance-none rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white/90 transition hover:border-white/20 focus:border-white/30 focus:outline-none"
-                                    >
-                                        <option value="" disabled {{ $activeHotel ? '' : 'selected' }}>Select a property</option>
-                                        @foreach($hotels as $switchHotel)
-                                            @php
-                                                $switchUrl = $buildHotelSwitchUrl($switchHotel->id);
-                                            @endphp
-                                            <option
-                                                value="{{ $switchUrl }}"
-                                                {{ $switchHotel->id === $activeHotel?->id ? 'selected' : '' }}
-                                            >
-                                                {{ $switchHotel->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-white/60">
-                                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                @endif
-            </div>
+            {{-- Property details removed from desktop sidebar per request --}}
             <nav class="mt-10 flex-1 space-y-1">
                 @foreach($navigation ?? [] as $item)
                     <a
