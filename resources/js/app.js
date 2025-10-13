@@ -9,6 +9,7 @@ import './resdiary-functions.js'
 import './calendar-product-functions.js'
 import './date-picker-functions.js'
 import './variation-change.js'
+import './calendar-page.jsx'
 import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;

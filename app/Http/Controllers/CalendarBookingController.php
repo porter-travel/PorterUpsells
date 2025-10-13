@@ -21,9 +21,7 @@ class CalendarBookingController extends Controller
             return redirect()->route('dashboard');
         }
 
-//        global $startDate, $endDate;
         $startDate = Carbon::now()->startOfDay();
-
         $endDate = Carbon::now()->addDays(7)->endOfDay();
 
         if ($request->has('start_date') && $request->has('end_date')) {
@@ -31,51 +29,95 @@ class CalendarBookingController extends Controller
             $endDate = Carbon::createFromFormat('Y-m-d', $request->input('end_date'));
         }
 
+        $bookingService = new CalendarBookingService();
+        $bookings = $bookingService->getCalendarBookings($hotel, $request);
+        $processedBookings = $bookingService->processBookingsIntoGroups($bookings->toArray());
 
-        $output = CalendarBooking::where('hotel_id', $hotel_id)
-            ->whereDate('date', '>=', $startDate->toDateString())
-            ->whereDate('date', '<=', $endDate->toDateString())
-            ->with(['order', 'order.items', 'order.items.product', 'order.items.meta'])
+        $products = $hotel->products()
+            ->where('type', 'calendar')
+            ->with('specifics')
             ->get();
 
-//dd($output);
-        $groupedBookings = [];
+        $productPalette = [
+            '#3b82f6',
+            '#10b981',
+            '#f97316',
+            '#8b5cf6',
+            '#ec4899',
+            '#14b8a6',
+            '#facc15',
+            '#6366f1',
+        ];
 
-        foreach ($output as $booking) {
-            $bookingDate = $booking['date'];
+        $productMeta = $products->values()->map(function ($product, $index) use ($productPalette) {
+            $capacitySpecific = $product->specifics
+                ->firstWhere('name', 'concurrent_availability');
 
-            // Ensure the date exists in the grouped array
-            if (!isset($groupedBookings[$bookingDate])) {
-                $groupedBookings[$bookingDate] = [];
-            }
+            $capacity = $capacitySpecific?->value;
 
-            foreach ($booking['order']['items'] as $item) {
-                // Extract meta information
-                $meta = [];
-                foreach ($item['meta'] as $metaItem) {
-                    $meta[$metaItem['key']] = $metaItem['value'];
-                }
+            return [
+                'id' => (string) $product->id,
+                'name' => $product->name,
+                'capacity' => $capacity !== null ? (int) $capacity : null,
+                'color' => $productPalette[$index % count($productPalette)],
+            ];
+        })->values();
 
-                // Add the item to the grouped bookings
-                $groupedBookings[$bookingDate][$item['id']] = [
-                    'name' => $booking['order']['name'],
-                    'product_name' => $item['product_name'],
-                    'quantity' => $item['quantity'],
-                    'arrival_time' => $meta['arrival_time'] ?? null,
-                    'end_time' => $meta['end_time'] ?? null,
+        $productsById = $productMeta
+            ->mapWithKeys(fn($product) => [$product['id'] => $product])
+            ->toArray();
+
+        $events = collect($processedBookings)
+            ->filter(fn($booking) => empty($booking['parent_booking_id']))
+            ->map(function ($booking) use ($productsById) {
+                $productId = (string) ($booking['product_id'] ?? '');
+                $productName = $booking['product']['name'] ?? ($productsById[$productId]['name'] ?? 'Calendar Product');
+
+                $guestName = $booking['name'] ?? '';
+                $roomNumber = $booking['room_number'] ?? null;
+                $isBlocked = $guestName === '__block__';
+
+                $startTime = Carbon::parse($booking['date'] . ' ' . ($booking['start_time'] ?? '00:00:00'));
+                $endTime = $booking['end_time']
+                    ? Carbon::parse($booking['date'] . ' ' . $booking['end_time'])
+                    : (clone $startTime)->addHour();
+
+                $titleGuest = $isBlocked
+                    ? 'Unavailable'
+                    : trim($guestName ?: 'Guest');
+
+                $titleRoom = $roomNumber ? ' (Room ' . $roomNumber . ')' : '';
+
+                return [
+                    'id' => $booking['id'],
+                    'product_id' => $productId,
+                    'product_name' => $productName,
+                    'guest_name' => $guestName,
+                    'room_number' => $roomNumber,
+                    'email' => $booking['email'] ?? null,
+                    'phone' => $booking['mobile'] ?? null,
+                    'start' => $startTime->toIso8601String(),
+                    'end' => $endTime->toIso8601String(),
+                    'title' => $productName . ' - ' . ($titleGuest ?: 'Booking') . $titleRoom,
+                    'is_blocked' => $isBlocked,
+                    'bookings_count' => $booking['bookings_count'] ?? 1,
                 ];
-            }
-        }
+            })
+            ->values()
+            ->toArray();
 
-//        dd($groupedBookings);
+        $calendarData = [
+            'events' => $events,
+            'products' => $productMeta->toArray(),
+            'defaultDate' => $startDate->toIso8601String(),
+        ];
 
-        return view('admin.calendar.list',
-            [
-                'orders' => $groupedBookings,
-                'hotel' => $hotel,
-                'startDate' => $startDate->format('Y-m-d'),
-                'endDate' => $endDate->format('Y-m-d')
-            ]);
+        return view('admin.calendar.list', [
+            'hotel' => $hotel,
+            'calendarData' => $calendarData,
+            'startDate' => $startDate->format('Y-m-d'),
+            'endDate' => $endDate->format('Y-m-d'),
+        ]);
     }
 
     public function listProductGrid($hotel_id, Request $request)
