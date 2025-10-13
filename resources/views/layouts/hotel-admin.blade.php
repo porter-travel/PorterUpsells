@@ -83,7 +83,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Enhance My Stay' }}</title>
-    <link rel="icon" type="image/x-icon" href="{{ $favicon ?? '/img/hank.png' }}">
+    <link rel="icon" type="image/x-icon" href="{{ $favicon ?? asset('favicon.ico') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=grandstander:700,900|open-sans:400,700,800,900" rel="stylesheet"/>
