@@ -1,13 +1,13 @@
 @if(count($products) > 0)
     <ul class="sortable-list space-y-4">
         @foreach($products as $key => $product)
-            <li data-product-id="{{ $product->id }}" class="sortable-item group flex w-full items-stretch gap-3 rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
-                <div draggable="true" class="handle flex items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-3 text-slate-400 transition group-hover:border-indigo-200 group-hover:text-indigo-500">
+            <li data-product-id="{{ $product->id }}" class="sortable-item group flex w-full items-center gap-3 rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+                <div draggable="true" class="handle flex items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-slate-400 transition group-hover:border-indigo-200 group-hover:text-indigo-500">
                     <i data-lucide="grip-vertical" class="h-6 w-6"></i>
                 </div>
                 <div class="flex flex-grow flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <a class="flex flex-1 items-center gap-4" href="/admin/hotel/{{ $hotel->id }}/product/{{ $product->id }}/edit">
-                        <div class="h-20 w-24 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
+                        <div class="h-20 w-24 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 p-2">
                             @include('hotel.partials.product-image', ['item' => $product])
                         </div>
                         <div class="space-y-2">
