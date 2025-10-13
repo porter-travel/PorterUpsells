@@ -33,66 +33,72 @@
     </x-slot>
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div class="flex items-center justify-between">
-                        <form method="get">
-                            <p class="font-bold pb-2">Date</p>
-                            <div class="flex items-center justify-center pb-12">
-                                <a href="?date={{$yesterday}}"><svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M-2.40413e-07 5.5L6 11L6 0L-2.40413e-07 5.5Z" fill="black"/>
+            <div class="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-xl">
+                <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-8 text-slate-100">
+                    <div class="flex flex-col gap-6 pb-6 md:flex-row md:items-end md:justify-between">
+                        <form method="get" class="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-inner backdrop-blur">
+                            <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-300">Date</p>
+                            <div class="mt-3 flex items-center gap-4">
+                                <a href="?date={{$yesterday}}" class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:border-white/30 hover:bg-white/10">
+                                    <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition group-hover:scale-110">
+                                        <path d="M-2.40413e-07 5.5L6 11L6 0L-2.40413e-07 5.5Z" fill="currentColor"/>
                                     </svg>
                                 </a>
-                                <div class="mx-4">
-                                    <label><span class=" sr-only block">Date</span>
-                                        <input id="calendarDatePicker" onchange="this.form.submit();" type="date" name="date" value="{{$date}}"></label>
+                                <div>
+                                    <label class="sr-only block" for="calendarDatePicker">Date</label>
+                                    <input id="calendarDatePicker" onchange="this.form.submit();" type="date" name="date" value="{{$date}}" class="h-10 rounded-xl border border-white/20 bg-white/10 px-4 text-sm font-semibold text-white shadow-inner outline-none transition focus:border-white focus:bg-white/20">
                                 </div>
-                                <a href="?date={{$tomorrow}}"><svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 5.5L-4.80825e-07 0L0 11L6 5.5Z" fill="black"/>
+                                <a href="?date={{$tomorrow}}" class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:border-white/30 hover:bg-white/10">
+                                    <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition group-hover:scale-110">
+                                        <path d="M6 5.5L-4.80825e-07 0L0 11L6 5.5Z" fill="currentColor"/>
                                     </svg>
                                 </a>
                             </div>
                         </form>
 
-                        <div>
-
-
+                        <div class="flex flex-col gap-4 text-right text-sm text-slate-300">
+                            <span class="text-xs uppercase tracking-widest text-slate-400">Legend</span>
+                            <div class="flex flex-wrap items-center justify-end gap-3">
+                                <span class="inline-flex items-center gap-2 rounded-full bg-emerald-400/10 px-3 py-1 text-emerald-200"><span class="h-2 w-2 rounded-full bg-emerald-400"></span> Available</span>
+                                <span class="inline-flex items-center gap-2 rounded-full bg-sky-400/10 px-3 py-1 text-sky-200"><span class="h-2 w-2 rounded-full bg-sky-400"></span> New booking</span>
+                                <span class="inline-flex items-center gap-2 rounded-full bg-rose-400/10 px-3 py-1 text-rose-200"><span class="h-2 w-2 rounded-full bg-rose-400"></span> Blocked</span>
+                            </div>
                         </div>
-
-
                     </div>
-                    <div class="flex h-[85vh] relative">
+                    <div class="relative rounded-[28px] border border-white/10 bg-white/5 shadow-[0_40px_120px_-40px_rgba(15,23,42,0.8)]">
+                        <div class="absolute inset-0 rounded-[28px] border border-white/5"></div>
+                        <div class="relative flex h-[80vh] overflow-hidden rounded-[28px]">
 
                         @if($availableTimes)
-                            <div style="width: {{(count($availableTimes) * 16.66667)}}%" class="absolute  px-2 py-1 top-0 -translate-y-full bg-grey rounded-tl-2xl border-l border-r border-t border-darkGrey">
+                            <div style="width: {{(count($availableTimes) * 16.66667)}}%" class="absolute left-[8.33333%] top-0 z-10 -translate-y-full rounded-t-3xl border border-b-0 border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-slate-200 backdrop-blur">
                                 Times
                             </div>
                         <div
-                            class="h-[85vh] border border-darkGrey rounded-bl-2xl overflow-hidden basis-1/12 bg-[#f7f7f7] px-1">
+                            class="relative z-0 flex h-full basis-1/12 flex-col overflow-hidden rounded-bl-3xl border border-r border-white/10 bg-slate-950/40 px-2 backdrop-blur">
                             @foreach($availableTimes[0] as $key => $slot)
                                 @if($key != 0)
                                     <div
                                         style="top: {{(100 / count($availableTimes[0])) * ($key)}}%; width: {{(count($availableTimes) * 16.66667)}}%; left: 8.33333%"
-                                        class=" absolute  border-b border-darkGrey"></div>
+                                        class="absolute border-t border-white/5"></div>
                                 @endif
                                 <div class="relative w-full" style="height: {{100 / count($availableTimes[0])}}%">
-                                    <p class="text-center pt-2 font-bold">{{$slot['time']}}</p>
+                                    <p class="pt-6 text-center text-xs font-semibold uppercase tracking-[0.3em] text-slate-300">{{$slot['time']}}</p>
                                 </div>
                             @endforeach
                         </div>
                         @foreach($availableTimes as $key => $availability)
 
-                            <div class="h-[85vh] w-1/6 basis-1/6 relative">
-                                <div @if($key == array_key_first($availableTimes)) style="box-shadow: -1px 0 0 #000;" @endif class="absolute px-2 py-1 top-0 -translate-y-full  bg-grey w-full  border-r border-t border-darkGrey  @if($key == array_key_last($availableTimes)) rounded-tr-2xl @else  @endif">
+                            <div class="relative h-full w-1/6 basis-1/6">
+                                <div class="absolute top-0 z-10 -translate-y-full w-full rounded-t-3xl border border-b-0 border-white/10 bg-white/10 px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.3em] text-slate-200 backdrop-blur">
                                     Slot {{$key + 1}}
                                 </div>
                                 <div
-                                    class="h-full border border-darkGrey border-l-0 flex flex-col items-start justify-between @if($key == array_key_last($availableTimes)) rounded-br-2xl @endif">
+                                    class="flex h-full flex-col justify-between border border-l-0 border-white/10 bg-gradient-to-b from-slate-900/60 via-slate-900/30 to-slate-900/60 p-2 @if($key == array_key_last($availableTimes)) rounded-br-3xl @endif">
                                     @foreach($availability as $slotKey => $slot)
                                         @if($slot['booking'] && $slot['booking']['parent_booking_id'])
                                             @continue
                                         @endif
-                                        <div class="relative w-full cursor-pointer "
+                                        <div class="group relative w-full cursor-pointer"
                                              style="height: {{(100 / count($availableTimes[0])) * ($slot['booking'] ? $slot['booking']['bookings_count'] : 1)}}%">
 
                                             @if(!empty($slot['booking']))
@@ -105,23 +111,22 @@
                                                     data-room="{{$slot['booking']['room_number']}}"
                                                     data-email="{{$slot['booking']['email']}}"
                                                     data-phone="{{$slot['booking']['mobile']}}"
-                                                    class="h-full p-1 mx-1 modifyModalBookingTrigger">
+                                                    class="mx-1 flex h-full items-stretch rounded-2xl border border-white/10 bg-white/5 p-1 shadow-lg ring-1 ring-black/10 transition hover:scale-[1.01] hover:border-white/30 hover:bg-white/10 modifyModalBookingTrigger">
                                                     @if($slot['booking']['name'] == '__block__')
 
-                                                        <div class="mx-2 h-full bg-pink rounded-lg p-2 overflow-hidden">
-                                                            <p class="text-sm open-sans">BLOCK</p>
-                                                            <p>{{substr($slot['booking']['start_time'], 0, -3)}}
+                                                        <div class="flex h-full w-full flex-col justify-between rounded-xl bg-rose-500/20 p-3 text-left">
+                                                            <p class="text-xs font-semibold uppercase tracking-wide text-rose-200">Block</p>
+                                                            <p class="text-sm font-medium text-rose-100">{{substr($slot['booking']['start_time'], 0, -3)}}
                                                                 - {{substr($slot['booking']['end_time'], 0, -3)}}</p>
                                                         </div>
                                                     @else
 
-                                                        <div class="mx-2 h-full bg-lightBlue rounded-lg p-2 overflow-hidden">
-                                                            <p class="text-sm open-sans">{{$slot['booking']['name']}}</p>
+                                                        <div class="flex h-full w-full flex-col justify-between rounded-xl bg-sky-500/20 p-3 text-left text-slate-100">
+                                                            <p class="text-sm font-semibold">{{$slot['booking']['name']}}</p>
                                                             @if($slot['booking']['room_number'])
-                                                                <p class="text-xs">
-                                                                    Room: {{$slot['booking']['room_number']}}</p>
+                                                                <p class="text-xs text-slate-200/80">Room: {{$slot['booking']['room_number']}}</p>
                                                             @endif
-                                                            <p>{{substr($slot['booking']['start_time'], 0, -3)}}
+                                                            <p class="text-xs font-medium tracking-wide text-slate-200">{{substr($slot['booking']['start_time'], 0, -3)}}
                                                                 - {{substr($slot['booking']['end_time'], 0, -3)}}</p>
                                                         </div>
                                                     @endif
@@ -130,11 +135,11 @@
 
                                                 <div data-time="{{$slot['time']}}"
                                                      data-slot="{{$key}}"
-                                                     class="h-full p-1 mx-1 opacity-0 hover:opacity-50 newModalBookingTrigger">
-                                                    <div class="mx-2 h-full bg-lightBlue rounded-lg p-2">
-                                                        <svg class="w-full h-full object-contain" viewBox="0 0 512 512">
-                                                            <path fill="#fff"
-                                                                  d="M417.4,224H288V94.6c0-16.9-14.3-30.6-32-30.6c-17.7,0-32,13.7-32,30.6V224H94.6C77.7,224,64,238.3,64,256  c0,17.7,13.7,32,30.6,32H224v129.4c0,16.9,14.3,30.6,32,30.6c17.7,0,32-13.7,32-30.6V288h129.4c16.9,0,30.6-14.3,30.6-32  C448,238.3,434.3,224,417.4,224z"/>
+                                                     class="mx-1 flex h-full items-center justify-center rounded-2xl border border-dashed border-slate-500/40 bg-slate-900/30 p-1 text-slate-400 transition hover:border-sky-400/60 hover:bg-sky-500/10 hover:text-sky-100 newModalBookingTrigger">
+                                                    <div class="flex h-full w-full items-center justify-center rounded-xl border border-dashed border-inherit bg-gradient-to-br from-slate-900/40 to-slate-900/20 p-2">
+                                                        <svg class="h-6 w-6" viewBox="0 0 512 512">
+                                                            <path fill="currentColor"
+                                                                  d="M417.4,224H288V94.6c0-16.9-14.3-30.6-32-30.6c-17.7,0-32,13.7-32,30.6V224H94.6C77.7,224,64,238.3,64,256c0,17.7,13.7,32,30.6,32H224v129.4c0,16.9,14.3,30.6,32,30.6c17.7,0,32-13.7,32-30.6V288h129.4c16.9,0,30.6-14.3,30.6-32C448,238.3,434.3,224,417.4,224z"/>
                                                         </svg>
                                                     </div>
                                                 </div>
@@ -147,100 +152,110 @@
                             </div>
 
                         @endforeach
-@else
-    <div class="w-full text-center">
-        <p>No bookings available for this product on this date</p>
-    </div>
-                            @endif
+                        @else
+                            <div class="flex h-full w-full items-center justify-center bg-slate-900/40">
+                                <p class="rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-slate-200 shadow">No bookings available for this product on this date.</p>
+                            </div>
+                        @endif
+                        </div>
+
+
                     </div>
-
-
                 </div>
             </div>
         </div>
     </div>
 
 
-    <div id="newBookingModalContainer" class="hidden fixed z-10 inset-0 overflow-y-auto">
-        <div class="bg-black opacity-50 absolute inset-0"></div>
-        <div class="bg-white top-[50px] left-1/2 fixed transform -translate-x-1/2 w-1/2 p-4 rounded-lg shadow-lg overflow-auto max-h-[80vh]">
-            <div class="flex justify-between">
-                <h2 class="text-xl font-bold mb-6"><span id="modal_title_verb">New</span> Booking for {{$product->name}}
-                </h2>
-                <button class=" closeNewBookingModal text-xl font-bold">&times;</button>
+    <div id="newBookingModalContainer" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur"></div>
+        <div class="fixed inset-x-0 top-16 z-50 mx-auto w-full max-w-3xl overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white via-slate-50 to-white shadow-[0_40px_120px_-20px_rgba(15,23,42,0.75)]">
+            <div class="flex items-start justify-between border-b border-slate-200/70 bg-white/60 px-6 py-5 backdrop-blur">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">{{$product->name}}</p>
+                    <h2 class="mt-1 text-2xl font-semibold text-slate-900"><span id="modal_title_verb">New</span> Booking</h2>
+                </div>
+                <button type="button" class="closeNewBookingModal inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow hover:text-slate-900">
+                    <span class="sr-only">Close</span>
+                    &times;
+                </button>
             </div>
-            <form method="post"
-                  id="calendar-booking-form"
-                  data-store-action="{{route('calendar.store-booking', ['hotel_id' => $hotel->id, 'product_id' => $product->id])}}"
-                  data-update-action="{{route('calendar.update-booking')}}"
-            >
-                @csrf
-                <input type="hidden" name="product_id" value="{{$product->id}}">
-                <input type="hidden" name="date" value="{{$date}}">
-                <input type="hidden" name="slot" value="">
-                <input type="hidden" name="booking_id" value="">
-
-                <div class="flex justify-start mb-2">
-                    <div class="basis-1/2 pr-4">
-                        <x-input-label for="start_time">Start Time</x-input-label>
-                        <x-text-input disabled id="start_time_fake"/>
-                        <select id="start_time_select"
-                                class="border-[#C4C4C4] focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
-                            <option value="">Select</option>
-                        </select>
-                        <input type="hidden" name="start_time" id="start_time"/>
-                    </div>
-                    <div class="basis-1/2 pl-4">
-                        <x-input-label for="end_time">End Time</x-input-label>
-                        <select name="end_time" id="end_time"
-                                class="border-[#C4C4C4] focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full">
-                            <option value="">Select</option>
-                        </select>
-                        <x-text-input disabled id="end_time_fake"/>
-                    </div>
-                </div>
-                <div class="flex flex-col mb-2">
-                    <x-fancy-checkbox id="make_unavailable" name="make_unavailable"
-                                      label="Mark as Unavailable"></x-fancy-checkbox>
-                </div>
-                <div id="form-fields">
-                    <div class="flex flex-col mb-2">
-                        <x-input-label for="name">Name</x-input-label>
-                        <x-text-input required type="text" name="name" id="name"/>
-                    </div>
-                    <div class="flex flex-col mb-2">
-                        <x-input-label for="room">Room Number</x-input-label>
-                        <x-text-input type="text" name="room" id="room"/>
-                    </div>
-                    <div class="flex flex-col mb-2">
-                        <x-input-label for="email">Email</x-input-label>
-                        <x-text-input type="email" name="email" id="email"/>
-                    </div>
-                    <div class="flex flex-col mb-2">
-                        <x-input-label for="phone">Mobile Number</x-input-label>
-                        <x-text-input type="tel" name="phone" id="phone"/>
-                    </div>
-                </div>
-                <div id="confirmation-message" class="hidden mb-2 text-red-600 font-bold">
-                    Confirming this booking will prevent other people from booking this slot at this time.
-                </div>
-                <div class="flex justify-between">
-                    <x-primary-button id="store-button" type="submit" class="bg-green-500 text-white rounded-lg p-2">
-                        Save
-                    </x-primary-button>
-                    <x-danger-button type="button" id="deleteBooking" class="hidden ">Delete</x-danger-button>
-                </div>
-            </form>
-            <form method="post" id="deleteForm" class="hidden" action="{{route('calendar.delete-booking')}}">
-                @csrf
-                <div class="bg-pink my-4 rounded p-4">
-                    <h3 class="text-xl">Are you sure you would like to delete this booking?</h3>
-                    <p>This action cannot be undone and will cause the booking to be permanently deleted</p>
+            <div class="max-h-[70vh] overflow-y-auto bg-white px-6 py-6">
+                <form method="post"
+                      id="calendar-booking-form"
+                      class="space-y-6"
+                      data-store-action="{{route('calendar.store-booking', ['hotel_id' => $hotel->id, 'product_id' => $product->id])}}"
+                      data-update-action="{{route('calendar.update-booking')}}"
+                >
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{$product->id}}">
+                    <input type="hidden" name="date" value="{{$date}}">
+                    <input type="hidden" name="slot" value="">
                     <input type="hidden" name="booking_id" value="">
-                    <x-danger-button type="submit">Delete Permanently</x-danger-button>
-                </div>
 
-            </form>
+                    <div class="grid gap-6 md:grid-cols-2">
+                        <div class="space-y-2">
+                            <x-input-label class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500" for="start_time">Start Time</x-input-label>
+                            <x-text-input disabled id="start_time_fake" class="rounded-2xl border-slate-200 bg-slate-50 text-slate-700"/>
+                            <select id="start_time_select"
+                                    class="hidden h-12 w-full rounded-2xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-200">
+                                <option value="">Select</option>
+                            </select>
+                            <input type="hidden" name="start_time" id="start_time"/>
+                        </div>
+                        <div class="space-y-2">
+                            <x-input-label class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500" for="end_time">End Time</x-input-label>
+                            <select name="end_time" id="end_time"
+                                    class="h-12 w-full rounded-2xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-200">
+                                <option value="">Select</option>
+                            </select>
+                            <x-text-input disabled id="end_time_fake" class="rounded-2xl border-slate-200 bg-slate-50 text-slate-700"/>
+                        </div>
+                    </div>
+                    <div class="rounded-2xl border border-slate-200/70 bg-slate-50/80 p-4">
+                        <x-fancy-checkbox id="make_unavailable" name="make_unavailable"
+                                          label="Mark as Unavailable"></x-fancy-checkbox>
+                        <p id="confirmation-message" class="mt-3 hidden rounded-xl border border-amber-200/70 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-700">
+                            Confirming this booking will prevent other people from booking this slot at this time.
+                        </p>
+                    </div>
+                    <div id="form-fields" class="grid gap-4 md:grid-cols-2">
+                        <div class="flex flex-col gap-2">
+                            <x-input-label class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500" for="name">Name</x-input-label>
+                            <x-text-input required type="text" name="name" id="name" class="rounded-2xl border-slate-200 bg-white text-slate-900"/>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <x-input-label class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500" for="room">Room Number</x-input-label>
+                            <x-text-input type="text" name="room" id="room" class="rounded-2xl border-slate-200 bg-white text-slate-900"/>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <x-input-label class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500" for="email">Email</x-input-label>
+                            <x-text-input type="email" name="email" id="email" class="rounded-2xl border-slate-200 bg-white text-slate-900"/>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <x-input-label class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500" for="phone">Mobile Number</x-input-label>
+                            <x-text-input type="tel" name="phone" id="phone" class="rounded-2xl border-slate-200 bg-white text-slate-900"/>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                        <div class="text-xs text-slate-400">All bookings are instantly synced with your availability grid.</div>
+                        <div class="flex items-center gap-3">
+                            <x-danger-button type="button" id="deleteBooking" class="hidden rounded-2xl px-6 py-2">Delete</x-danger-button>
+                            <x-primary-button id="store-button" type="submit" class="rounded-2xl px-6 py-2">Save</x-primary-button>
+                        </div>
+                    </div>
+                </form>
+                <form method="post" id="deleteForm" class="mt-6 hidden" action="{{route('calendar.delete-booking')}}">
+                    @csrf
+                    <div class="rounded-2xl border border-rose-200/70 bg-rose-50 px-6 py-5">
+                        <h3 class="text-lg font-semibold text-rose-700">Delete this booking?</h3>
+                        <p class="mt-2 text-sm text-rose-600">This action cannot be undone and will cause the booking to be permanently deleted.</p>
+                        <input type="hidden" name="booking_id" value="">
+                        <x-danger-button type="submit" class="mt-4 rounded-2xl px-6 py-2">Delete Permanently</x-danger-button>
+                    </div>
+
+                </form>
+            </div>
 
         </div>
 
