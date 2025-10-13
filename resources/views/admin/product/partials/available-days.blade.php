@@ -3,7 +3,7 @@
 @endphp
 
 @if($type === 'calendar')
-    <div class="space-y-6">
+    <div class="space-y-6 lg:col-span-2">
         <div>
             <h4 class="text-lg font-semibold text-slate-900">Scheduling</h4>
             <p class="text-sm text-slate-500">Define how many bookings can run concurrently and the interval between sessions.</p>
@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <div class="overflow-hidden rounded-2xl border border-slate-200">
+        <div class="mt-6 overflow-hidden rounded-2xl border border-slate-200">
             <div class="grid grid-cols-1 gap-3 bg-slate-50 p-4 text-xs font-semibold uppercase tracking-widest text-slate-500 sm:grid-cols-3">
                 <span>Available day</span>
                 <span class="hidden sm:block">Start time</span>
@@ -120,7 +120,7 @@
         });
     </script>
 @else
-    <div class="space-y-4">
+    <div class="space-y-4 lg:col-span-2">
         <div>
             <h4 class="text-lg font-semibold text-slate-900">Available days</h4>
             <p class="text-sm text-slate-500">Choose the days when this experience can be booked.</p>
