@@ -15,31 +15,31 @@
                     Manage your spaces, track performance, and create seamless interactions — all from one powerful dashboard.
                 </p>
             </div>
-            <div class="grid w-full max-w-xl grid-cols-2 gap-4 sm:grid-cols-3">
-                <div class="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm backdrop-blur">
+            <div class="grid w-full max-w-xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur sm:p-5">
                     <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400">
                         Properties
                         <i data-lucide="building-2" class="h-4 w-4 text-slate-300"></i>
                     </div>
-                    <p class="mt-4 text-2xl font-semibold text-slate-900">{{ $hotelsCollection->count() }}</p>
+                    <p class="mt-4 text-xl font-semibold text-slate-900 sm:text-2xl">{{ $hotelsCollection->count() }}</p>
                 </div>
-                <div class="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm backdrop-blur">
+                <div class="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur sm:p-5">
                     <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400">
                         Stripe status
                         <i data-lucide="credit-card" class="h-4 w-4 text-slate-300"></i>
                     </div>
-                    <p class="mt-4 text-2xl font-semibold {{ $user->stripe_account_active ? 'text-emerald-600' : 'text-amber-500' }}">
+                    <p class="mt-4 text-xl font-semibold {{ $user->stripe_account_active ? 'text-emerald-600' : 'text-amber-500' }} sm:text-2xl">
                         {{ $user->stripe_account_active ? 'Active' : 'Pending' }}
                     </p>
                 </div>
-                <a href="{{ route('hotel.create') }}" class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                <a href="{{ route('hotel.create') }}" class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:p-5">
                     <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400">
                         Quick action
                         <i data-lucide="sparkles" class="h-4 w-4 text-indigo-400"></i>
                     </div>
-                    <div class="mt-4 flex items-center justify-between text-2xl font-semibold text-indigo-600">
+                    <div class="mt-4 flex items-center justify-between text-xl font-semibold text-indigo-600 sm:text-2xl">
                         Add property
-                        <i data-lucide="arrow-up-right" class="h-5 w-5 text-indigo-500 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+                        <i data-lucide="arrow-up-right" class="h-5 w-5 text-indigo-500 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 sm:h-6 sm:w-6"></i>
                     </div>
                     <div class="pointer-events-none absolute inset-0 -z-10 opacity-0 transition group-hover:opacity-100">
                         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-violet-500"></div>
