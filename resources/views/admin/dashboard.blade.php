@@ -9,10 +9,10 @@
             <div>
                 <p class="text-sm font-semibold uppercase tracking-widest text-slate-500">Welcome back</p>
                 <h1 class="mt-2 text-3xl font-semibold text-slate-900 sm:text-4xl">
-                    {{ $user->name ?? 'Admin User' }}, let’s continue building unforgettable guest experiences.
+                    {{ $user->name ?? 'Admin User' }}
                 </h1>
                 <p class="mt-3 max-w-2xl text-sm text-slate-500">
-                    Manage your spaces, track performance, and create seamless interactions — all from one powerful dashboard.
+                    Manage your properties, track performance, and create seamless interactions — all from one powerful dashboard.
                 </p>
             </div>
             <div class="grid w-full max-w-xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
