@@ -54,6 +54,13 @@
             'disabled' => ! $hotel,
         ],
         [
+            'label' => 'Emails',
+            'icon' => 'mail',
+            'href' => $hotel ? route('email.customise', ['id' => $hotel->id]) : route('hotel.create'),
+            'active' => request()->routeIs('email.*'),
+            'disabled' => ! $hotel,
+        ],
+        [
             'label' => 'Orders',
             'icon' => 'shopping-bag',
             'href' => $hotel ? route('orders.listv2', ['hotel_id' => $hotel->id]) : route('hotel.create'),
