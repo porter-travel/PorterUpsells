@@ -45,10 +45,10 @@
         @endforeach
     </div>
 
-    <div class="mx-auto w-full max-w-xs">
+    <div class="flex w-full items-start justify-center rounded-2xl bg-slate-100 p-4">
         <div
             id="colour-preview"
-            class="relative overflow-hidden rounded-[2.5rem] border border-slate-200 bg-[color:var(--page-bg)] p-6 shadow-lg"
+            class="relative w-full max-w-sm overflow-hidden rounded-2xl border-8 border-slate-900"
             style="
                 --page-bg: {{ $colors[0]['value'] }};
                 --main-box-bg: {{ $colors[1]['value'] }};
@@ -57,48 +57,67 @@
                 --accent: {{ $colors[4]['value'] }};
                 --text: {{ $colors[5]['value'] }};
                 --button-text: {{ $colors[6]['value'] }};
+                background-color: var(--page-bg);
             "
         >
-            <div class="absolute left-1/2 top-2 h-1 w-20 -translate-x-1/2 rounded-full bg-slate-200"></div>
-            <div class="space-y-5 pt-6">
-                <div class="flex items-center gap-3">
-                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[color:var(--accent)] font-semibold text-[color:var(--text)]">LOGO</div>
-                    <div>
-                        <p class="text-sm font-semibold text-[color:var(--text)]">Guest Marketplace</p>
-                        <p class="text-xs text-[color:var(--text)]/70">Preview</p>
-                    </div>
+            <div class="p-4" style="background-color: var(--accent);">
+                @if ($hotel->logo)
+                    <img src="{{ $hotel->logo }}" alt="{{ $hotel->name }} logo" class="h-8 object-contain" />
+                @else
+                    <span class="font-semibold uppercase tracking-wide" style="color: var(--text);">your logo here</span>
+                @endif
+            </div>
+
+            <div class="space-y-4 p-4 pb-20" style="background-color: var(--page-bg); color: var(--text);">
+                <div class="flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.18em]">
+                    <span class="rounded-full bg-[color:var(--accent)] px-3 py-1 text-[color:var(--text)]/80">Wellness</span>
+                    <span class="rounded-full border border-[color:var(--text)]/20 px-3 py-1">Dining</span>
+                    <span class="rounded-full border border-[color:var(--text)]/20 px-3 py-1">Experiences</span>
                 </div>
 
-                <div class="space-y-3 rounded-2xl bg-[color:var(--main-box-bg)] p-5 shadow-inner">
-                    <p class="text-sm font-semibold text-[color:var(--main-box-text)]">Welcome to your stay</p>
-                    <p class="text-xs leading-5 text-[color:var(--main-box-text)]/80">
-                        Explore curated recommendations, book activities, and request services directly from your phone.
+                <div class="space-y-3 rounded-2xl border border-[color:var(--text)]/10 bg-[color:var(--main-box-bg)]/80 p-4 shadow-inner">
+                    <div class="flex items-start justify-between gap-3 text-sm font-semibold">
+                        <span style="color: var(--main-box-text);">Sunset cruise</span>
+                        <span class="text-xs" style="color: var(--main-box-text);">£129</span>
+                    </div>
+                    <p class="text-xs leading-5 opacity-80" style="color: var(--main-box-text);">
+                        Reserve an unforgettable evening sail with complimentary champagne and canapés.
                     </p>
-                    <button class="w-full rounded-xl bg-[color:var(--button-bg)] py-2 text-sm font-semibold text-[color:var(--button-text)] shadow-sm">
-                        Book airport transfer
+                    <button
+                        class="w-full rounded-xl px-3 py-2 text-sm font-semibold shadow-sm"
+                        style="background-color: var(--button-bg); color: var(--button-text);"
+                    >
+                        Book now
                     </button>
                 </div>
 
                 <div class="space-y-3">
-                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--text)]/70">Highlights</p>
-                    <div class="flex flex-col gap-3">
-                        <div class="flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/60 p-3">
-                            <span class="h-10 w-10 rounded-xl bg-[color:var(--accent)]"></span>
+                    <p class="text-xs font-semibold uppercase tracking-[0.25em] text-[color:var(--text)]/70">Today's picks</p>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between rounded-xl border border-[color:var(--text)]/10 bg-white/70 px-3 py-2">
                             <div>
-                                <p class="text-sm font-semibold text-[color:var(--text)]">Spa day pass</p>
-                                <p class="text-xs text-[color:var(--text)]/70">Relax in our award-winning spa.</p>
+                                <p class="text-sm font-semibold" style="color: var(--text);">Spa day pass</p>
+                                <p class="text-xs opacity-70" style="color: var(--text);">Relax in our award-winning spa.</p>
                             </div>
+                            <span class="text-xs font-semibold" style="color: var(--text);">£75</span>
                         </div>
-                        <div class="flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/60 p-3">
-                            <span class="h-10 w-10 rounded-xl bg-[color:var(--button-bg)]"></span>
+                        <div class="flex items-center justify-between rounded-xl border border-[color:var(--text)]/10 bg-white/70 px-3 py-2">
                             <div>
-                                <p class="text-sm font-semibold text-[color:var(--text)]">Sunset cruise</p>
-                                <p class="text-xs text-[color:var(--text)]/70">Reserve an unforgettable evening.</p>
+                                <p class="text-sm font-semibold" style="color: var(--text);">Chef's tasting</p>
+                                <p class="text-xs opacity-70" style="color: var(--text);">Five courses with wine pairing.</p>
                             </div>
+                            <span class="text-xs font-semibold" style="color: var(--text);">£95</span>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <button
+                class="absolute bottom-4 left-4 right-4 rounded-lg py-2 text-sm font-semibold text-center shadow-md"
+                style="background-color: var(--button-bg); color: var(--button-text);"
+            >
+                View cart
+            </button>
         </div>
     </div>
 </div>
