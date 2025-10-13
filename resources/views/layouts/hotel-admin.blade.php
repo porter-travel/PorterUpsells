@@ -221,45 +221,30 @@
                                 </div>
                             </div>
                             @if($hotels->count() > 1)
-                                <div x-data="{ open: false }" class="relative mt-5">
-                                    <button
-                                        type="button"
-                                        @click="open = !open"
-                                        class="flex w-full items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/15"
-                                    >
-                                        Switch property
-                                        <i data-lucide="chevron-down" class="h-4 w-4 transition" :class="{ 'rotate-180': open }"></i>
-                                    </button>
-                                    <div
-                                        x-cloak
-                                        x-show="open"
-                                        @click.outside="open = false"
-                                        x-transition
-                                        class="absolute left-0 right-0 top-full z-10 mt-2 max-h-60 overflow-y-auto rounded-xl border border-white/10 bg-slate-950/95 p-2 backdrop-blur"
-                                    >
-                                        @foreach($hotels as $switchHotel)
-                                            @php
-                                                $switchUrl = $buildHotelSwitchUrl($switchHotel->id);
-                                            @endphp
-                                            <a
-                                                href="{{ $switchUrl }}"
-                                                class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition hover:bg-white/10 {{ $switchHotel->id === $activeHotel?->id ? 'bg-white/10 text-white' : 'text-white/80' }}"
-                                            >
-                                                @if($switchHotel->logo)
-                                                    <img src="{{ $switchHotel->logo }}" alt="{{ $switchHotel->name }} logo" class="h-8 w-8 rounded-lg object-cover">
-                                                @else
-                                                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold uppercase text-white/80">
-                                                        {{ collect(explode(' ', $switchHotel->name ?? ''))
-                                                            ->map(fn($part) => substr($part, 0, 1))
-                                                            ->join('') ?: 'EM' }}
-                                                    </div>
-                                                @endif
-                                                <span class="truncate">{{ $switchHotel->name }}</span>
-                                                @if($switchHotel->id === $activeHotel?->id)
-                                                    <span class="ml-auto rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-200">Active</span>
-                                                @endif
-                                            </a>
-                                        @endforeach
+                                <div x-data class="mt-5 space-y-2">
+                                    <label for="mobile-hotel-switch" class="text-xs font-semibold uppercase tracking-widest text-white/60">Switch property</label>
+                                    <div class="relative">
+                                        <select
+                                            id="mobile-hotel-switch"
+                                            @change="if($event.target.value) { window.location.href = $event.target.value }"
+                                            class="w-full appearance-none rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white/90 transition hover:border-white/20 focus:border-white/30 focus:outline-none"
+                                        >
+                                            <option value="" disabled {{ $activeHotel ? '' : 'selected' }}>Select a property</option>
+                                            @foreach($hotels as $switchHotel)
+                                                @php
+                                                    $switchUrl = $buildHotelSwitchUrl($switchHotel->id);
+                                                @endphp
+                                                <option
+                                                    value="{{ $switchUrl }}"
+                                                    {{ $switchHotel->id === $activeHotel?->id ? 'selected' : '' }}
+                                                >
+                                                    {{ $switchHotel->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-white/60">
+                                            <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                                        </span>
                                     </div>
                                 </div>
                             @endif
@@ -317,50 +302,30 @@
                             </div>
                         </div>
                         @if($hotels->count() > 1)
-                            <div x-data="{ open: false }" class="relative mt-5">
-                                <button
-                                    type="button"
-                                    @click="open = !open"
-                                    class="flex w-full items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/15"
-                                >
-                                    Switch property
-                                    <i data-lucide="chevron-down" class="h-4 w-4 transition" :class="{ 'rotate-180': open }"></i>
-                                </button>
-                                <div
-                                    x-cloak
-                                    x-show="open"
-                                    @click.outside="open = false"
-                                    x-transition
-                                    class="absolute left-0 right-0 top-full z-10 mt-2 max-h-64 overflow-y-auto rounded-xl border border-white/10 bg-slate-950/95 p-2 backdrop-blur"
-                                >
-                                    @foreach($hotels as $switchHotel)
-                                        @php
-                                            $switchUrl = $buildHotelSwitchUrl($switchHotel->id);
-                                        @endphp
-                                        <a
-                                            href="{{ $switchUrl }}"
-                                            class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition hover:bg-white/10 {{ $switchHotel->id === $activeHotel?->id ? 'bg-white/10 text-white' : 'text-white/80' }}"
-                                        >
-                                            @if($switchHotel->logo)
-                                                <img src="{{ $switchHotel->logo }}" alt="{{ $switchHotel->name }} logo" class="h-9 w-9 rounded-lg object-cover">
-                                            @else
-                                                <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold uppercase text-white/80">
-                                                    {{ collect(explode(' ', $switchHotel->name ?? ''))
-                                                        ->map(fn($part) => substr($part, 0, 1))
-                                                        ->join('') ?: 'EM' }}
-                                                </div>
-                                            @endif
-                                            <div class="flex-1 truncate">
-                                                <p class="truncate font-semibold">{{ $switchHotel->name }}</p>
-                                                @if($switchHotel->address)
-                                                    <p class="truncate text-[11px] text-white/50">{{ $switchHotel->address }}</p>
-                                                @endif
-                                            </div>
-                                            @if($switchHotel->id === $activeHotel?->id)
-                                                <span class="ml-auto rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-200">Active</span>
-                                            @endif
-                                        </a>
-                                    @endforeach
+                            <div x-data class="mt-5 space-y-2">
+                                <label for="desktop-hotel-switch" class="text-xs font-semibold uppercase tracking-widest text-white/60">Switch property</label>
+                                <div class="relative">
+                                    <select
+                                        id="desktop-hotel-switch"
+                                        @change="if($event.target.value) { window.location.href = $event.target.value }"
+                                        class="w-full appearance-none rounded-xl border border-white/10 bg-white/10 px-4 py-2 text-sm font-semibold text-white/90 transition hover:border-white/20 focus:border-white/30 focus:outline-none"
+                                    >
+                                        <option value="" disabled {{ $activeHotel ? '' : 'selected' }}>Select a property</option>
+                                        @foreach($hotels as $switchHotel)
+                                            @php
+                                                $switchUrl = $buildHotelSwitchUrl($switchHotel->id);
+                                            @endphp
+                                            <option
+                                                value="{{ $switchUrl }}"
+                                                {{ $switchHotel->id === $activeHotel?->id ? 'selected' : '' }}
+                                            >
+                                                {{ $switchHotel->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-white/60">
+                                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                                    </span>
                                 </div>
                             </div>
                         @endif
