@@ -60,6 +60,32 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
+                    @if(!empty($fulfilmentKeyDetails))
+                        <div class="mb-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Fulfilment key</p>
+                            <p class="mt-1 text-lg font-semibold text-slate-900">{{ $fulfilmentKeyDetails['name'] }}</p>
+                            <p class="mt-1 font-mono text-xs text-slate-500 break-all">{{ $key }}</p>
+                            <p class="mt-2 text-sm text-slate-500">
+                                @if(!empty($fulfilmentKeyDetails['expires_at_formatted']))
+                                    Expires {{ $fulfilmentKeyDetails['expires_at_formatted'] }}
+                                @else
+                                    No expiry date set
+                                @endif
+                            </p>
+                            @if(!empty($hotels))
+                                <div class="mt-3">
+                                    <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Access to</p>
+                                    <div class="mt-2 flex flex-wrap gap-2">
+                                        @foreach($hotels as $hotel)
+                                            <span class="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200">
+                                                {{ $hotel['name'] }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
                     <div class="relative mb-6">
                         <ul id="hotelsDropdown"
                             class="bg-yellow border border-black rounded-xl p-2  cursor-pointer">

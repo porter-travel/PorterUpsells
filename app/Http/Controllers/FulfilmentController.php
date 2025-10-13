@@ -13,12 +13,17 @@ class FulfilmentController extends Controller
     public function fulfilment($key)
     {
         $fulfilmentKeys = FulfilmentKey::with('hotel')->where('key', $key)->get();
-        $fulfilmentKey = $fulfilmentKeys->first();
+
+        if ($fulfilmentKeys->isEmpty()) {
+            return response()->json(['message' => 'Invalid key'], 404);
+        }
+
+        $primaryKey = $fulfilmentKeys->first();
 
         $hotels = [];
 
-        foreach ($fulfilmentKeys as $fulfilmentKey) {
-            $hotels[] = $fulfilmentKey->hotel->toArray();
+        foreach ($fulfilmentKeys as $keyRecord) {
+            $hotels[] = $keyRecord->hotel->toArray();
         }
 
         foreach ($hotels as $k => $hotel) {
@@ -87,15 +92,29 @@ class FulfilmentController extends Controller
 //        dd($output);
 
 
-        if (!$fulfilmentKey) {
-            return response()->json(['message' => 'Invalid key'], 404);
-        }
-        if ($fulfilmentKey->expires_at && $fulfilmentKey->expires_at < now()) {
+        if ($primaryKey->expires_at && $primaryKey->expires_at < now()) {
             return response()->json(['message' => 'Key has expired'], 404);
         }
 
+        $expiresAtFormatted = null;
+
+        if ($primaryKey->expires_at) {
+            $expiresAtFormatted = $primaryKey->expires_at
+                ->timezone(config('app.timezone'))
+                ->format('j M Y g:ia');
+        }
+
+        $keyDetails = [
+            'name' => $primaryKey->name,
+            'expires_at_formatted' => $expiresAtFormatted,
+        ];
+
 //        dd($hotels);
-        return view('admin.fulfilment', ['hotels' => $output, 'key' => $key]);
+        return view('admin.fulfilment', [
+            'hotels' => $output,
+            'key' => $key,
+            'fulfilmentKeyDetails' => $keyDetails,
+        ]);
     }
 
     public function fulfilOrder(Request $request){
