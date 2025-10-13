@@ -16,7 +16,7 @@
 
 
 <div class="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(260px,320px)] xl:grid-cols-[minmax(0,1.5fr)_minmax(300px,360px)]">
-    <div class="grid gap-4 md:grid-cols-2">
+    <div class="grid gap-4">
 
         @foreach ($colors as $color)
             <div class="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-sm">
