@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-10">
-        <div class="mx-auto max-w-6xl space-y-8 px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8">
             <div class="rounded-3xl border border-slate-200 bg-gradient-to-r from-white via-indigo-50 to-white px-6 py-8 shadow-sm sm:px-10">
                 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
@@ -34,7 +34,7 @@
 
                         <section class="space-y-6">
                             <div class="flex items-center gap-3">
-                                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-50 text-indigo-600">
                                     <i data-lucide="building-2" class="h-5 w-5"></i>
                                 </div>
                                 <div>
@@ -75,7 +75,7 @@
 
                         <section class="space-y-6">
                             <div class="flex items-center gap-3">
-                                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-sky-50 text-sky-600">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-sky-50 text-sky-600">
                                     <i data-lucide="images" class="h-5 w-5"></i>
                                 </div>
                                 <div>
@@ -131,7 +131,7 @@
                     </form>
                 </div>
 
-                <aside class="flex flex-col gap-6 rounded-3xl border border-transparent bg-gradient-to-br from-indigo-800 via-purple-800 to-violet-900 p-8 text-slate-100 shadow-xl shadow-indigo-900/30">
+                <aside class="flex flex-col gap-6 rounded-3xl border border-transparent bg-gradient-to-br from-indigo-800 via-purple-800 to-violet-900 px-6 py-8 text-slate-100 shadow-xl shadow-indigo-900/30">
                     <div class="space-y-3">
                         <p class="text-sm font-semibold uppercase tracking-widest text-indigo-200/80">Success checklist</p>
                         <h2 class="text-2xl font-semibold text-indigo-200">Tips for a compelling listing</h2>
