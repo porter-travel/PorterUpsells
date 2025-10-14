@@ -67,26 +67,30 @@
                         ])
                     </div>
 
-                    {{-- Experience Settings --}}
-                    <section class="rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-sky-50 to-indigo-50 p-6 shadow-sm sm:p-8">
-                        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                            <div>
-                                <h3 class="text-lg font-semibold text-slate-900">Experience settings</h3>
-                                <p class="text-sm text-slate-500">Control availability, scheduling, and fulfilment rules for this product.</p>
-                            </div>
-                            <div class="inline-flex items-center gap-2 rounded-xl border border-white/70 bg-white/40 px-3 py-1.5 text-xs font-semibold text-indigo-600">
-                                <i data-lucide="sparkles" class="h-4 w-4"></i>
-                                Smart defaults applied
-                            </div>
-                        </div>
+                   {{-- Experience Settings --}}
+<section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h3 class="text-lg font-semibold text-slate-900">Experience settings</h3>
+            <p class="text-sm text-slate-500">
+                Control availability, scheduling, and fulfilment rules for this product.
+            </p>
+        </div>
+        <div class="inline-flex items-center gap-2 rounded-xl border border-indigo-100 bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-600">
+            <i data-lucide="sparkles" class="h-4 w-4"></i>
+            Smart defaults applied
+        </div>
+    </div>
 
-                        <div class="mt-6 space-y-6">
-                            @include('admin.product.partials.specifics', [
-                                'method' => 'create',
-                                'type' => $type
-                            ])
-                        </div>
-                    </section>
+    <div class="mt-6 space-y-8">
+        {{-- Include partial --}}
+        @include('admin.product.partials.specifics', [
+            'method' => 'create',
+            'type' => $type
+        ])
+    </div>
+</section>
+
 
                     {{-- Variations --}}
                     <section id="variantContainer" class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm sm:p-8">
