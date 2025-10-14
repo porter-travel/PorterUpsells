@@ -1,29 +1,29 @@
 <x-hotel-admin-layout :hotel="$hotel">
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <div class="flex items-center justify-between rounded-2xl bg-white px-6 py-4 shadow-sm">
+            <h2 class="text-2xl font-semibold tracking-tight text-slate-900">
                 {{ __('Calendar Orders for: ') . $product->name }}
             </h2>
 
-            <div id="product-selector" class="border rounded flex justify-between relative">
-                <span class="p-2">
+            <div id="product-selector" class="relative flex items-center rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
+                <span class="text-sm font-medium text-slate-700">
                 {{$product->name}}
                     </span>
-                <ul class="w-full border rounded p-2 hidden absolute bg-white top-full">
+                <ul class="absolute left-0 top-full z-20 mt-2 hidden w-48 overflow-hidden rounded-xl border border-slate-200 bg-white py-2 shadow-lg">
                     @php
                         $queryString = request()->getQueryString();
                         $queryString = $queryString ? '?' . $queryString : '';
                     @endphp
                     @foreach($products as $loopProduct)
                         <li class="@if($product->id == $loopProduct->id) hidden @endif">
-                            <a href="{{ route('calendar.list-bookings-for-product', ['hotel_id' => $hotel->id, 'product_id' => $loopProduct->id]) . $queryString }}">
+                            <a href="{{ route('calendar.list-bookings-for-product', ['hotel_id' => $hotel->id, 'product_id' => $loopProduct->id]) . $queryString }}" class="block px-4 py-2 text-sm text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
                                 {{$loopProduct->name}}
                             </a>
                         </li>
                     @endforeach
                 </ul>
 
-                <button class="bg-lightBlue rounded p-2 flex items-center">
+                <button class="ml-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-[#FF5E57] hover:text-[#FF5E57]">
                     <svg width="15" height="8" viewBox="0 0 15 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.5 8L15 0H0L7.5 8Z" fill="black"/>
                     </svg>
@@ -31,24 +31,24 @@
             </div>
         </div>
     </x-slot>
-    <div class="py-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-xl">
-                <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 p-8 text-slate-100">
-                    <div class="flex flex-col gap-6 pb-6 md:flex-row md:items-end md:justify-between">
-                        <form method="get" class="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-inner backdrop-blur">
-                            <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-300">Date</p>
-                            <div class="mt-3 flex items-center gap-4">
-                                <a href="?date={{$yesterday}}" class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:border-white/30 hover:bg-white/10">
+    <div class="py-10">
+        <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+            <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl">
+                <div class="space-y-8 bg-white p-8">
+                    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                        <form method="get" class="rounded-2xl border border-slate-200/60 bg-slate-50/60 p-4 shadow-sm">
+                            <p class="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Date</p>
+                            <div class="mt-3 flex items-center gap-3">
+                                <a href="?date={{$yesterday}}" class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-[#FF5E57] hover:text-[#FF5E57]">
                                     <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition group-hover:scale-110">
                                         <path d="M-2.40413e-07 5.5L6 11L6 0L-2.40413e-07 5.5Z" fill="currentColor"/>
                                     </svg>
                                 </a>
                                 <div>
                                     <label class="sr-only block" for="calendarDatePicker">Date</label>
-                                    <input id="calendarDatePicker" onchange="this.form.submit();" type="date" name="date" value="{{$date}}" class="h-10 rounded-xl border border-white/20 bg-white/10 px-4 text-sm font-semibold text-white shadow-inner outline-none transition focus:border-white focus:bg-white/20">
+                                    <input id="calendarDatePicker" onchange="this.form.submit();" type="date" name="date" value="{{$date}}" class="h-10 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition focus:border-[#FF5E57] focus:ring-2 focus:ring-[#FF5E57]/30">
                                 </div>
-                                <a href="?date={{$tomorrow}}" class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition hover:border-white/30 hover:bg-white/10">
+                                <a href="?date={{$tomorrow}}" class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-[#FF5E57] hover:text-[#FF5E57]">
                                     <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition group-hover:scale-110">
                                         <path d="M6 5.5L-4.80825e-07 0L0 11L6 5.5Z" fill="currentColor"/>
                                     </svg>
@@ -56,44 +56,44 @@
                             </div>
                         </form>
 
-                        <div class="flex flex-col gap-4 text-right text-sm text-slate-300">
-                            <span class="text-xs uppercase tracking-widest text-slate-400">Legend</span>
+                        <div class="flex flex-col gap-4 text-right text-sm text-slate-500">
+                            <span class="text-xs font-semibold uppercase tracking-[0.35em] text-slate-400">Legend</span>
                             <div class="flex flex-wrap items-center justify-end gap-3">
-                                <span class="inline-flex items-center gap-2 rounded-full bg-emerald-400/10 px-3 py-1 text-emerald-200"><span class="h-2 w-2 rounded-full bg-emerald-400"></span> Available</span>
-                                <span class="inline-flex items-center gap-2 rounded-full bg-sky-400/10 px-3 py-1 text-sky-200"><span class="h-2 w-2 rounded-full bg-sky-400"></span> New booking</span>
-                                <span class="inline-flex items-center gap-2 rounded-full bg-rose-400/10 px-3 py-1 text-rose-200"><span class="h-2 w-2 rounded-full bg-rose-400"></span> Blocked</span>
+                                <span class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-emerald-700"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Available</span>
+                                <span class="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-sky-700"><span class="h-2 w-2 rounded-full bg-sky-500"></span> New booking</span>
+                                <span class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-rose-700"><span class="h-2 w-2 rounded-full bg-rose-500"></span> Blocked</span>
                             </div>
                         </div>
                     </div>
-                    <div class="relative rounded-[28px] border border-white/10 bg-white/5 shadow-[0_40px_120px_-40px_rgba(15,23,42,0.8)]">
-                        <div class="absolute inset-0 rounded-[28px] border border-white/5"></div>
-                        <div class="relative flex h-[80vh] overflow-hidden rounded-[28px]">
+                    <div class="relative rounded-[28px] border border-slate-200 bg-white shadow-[0_24px_60px_-24px_rgba(15,23,42,0.2)]">
+                        <div class="absolute inset-0 rounded-[28px] border border-white"></div>
+                        <div class="relative flex h-[80vh] overflow-hidden rounded-[28px] bg-slate-50">
 
                         @if($availableTimes)
-                            <div style="width: {{(count($availableTimes) * 16.66667)}}%" class="absolute left-[8.33333%] top-0 z-10 -translate-y-full rounded-t-3xl border border-b-0 border-white/10 bg-white/10 px-5 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-slate-200 backdrop-blur">
+                            <div style="width: {{(count($availableTimes) * 16.66667)}}%" class="absolute left-[8.33333%] top-0 z-10 -translate-y-full rounded-t-3xl border border-b-0 border-slate-200 bg-white px-5 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-slate-500 shadow-sm">
                                 Times
                             </div>
                         <div
-                            class="relative z-0 flex h-full basis-1/12 flex-col overflow-hidden rounded-bl-3xl border border-r border-white/10 bg-slate-950/40 px-2 backdrop-blur">
+                            class="relative z-0 flex h-full basis-1/12 flex-col overflow-hidden rounded-bl-3xl border border-r border-slate-200 bg-white px-2">
                             @foreach($availableTimes[0] as $key => $slot)
                                 @if($key != 0)
                                     <div
                                         style="top: {{(100 / count($availableTimes[0])) * ($key)}}%; width: {{(count($availableTimes) * 16.66667)}}%; left: 8.33333%"
-                                        class="absolute border-t border-white/5"></div>
+                                        class="absolute border-t border-slate-200"></div>
                                 @endif
                                 <div class="relative w-full" style="height: {{100 / count($availableTimes[0])}}%">
-                                    <p class="pt-6 text-center text-xs font-semibold uppercase tracking-[0.3em] text-slate-300">{{$slot['time']}}</p>
+                                    <p class="pt-6 text-center text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">{{$slot['time']}}</p>
                                 </div>
                             @endforeach
                         </div>
                         @foreach($availableTimes as $key => $availability)
 
                             <div class="relative h-full w-1/6 basis-1/6">
-                                <div class="absolute top-0 z-10 -translate-y-full w-full rounded-t-3xl border border-b-0 border-white/10 bg-white/10 px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.3em] text-slate-200 backdrop-blur">
+                                <div class="absolute top-0 z-10 -translate-y-full w-full rounded-t-3xl border border-b-0 border-slate-200 bg-white px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 shadow-sm">
                                     Slot {{$key + 1}}
                                 </div>
                                 <div
-                                    class="flex h-full flex-col justify-between border border-l-0 border-white/10 bg-gradient-to-b from-slate-900/60 via-slate-900/30 to-slate-900/60 p-2 @if($key == array_key_last($availableTimes)) rounded-br-3xl @endif">
+                                    class="flex h-full flex-col justify-between border border-l-0 border-slate-200 bg-white p-2 @if($key == array_key_last($availableTimes)) rounded-br-3xl @endif">
                                     @foreach($availability as $slotKey => $slot)
                                         @if($slot['booking'] && $slot['booking']['parent_booking_id'])
                                             @continue
@@ -111,22 +111,22 @@
                                                     data-room="{{$slot['booking']['room_number']}}"
                                                     data-email="{{$slot['booking']['email']}}"
                                                     data-phone="{{$slot['booking']['mobile']}}"
-                                                    class="mx-1 flex h-full items-stretch rounded-2xl border border-white/10 bg-white/5 p-1 shadow-lg ring-1 ring-black/10 transition hover:scale-[1.01] hover:border-white/30 hover:bg-white/10 modifyModalBookingTrigger">
+                                                    class="mx-1 flex h-full items-stretch rounded-2xl border border-slate-200 bg-white p-2 shadow transition hover:-translate-y-0.5 hover:border-[#FF5E57]/70 hover:shadow-lg modifyModalBookingTrigger">
                                                     @if($slot['booking']['name'] == '__block__')
 
-                                                        <div class="flex h-full w-full flex-col justify-between rounded-xl bg-rose-500/20 p-3 text-left">
-                                                            <p class="text-xs font-semibold uppercase tracking-wide text-rose-200">Block</p>
-                                                            <p class="text-sm font-medium text-rose-100">{{substr($slot['booking']['start_time'], 0, -3)}}
+                                                        <div class="flex h-full w-full flex-col justify-between rounded-xl bg-rose-50 p-3 text-left">
+                                                            <p class="text-xs font-semibold uppercase tracking-wide text-rose-500">Block</p>
+                                                            <p class="text-sm font-medium text-rose-600">{{substr($slot['booking']['start_time'], 0, -3)}}
                                                                 - {{substr($slot['booking']['end_time'], 0, -3)}}</p>
                                                         </div>
                                                     @else
 
-                                                        <div class="flex h-full w-full flex-col justify-between rounded-xl bg-sky-500/20 p-3 text-left text-slate-100">
-                                                            <p class="text-sm font-semibold">{{$slot['booking']['name']}}</p>
+                                                        <div class="flex h-full w-full flex-col justify-between rounded-xl bg-sky-50 p-3 text-left text-slate-700">
+                                                            <p class="text-sm font-semibold text-slate-900">{{$slot['booking']['name']}}</p>
                                                             @if($slot['booking']['room_number'])
-                                                                <p class="text-xs text-slate-200/80">Room: {{$slot['booking']['room_number']}}</p>
+                                                                <p class="text-xs text-slate-500">Room: {{$slot['booking']['room_number']}}</p>
                                                             @endif
-                                                            <p class="text-xs font-medium tracking-wide text-slate-200">{{substr($slot['booking']['start_time'], 0, -3)}}
+                                                            <p class="text-xs font-medium tracking-wide text-slate-600">{{substr($slot['booking']['start_time'], 0, -3)}}
                                                                 - {{substr($slot['booking']['end_time'], 0, -3)}}</p>
                                                         </div>
                                                     @endif
@@ -135,8 +135,8 @@
 
                                                 <div data-time="{{$slot['time']}}"
                                                      data-slot="{{$key}}"
-                                                     class="mx-1 flex h-full items-center justify-center rounded-2xl border border-dashed border-slate-500/40 bg-slate-900/30 p-1 text-slate-400 transition hover:border-sky-400/60 hover:bg-sky-500/10 hover:text-sky-100 newModalBookingTrigger">
-                                                    <div class="flex h-full w-full items-center justify-center rounded-xl border border-dashed border-inherit bg-gradient-to-br from-slate-900/40 to-slate-900/20 p-2">
+                                                     class="mx-1 flex h-full items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white p-1 text-slate-400 transition hover:border-[#FF5E57] hover:bg-[#FF5E57]/5 hover:text-[#FF5E57] newModalBookingTrigger">
+                                                    <div class="flex h-full w-full items-center justify-center rounded-xl border border-dashed border-inherit bg-slate-50 p-2">
                                                         <svg class="h-6 w-6" viewBox="0 0 512 512">
                                                             <path fill="currentColor"
                                                                   d="M417.4,224H288V94.6c0-16.9-14.3-30.6-32-30.6c-17.7,0-32,13.7-32,30.6V224H94.6C77.7,224,64,238.3,64,256c0,17.7,13.7,32,30.6,32H224v129.4c0,16.9,14.3,30.6,32,30.6c17.7,0,32-13.7,32-30.6V288h129.4c16.9,0,30.6-14.3,30.6-32C448,238.3,434.3,224,417.4,224z"/>
@@ -153,8 +153,8 @@
 
                         @endforeach
                         @else
-                            <div class="flex h-full w-full items-center justify-center bg-slate-900/40">
-                                <p class="rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-slate-200 shadow">No bookings available for this product on this date.</p>
+                            <div class="flex h-full w-full items-center justify-center bg-white">
+                                <p class="rounded-full border border-slate-200 bg-slate-50 px-6 py-3 text-sm font-medium text-slate-500 shadow-sm">No bookings available for this product on this date.</p>
                             </div>
                         @endif
                         </div>
@@ -168,14 +168,14 @@
 
 
     <div id="newBookingModalContainer" class="fixed inset-0 z-50 hidden">
-        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur"></div>
-        <div class="fixed inset-x-0 top-16 z-50 mx-auto w-full max-w-3xl overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white via-slate-50 to-white shadow-[0_40px_120px_-20px_rgba(15,23,42,0.75)]">
-            <div class="flex items-start justify-between border-b border-slate-200/70 bg-white/60 px-6 py-5 backdrop-blur">
+        <div class="absolute inset-0 bg-slate-900/30 backdrop-blur-sm"></div>
+        <div class="fixed inset-x-0 top-16 z-50 mx-auto w-full max-w-3xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_40px_120px_-20px_rgba(15,23,42,0.3)]">
+            <div class="flex items-start justify-between border-b border-slate-200 bg-white px-6 py-5">
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">{{$product->name}}</p>
+                    <p class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">{{$product->name}}</p>
                     <h2 class="mt-1 text-2xl font-semibold text-slate-900"><span id="modal_title_verb">New</span> Booking</h2>
                 </div>
-                <button type="button" class="closeNewBookingModal inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow hover:text-slate-900">
+                <button type="button" class="closeNewBookingModal inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-[#FF5E57] hover:text-[#FF5E57]">
                     <span class="sr-only">Close</span>
                     &times;
                 </button>
@@ -198,7 +198,7 @@
                             <x-input-label class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500" for="start_time">Start Time</x-input-label>
                             <x-text-input disabled id="start_time_fake" class="rounded-2xl border-slate-200 bg-slate-50 text-slate-700"/>
                             <select id="start_time_select"
-                                    class="hidden h-12 w-full rounded-2xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-200">
+                                    class="hidden h-12 w-full rounded-2xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm outline-none transition focus:border-[#FF5E57] focus:ring-2 focus:ring-[#FF5E57]/30">
                                 <option value="">Select</option>
                             </select>
                             <input type="hidden" name="start_time" id="start_time"/>
@@ -206,7 +206,7 @@
                         <div class="space-y-2">
                             <x-input-label class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500" for="end_time">End Time</x-input-label>
                             <select name="end_time" id="end_time"
-                                    class="h-12 w-full rounded-2xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-200">
+                                    class="h-12 w-full rounded-2xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm outline-none transition focus:border-[#FF5E57] focus:ring-2 focus:ring-[#FF5E57]/30">
                                 <option value="">Select</option>
                             </select>
                             <x-text-input disabled id="end_time_fake" class="rounded-2xl border-slate-200 bg-slate-50 text-slate-700"/>
@@ -238,10 +238,10 @@
                         </div>
                     </div>
                     <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                        <div class="text-xs text-slate-400">All bookings are instantly synced with your availability grid.</div>
+                        <div class="text-xs text-slate-500">All bookings are instantly synced with your availability grid.</div>
                         <div class="flex items-center gap-3">
                             <x-danger-button type="button" id="deleteBooking" class="hidden rounded-2xl px-6 py-2">Delete</x-danger-button>
-                            <x-primary-button id="store-button" type="submit" class="rounded-2xl px-6 py-2">Save</x-primary-button>
+                            <x-primary-button id="store-button" type="submit" class="rounded-2xl bg-[#FF5E57] px-6 py-2 hover:bg-[#e85750] focus:ring-2 focus:ring-[#FF5E57]/40">Save</x-primary-button>
                         </div>
                     </div>
                 </form>
