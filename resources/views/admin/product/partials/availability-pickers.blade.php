@@ -10,8 +10,9 @@
 
         {{-- Availability checkboxes --}}
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+
             {{-- On Arrival --}}
-            <label class="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-4 text-sm font-medium text-slate-700 shadow-sm transition hover:border-indigo-200 hover:bg-slate-50 peer-checked:bg-indigo-50 cursor-pointer">
+            <label class="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-4 text-sm font-medium text-slate-700 shadow-sm transition hover:border-indigo-200 hover:bg-slate-50 cursor-pointer peer-checked:bg-indigo-50">
                 <input type="hidden" name="specifics[on_arrival]" value="0">
                 <input
                     type="checkbox"
@@ -19,7 +20,9 @@
                     value="1"
                     id="on_arrival"
                     class="peer sr-only"
-                    @checked($product->specifics['on_arrival'] ?? true)
+                    @if(($product->specifics['on_arrival'] ?? true))
+                        checked
+                    @endif
                 >
                 <span class="flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-transparent transition
                     peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white">
@@ -42,7 +45,9 @@
                     value="1"
                     id="during_stay"
                     class="peer sr-only"
-                    @checked($product->specifics['during_stay'] ?? false)
+                    @if(($product->specifics['during_stay'] ?? false))
+                        checked
+                    @endif
                 >
                 <span class="flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-transparent transition
                     peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white">
@@ -65,7 +70,9 @@
                     value="1"
                     id="on_departure"
                     class="peer sr-only"
-                    @checked($product->specifics['on_departure'] ?? false)
+                    @if(($product->specifics['on_departure'] ?? false))
+                        checked
+                    @endif
                 >
                 <span class="flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-transparent transition
                     peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white">
