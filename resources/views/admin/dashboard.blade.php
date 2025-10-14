@@ -52,10 +52,10 @@
             <i data-lucide="sparkles" class="h-4 w-4 text-indigo-400"></i>
         </div>
         <div class="mt-5 flex justify-between items-center">
-                        <span class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-sm font-semibold text-indigo-700 ring-1 ring-inset ring-indigo-200">
-                Add property
-                <i data-lucide="arrow-up-right" class="ml-1 h-4 w-4"></i>
-            </span>
+                        <span class="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-200">
+    Add property
+</span>
+
         </div>
         <div class="pointer-events-none absolute inset-0 -z-10 opacity-0 transition group-hover:opacity-100">
             <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-violet-500"></div>
