@@ -64,13 +64,30 @@
             <div class="settings-tab hidden rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm" data-settings-tab id="storage-tab">
                 <h4 class="text-lg font-semibold text-slate-900">Storage / Quality</h4>
                 <div class="mt-4 space-y-3">
-                    <input type="hidden" name="specifics[after_checkin]" value="0">
-                    <x-fancy-checkbox
-                        label="Product can only be delivered after guest has checked in"
-                        name="specifics[after_checkin]"
-                        :isChecked="isset($product->specifics['after_checkin']) ? $product->specifics['after_checkin'] : false"
-                    />
-                </div>
+    <label class="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/80 px-5 py-4 text-sm font-medium text-slate-700 shadow-sm transition hover:border-indigo-200 hover:bg-slate-50 cursor-pointer">
+        <input type="hidden" name="specifics[after_checkin]" value="0">
+        <input
+            type="checkbox"
+            name="specifics[after_checkin]"
+            value="1"
+            id="after_checkin"
+            class="peer sr-only"
+            @if(($product->specifics['after_checkin'] ?? false))
+                checked
+            @endif
+        >
+        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] border border-slate-300 bg-white text-transparent transition-colors duration-150 ease-in-out
+            peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white">
+            ✓
+        </span>
+        <div class="flex flex-col flex-1">
+            <span class="font-semibold text-slate-800 group-hover:text-slate-900">
+                Product can only be delivered after guest has checked in
+            </span>
+        </div>
+    </label>
+</div>
+
             </div>
         @endif
 
