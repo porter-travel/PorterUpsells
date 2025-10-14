@@ -2,8 +2,8 @@
     <x-slot name="header">
         <div class="space-y-2">
             <p class="text-xs font-semibold uppercase tracking-widest text-indigo-500">Products & experiences</p>
-            <h1 class="text-3xl font-semibold text-slate-900 sm:text-4xl">Design offerings for {{ $hotel->name }}</h1>
-            <p class="max-w-2xl text-sm text-slate-500">Curate on-brand experiences, manage pricing, and organise fulfilment so guests can effortlessly upgrade their stay.</p>
+            <h1 class="text-3xl font-semibold text-slate-900 sm:text-4xl">Add new products and experiences</h1>
+            <p class="max-w-2xl text-sm text-slate-500">Build an on-brand menu of upsells for {{ $hotel->name }} that delights guests and drives incremental revenue.</p>
         </div>
     </x-slot>
 
