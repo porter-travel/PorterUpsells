@@ -12,7 +12,7 @@
 
                 {{-- Image --}}
                 <a href="/admin/hotel/{{ $hotel->id }}/product/{{ $product->id }}/edit"
-                   class="block h-16 w-20 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+                   class="block h-16 w-20 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 p-1.5">
                     @include('hotel.partials.product-image', ['item' => $product])
                 </a>
 
