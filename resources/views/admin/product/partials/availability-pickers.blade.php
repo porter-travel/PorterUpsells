@@ -1,5 +1,5 @@
 @if($type == 'standard' && $hotel->property_type == 'hotel')
-    <div class="rounded-2xl border border-slate-200 bg-slate-50/60 p-6 sm:p-8">
+    <div class="mt-6 sm:mt-8 rounded-2xl border border-slate-200 bg-slate-50/60 p-5 sm:p-6">
         <div class="mb-5">
             <h4 class="text-lg font-semibold text-slate-900">Availability moments</h4>
             <p class="text-sm text-slate-500">
