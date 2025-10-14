@@ -1,5 +1,5 @@
 @if($type == 'standard' && $hotel->property_type == 'hotel')
-    <div id="availability-tab" class="settings-tab rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+    <div id="availability-tab" class="settings-tab rounded-3xl border border-slate-200 bg-white p-8 shadow-sm lg:col-span-2">
         {{-- Section heading --}}
         <div class="mb-8">
             <h3 class="text-lg font-semibold text-slate-900">Availability</h3>
