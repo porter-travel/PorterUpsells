@@ -11,10 +11,13 @@
                 </div>
 
                 {{-- Image --}}
-                <a href="/admin/hotel/{{ $hotel->id }}/product/{{ $product->id }}/edit"
-                   class="block h-16 w-20 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 p-1.5">
-                    @include('hotel.partials.product-image', ['item' => $product])
-                </a>
+<a href="/admin/hotel/{{ $hotel->id }}/product/{{ $product->id }}/edit"
+   class="block h-20 w-24 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-white flex items-center justify-center">
+    <div class="p-1.5 w-full h-full flex items-center justify-center">
+        @include('hotel.partials.product-image', ['item' => $product])
+    </div>
+</a>
+
 
                 {{-- Main info --}}
                 <div class="flex flex-1 flex-col justify-center sm:flex-row sm:items-center sm:justify-between sm:gap-4">
