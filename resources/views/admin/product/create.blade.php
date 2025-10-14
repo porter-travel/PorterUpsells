@@ -16,10 +16,10 @@
                     Create a new {{ $typeLabel }}
                 </p>
                 <h1 class="text-3xl font-semibold text-slate-900 sm:text-4xl">
-                    Build an experience guests will remember
+                    Add a product guests will love
                 </h1>
                 <p class="max-w-2xl text-sm text-slate-500">
-                    Add imagery, pricing, and availability details to craft an upsell that feels seamlessly on-brand for <span class="font-semibold text-slate-700">{{ $hotel->name }}</span>.
+                    Upload images, pricing, and availability to build an on-brand upsell for <span class="font-semibold text-slate-700">{{ $hotel->name }}</span>.
                 </p>
             </div>
 
@@ -45,7 +45,7 @@
             <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h2 class="text-xl font-semibold text-slate-900">Core details</h2>
-                    <p class="text-sm text-slate-500">Set up the visuals, pricing, and description that define this experience.</p>
+                    <p class="text-sm text-slate-500">Set up the visuals, pricing, and description for this product.</p>
                 </div>
                 <div class="inline-flex items-center gap-2 rounded-xl border border-indigo-100 bg-indigo-50/80 px-3 py-1.5 text-xs font-semibold text-indigo-600">
                     <i data-lucide="shield-check" class="h-4 w-4"></i>
