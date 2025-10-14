@@ -23,8 +23,7 @@
             <i data-lucide="building-2" class="h-4 w-4 text-slate-300"></i>
         </div>
         <div class="mt-5 flex justify-between items-center">
-            <span class="text-sm font-medium text-slate-500">Total</span>
-            <span class="inline-flex items-center rounded-full bg-slate-900/5 px-3 py-1 text-sm font-semibold text-slate-900">
+                        <span class="inline-flex items-center rounded-full bg-slate-900/5 px-3 py-1 text-sm font-semibold text-slate-900">
                 {{ $hotelsCollection->count() }}
             </span>
         </div>
@@ -37,8 +36,7 @@
             <i data-lucide="credit-card" class="h-4 w-4 text-slate-300"></i>
         </div>
         <div class="mt-5 flex justify-between items-center">
-            <span class="text-sm font-medium text-slate-500">Account</span>
-            <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold
+                        <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold
                 {{ $user->stripe_account_active 
                     ? 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200' 
                     : 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200' }}">
@@ -54,8 +52,7 @@
             <i data-lucide="sparkles" class="h-4 w-4 text-indigo-400"></i>
         </div>
         <div class="mt-5 flex justify-between items-center">
-            <span class="text-sm font-medium text-slate-500">Action</span>
-            <span class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-sm font-semibold text-indigo-700 ring-1 ring-inset ring-indigo-200">
+                        <span class="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-sm font-semibold text-indigo-700 ring-1 ring-inset ring-indigo-200">
                 Add property
                 <i data-lucide="arrow-up-right" class="ml-1 h-4 w-4"></i>
             </span>
