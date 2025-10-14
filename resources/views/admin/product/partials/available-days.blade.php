@@ -127,7 +127,13 @@
         </div>
         <div class="grid grid-cols-2 gap-3 md:grid-cols-3">
             @foreach($days as $day)
-                <label class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold capitalize text-slate-600 shadow-sm transition hover:border-indigo-200">
+                @php
+                    $displayDay = $day === 'wednesday' ? 'Wed' : ucfirst($day);
+                @endphp
+                <label
+                    class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/80 px-3 py-2 text-sm font-semibold capitalize text-slate-600 shadow-sm transition hover:border-indigo-200 hover:bg-slate-50 truncate cursor-pointer"
+                    title="{{ ucfirst($day) }}"
+                >
                     <input type="hidden" name="specifics[available_{{ $day }}]" value="0">
                     <input
                         type="checkbox"
@@ -141,10 +147,13 @@
                             @checked($product->specifics['available_' . $day])
                         @endif
                     >
-                    <span class="flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-transparent transition peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white">✓</span>
-                    <span class="text-slate-700">{{ ucfirst($day) }}</span>
+                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] border border-slate-300 bg-white text-transparent transition-colors duration-150 ease-in-out peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white">
+                        ✓
+                    </span>
+                    <span class="text-slate-700 truncate w-full">{{ $displayDay }}</span>
                 </label>
             @endforeach
         </div>
     </div>
 @endif
+
