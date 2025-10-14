@@ -73,7 +73,7 @@
                     <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                         <div>
                             <h2 class="text-xl font-semibold text-slate-900 sm:text-2xl">Your properties</h2>
-                            <p class="text-sm text-slate-500">Switch into a property to design on-brand experiences and manage fulfilment.</p>
+                            <p class="text-sm text-slate-500">Select a property to design on-brand automated experiences to delight your customers.</p>
                         </div>
                         <div class="flex gap-2">
                             <a href="{{ route('hotel.create') }}" class="inline-flex items-center gap-2 rounded-xl border border-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:from-indigo-500 hover:via-purple-500 hover:to-violet-500">
