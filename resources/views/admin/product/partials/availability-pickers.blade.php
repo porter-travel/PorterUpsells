@@ -12,7 +12,7 @@
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
 
             {{-- On Arrival --}}
-            <label class="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-4 text-sm font-medium text-slate-700 shadow-sm transition hover:border-indigo-200 hover:bg-slate-50 cursor-pointer peer-checked:bg-indigo-50">
+            <label class="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/80 px-5 py-4 text-sm font-medium text-slate-700 shadow-sm transition hover:border-indigo-200 hover:bg-slate-50 cursor-pointer peer-checked:bg-indigo-50">
                 <input type="hidden" name="specifics[on_arrival]" value="0">
                 <input
                     type="checkbox"
@@ -24,20 +24,22 @@
                         checked
                     @endif
                 >
-                <span class="flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-transparent transition
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] border border-slate-300 bg-white text-transparent transition-colors duration-150 ease-in-out
                     peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white">
                     ✓
                 </span>
-                <div class="flex flex-col">
-                    <span class="font-semibold text-slate-800 group-hover:text-slate-900">Available on arrival</span>
-                    <span class="text-xs text-slate-500 group-hover:text-slate-600">
+                <div class="flex flex-col flex-1">
+                    <span class="font-semibold text-slate-800 group-hover:text-slate-900">
+                        Available on arrival
+                    </span>
+                    <span class="text-xs font-normal text-slate-500 group-hover:text-slate-600 mt-1">
                         Allow guests to pre-book or order upon check-in.
                     </span>
                 </div>
             </label>
 
             {{-- During Stay --}}
-            <label class="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-4 text-sm font-medium text-slate-700 shadow-sm transition hover:border-indigo-200 hover:bg-slate-50 cursor-pointer peer-checked:bg-indigo-50">
+            <label class="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/80 px-5 py-4 text-sm font-medium text-slate-700 shadow-sm transition hover:border-indigo-200 hover:bg-slate-50 cursor-pointer peer-checked:bg-indigo-50">
                 <input type="hidden" name="specifics[during_stay]" value="0">
                 <input
                     type="checkbox"
@@ -49,20 +51,22 @@
                         checked
                     @endif
                 >
-                <span class="flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-transparent transition
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] border border-slate-300 bg-white text-transparent transition-colors duration-150 ease-in-out
                     peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white">
                     ✓
                 </span>
-                <div class="flex flex-col">
-                    <span class="font-semibold text-slate-800 group-hover:text-slate-900">Available during stay</span>
-                    <span class="text-xs text-slate-500 group-hover:text-slate-600">
+                <div class="flex flex-col flex-1">
+                    <span class="font-semibold text-slate-800 group-hover:text-slate-900">
+                        Available during stay
+                    </span>
+                    <span class="text-xs font-normal text-slate-500 group-hover:text-slate-600 mt-1">
                         Guests can order anytime after arrival.
                     </span>
                 </div>
             </label>
 
             {{-- On Departure --}}
-            <label class="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-4 text-sm font-medium text-slate-700 shadow-sm transition hover:border-indigo-200 hover:bg-slate-50 cursor-pointer peer-checked:bg-indigo-50">
+            <label class="group flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/80 px-5 py-4 text-sm font-medium text-slate-700 shadow-sm transition hover:border-indigo-200 hover:bg-slate-50 cursor-pointer peer-checked:bg-indigo-50">
                 <input type="hidden" name="specifics[on_departure]" value="0">
                 <input
                     type="checkbox"
@@ -74,13 +78,15 @@
                         checked
                     @endif
                 >
-                <span class="flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-transparent transition
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] border border-slate-300 bg-white text-transparent transition-colors duration-150 ease-in-out
                     peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white">
                     ✓
                 </span>
-                <div class="flex flex-col">
-                    <span class="font-semibold text-slate-800 group-hover:text-slate-900">Available on departure</span>
-                    <span class="text-xs text-slate-500 group-hover:text-slate-600">
+                <div class="flex flex-col flex-1">
+                    <span class="font-semibold text-slate-800 group-hover:text-slate-900">
+                        Available on departure
+                    </span>
+                    <span class="text-xs font-normal text-slate-500 group-hover:text-slate-600 mt-1">
                         Offer checkout-day treats or farewell gifts.
                     </span>
                 </div>
