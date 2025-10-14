@@ -12,7 +12,7 @@
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h2 class="text-xl font-semibold text-slate-900">Products</h2>
-                    <p class="text-sm text-slate-500">Reorder, update, or archive your guest experiences.</p>
+                    <p class="text-sm text-slate-500">Reorder, update, or archive your products & experiences.</p>
                 </div>
                 <div x-data="{ open: false }" class="relative">
                     <button type="button" @click="open = !open" class="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100">
