@@ -110,7 +110,7 @@
                     </section>
 
                     <x-primary-button class="w-full justify-center text-base">
-                        Publish experience
+                        Save Product
                     </x-primary-button>
                 </form>
             </div>
