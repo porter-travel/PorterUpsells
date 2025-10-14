@@ -3,41 +3,55 @@
 @endphp
 
 @if($type === 'calendar')
-    <div class="space-y-6 lg:col-span-2">
+    <div class="space-y-8 lg:col-span-2">
         <div>
             <h4 class="text-lg font-semibold text-slate-900">Scheduling</h4>
-            <p class="text-sm text-slate-500">Define how many bookings can run concurrently and the interval between sessions.</p>
+            <p class="text-sm text-slate-500">
+                Define how many bookings can run concurrently and the interval between sessions.
+            </p>
         </div>
-        <div class="grid gap-4 sm:grid-cols-3">
+
+        <div class="grid gap-6 sm:grid-cols-3 items-end">
+            {{-- Concurrent spaces --}}
             <div class="space-y-2">
-                <x-input-label class="text-slate-700" for="specifics[concurrent_availability]">Concurrent spaces</x-input-label>
-                <x-text-input
+                <label for="specifics[concurrent_availability]" class="block text-sm font-semibold text-slate-700">
+                    Concurrent spaces
+                </label>
+                <input
                     required
-                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm"
                     type="number"
+                    min="1"
                     name="specifics[concurrent_availability]"
                     value="{{ $product->specifics['concurrent_availability'] ?? 1 }}"
-                    min="1"
                     placeholder="1"
+                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                 />
             </div>
+
+            {{-- Max bookings per day --}}
             <div class="space-y-2">
-                <x-input-label class="text-slate-700" for="specifics[max_bookings_per_day]">Max bookings per day</x-input-label>
-                <x-text-input
-                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm"
+                <label for="specifics[max_bookings_per_day]" class="block text-sm font-semibold text-slate-700">
+                    Max bookings per day
+                </label>
+                <input
+                    required
                     type="number"
                     min="1"
-                    required
                     name="specifics[max_bookings_per_day]"
                     value="{{ $product->specifics['max_bookings_per_day'] ?? '' }}"
+                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                 />
             </div>
+
+            {{-- Booking interval --}}
             <div class="space-y-2">
-                <x-input-label class="text-slate-700" for="specifics[time_intervals]">Booking interval</x-input-label>
+                <label for="specifics[time_intervals]" class="block text-sm font-semibold text-slate-700">
+                    Booking interval
+                </label>
                 <select
-                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-200"
-                    name="specifics[time_intervals]"
                     required
+                    name="specifics[time_intervals]"
+                    class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
                 >
                     <option value="" disabled @selected(!isset($product->specifics['time_intervals']))>Please select</option>
                     <option @selected(($product->specifics['time_intervals'] ?? null) === '30mins') value="30mins">30 minutes</option>
