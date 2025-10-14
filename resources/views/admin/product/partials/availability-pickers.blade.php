@@ -8,7 +8,7 @@
             </p>
         </div>
 
-        <div class="grid gap-10 lg:grid-cols-2">
+        <div class="grid gap-10 grid-cols-1">
             {{-- Availability Moments --}}
             <div>
                 <h4 class="text-base font-semibold text-slate-900">Availability moments</h4>
@@ -22,7 +22,7 @@
                         <x-fancy-checkbox
                             label="Available on arrival"
                             name="specifics[on_arrival]"
-                            :isChecked="isset($product->specifics['on_arrival']) ? $product->specifics['on_arrival'] : true"
+                            :isChecked="$product->specifics['on_arrival'] ?? true"
                         />
                         <p class="mt-2 text-xs text-slate-500">Allow guests to pre-book or order upon check-in.</p>
                     </div>
@@ -32,7 +32,7 @@
                         <x-fancy-checkbox
                             label="Available during stay"
                             name="specifics[during_stay]"
-                            :isChecked="isset($product->specifics['during_stay']) ? $product->specifics['during_stay'] : false"
+                            :isChecked="$product->specifics['during_stay'] ?? false"
                         />
                         <p class="mt-2 text-xs text-slate-500">Guests can order anytime after arrival.</p>
                     </div>
@@ -42,7 +42,7 @@
                         <x-fancy-checkbox
                             label="Available on departure"
                             name="specifics[on_departure]"
-                            :isChecked="isset($product->specifics['on_departure']) ? $product->specifics['on_departure'] : false"
+                            :isChecked="$product->specifics['on_departure'] ?? false"
                         />
                         <p class="mt-2 text-xs text-slate-500">Offer checkout-day treats or farewell gifts.</p>
                     </div>
@@ -50,7 +50,7 @@
             </div>
 
             {{-- Available Days --}}
-            <div class="lg:col-span-1">
+            <div class="mt-10">
                 <h4 class="text-base font-semibold text-slate-900">Available days</h4>
                 <p class="mt-1 text-sm text-slate-500">Choose which days this experience can be booked.</p>
 
@@ -67,7 +67,7 @@
                                 @if($method == 'create')
                                     checked
                                 @else
-                                    @checked($product->specifics['available_' . $day] ?? false)
+                                    @checked(!empty($product->specifics['available_' . $day]))
                                 @endif
                             >
                             <span class="flex h-6 w-6 items-center justify-center rounded-md border border-slate-300 bg-white text-transparent transition peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white">✓</span>
