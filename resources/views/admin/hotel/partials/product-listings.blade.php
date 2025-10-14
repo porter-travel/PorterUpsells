@@ -10,13 +10,15 @@
                     <i data-lucide="grip-vertical" class="h-5 w-5"></i>
                 </div>
 
-                {{-- Image --}}
-<a href="/admin/hotel/{{ $hotel->id }}/product/{{ $product->id }}/edit"
-   class="flex h-20 w-24 shrink-0 items-center justify-center rounded-xl bg-white">
-    <div class="flex h-full w-full items-center justify-center overflow-hidden rounded-lg">
-        @include('hotel.partials.product-image', ['item' => $product])
-    </div>
-</a>
+               {{-- Image with vertical spacing --}}
+<div class="py-1">
+    <a href="/admin/hotel/{{ $hotel->id }}/product/{{ $product->id }}/edit"
+       class="flex h-20 w-24 shrink-0 items-center justify-center rounded-xl bg-white">
+        <div class="flex h-full w-full items-center justify-center overflow-hidden rounded-lg">
+            @include('hotel.partials.product-image', ['item' => $product])
+        </div>
+    </a>
+</div>
 
 
 
