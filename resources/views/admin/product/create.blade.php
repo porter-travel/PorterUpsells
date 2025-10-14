@@ -93,21 +93,29 @@
 
 
                     {{-- Variations --}}
-                    <section id="variantContainer" class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm sm:p-8">
-                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                            <div>
-                                <h3 class="text-lg font-semibold text-slate-900">Variations</h3>
-                                <p class="text-sm text-slate-500">Add options such as sizes, time slots, or packages to offer guests flexibility.</p>
-                            </div>
-                            <button data-id="0" type="button"
-                                class="add-item inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100">
-                                <i data-lucide="plus" class="h-4 w-4"></i>
-                                Add variation
-                            </button>
-                        </div>
+<section id="variantContainer" class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <h3 class="text-lg font-semibold text-slate-900">Variations</h3>
+            <p class="text-sm text-slate-500">
+                Add options like sizes, durations, or packages to offer guests flexibility.
+            </p>
+        </div>
+        <button
+            data-id="0"
+            type="button"
+            class="inline-flex items-center gap-2 rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:border-indigo-200 hover:bg-indigo-100 hover:text-indigo-700"
+        >
+            <i data-lucide="plus" class="h-4 w-4"></i>
+            Add variation
+        </button>
+    </div>
 
-                        <div id="variations-list" class="mt-6 hidden"></div>
-                    </section>
+    <div id="variations-list" class="mt-6 hidden rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 p-6 text-center text-sm text-slate-400">
+        No variations added yet
+    </div>
+</section>
+
 
                     <x-primary-button class="w-full justify-center text-base">
                         Save Product
