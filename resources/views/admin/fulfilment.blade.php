@@ -32,24 +32,6 @@
         }
     </style>
 
-    <x-slot name="header">
-
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div class="space-y-2">
-                <p class="text-xs font-semibold uppercase tracking-widest text-indigo-500">Fulfilment checklist</p>
-                <h1 class="text-3xl font-semibold text-slate-900 sm:text-4xl">Orders for {{ $currentDateFormatted }}</h1>
-                <p class="text-sm text-slate-500">Tick each order off as soon as it has been prepared or delivered.</p>
-            </div>
-            @if(!empty($fulfilmentKeyDetails))
-                <div class="rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-sm text-slate-600 shadow-sm">
-                    <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Fulfilment team</p>
-                    <p class="text-base font-semibold text-slate-800">{{ $fulfilmentKeyDetails['name'] }}</p>
-                </div>
-            @endif
-
-        </div>
-    </x-slot>
-
     <div class="py-6">
 
         <div class="mx-auto w-full max-w-5xl space-y-6 px-4 sm:px-6 lg:px-8">
