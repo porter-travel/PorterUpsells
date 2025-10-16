@@ -3,14 +3,28 @@
     $isPending = $status === 'pending';
     $titleClasses = 'fulfilment-order-title text-lg font-semibold text-slate-900';
 
+    $statusLabels = [
+        'ready' => 'Ready to fulfil',
+        'pending' => 'Awaiting arrival',
+        'complete' => 'Completed',
+    ];
+    $statusThemes = [
+        'ready' => 'bg-emerald-50 text-emerald-600 border border-emerald-100',
+        'pending' => 'bg-amber-50 text-amber-700 border border-amber-100',
+        'complete' => 'bg-slate-100 text-slate-600 border border-slate-200',
+    ];
+
+
     if ($isComplete) {
         $titleClasses .= ' text-slate-500 line-through';
     }
 @endphp
 
-<div class="fulfilment-panel group rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm transition hover:border-indigo-200 hover:shadow-md @if($isComplete) opacity-70 @endif">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div class="flex w-full gap-4">
+
+<div class="fulfilment-panel group rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-sm transition hover:border-indigo-200 hover:shadow-md sm:p-5 @if($isComplete) opacity-70 @endif">
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-4">
+
             <div class="flex flex-shrink-0 items-start pt-1">
                 <div class="relative">
                     <input
@@ -36,17 +50,27 @@
             </div>
 
             <div class="flex-1 space-y-4">
-                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div class="space-y-1">
-                        <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Guest</p>
-                        <p class="{{ $titleClasses }}">{{ $order['name'] }}</p>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-2 sm:justify-end">
-                        <div class="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-600">
-                            Room {{ $order['room'] ?: '—' }}
+
+                <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                    <div class="space-y-2">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold {{ $statusThemes[$status] ?? 'bg-slate-100 text-slate-600 border border-slate-200' }}">
+                                <span class="inline-block h-1.5 w-1.5 rounded-full bg-current"></span>
+                                {{ $statusLabels[$status] ?? 'Order' }}
+                            </span>
+                            <div class="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600">
+                                Room {{ $order['room'] ?: '—' }}
+                            </div>
                         </div>
+                        <div class="space-y-1">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Guest</p>
+                            <p class="{{ $titleClasses }}">{{ $order['name'] }}</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 lg:justify-end">
                         @if(!empty($integration))
-                            <div class="status-pill inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600">
+                            <div class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600">
+
                                 <span>{{ $order['checkin'] ? 'Checked in' : 'Not arrived' }}</span>
                             </div>
                         @endif

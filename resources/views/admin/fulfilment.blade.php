@@ -7,55 +7,116 @@
     <style>
         .temporary-complete {
             opacity: 0.6;
+
         }
 
         .temporary-complete .fulfilment-order-title {
             text-decoration: line-through;
         }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary:focus-visible {
+            outline: none;
+        }
+
+        .collapsible-chevron {
+            transition: transform 0.2s ease;
+        }
+
+        details[open] .collapsible-chevron {
+            transform: rotate(180deg);
+
+        }
     </style>
 
     <x-slot name="header">
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div class="space-y-2">
                 <p class="text-xs font-semibold uppercase tracking-widest text-indigo-500">Fulfilment checklist</p>
-                <h1 class="text-3xl font-semibold text-slate-900 sm:text-4xl">Today's orders</h1>
-                <p class="text-sm text-slate-500">Tick orders off as soon as they are prepared or delivered.</p>
+                <h1 class="text-3xl font-semibold text-slate-900 sm:text-4xl">Orders for {{ $currentDateFormatted }}</h1>
+                <p class="text-sm text-slate-500">Tick each order off as soon as it has been prepared or delivered.</p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-white/80 px-4 py-2 text-sm font-medium text-slate-500 shadow-sm">
-                {{ now()->timezone(config('app.timezone'))->format('l j F Y') }}
-            </div>
+            @if(!empty($fulfilmentKeyDetails))
+                <div class="rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-sm text-slate-600 shadow-sm">
+                    <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Fulfilment team</p>
+                    <p class="text-base font-semibold text-slate-800">{{ $fulfilmentKeyDetails['name'] }}</p>
+                </div>
+            @endif
+
         </div>
     </x-slot>
 
     <div class="py-6">
-        <div class="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 sm:px-6 lg:px-8">
-            @if(!empty($fulfilmentKeyDetails))
-                <div class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm">
-                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <div class="space-y-1">
-                            <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Fulfilment team</p>
-                            <h2 class="text-2xl font-semibold text-slate-900">{{ $fulfilmentKeyDetails['name'] }}</h2>
-                            <p class="text-sm text-slate-500">Orders scheduled for today are listed below.</p>
-                        </div>
-                        <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-500">
-                            Share this page with your on-the-ground team so everyone stays in sync.
-                        </div>
-                    </div>
-                </div>
-            @endif
 
+        <div class="mx-auto w-full max-w-5xl space-y-6 px-4 sm:px-6 lg:px-8">
             @php
-                $hotelCount = count($hotels);
+                $baseRoute = route('fulfilment', ['key' => $key]);
+                $prevUrl = $baseRoute . '?date=' . $previousDate->format('Y-m-d');
+                $nextUrl = $baseRoute . '?date=' . $nextDate->format('Y-m-d');
+                $todayUrl = $baseRoute;
+                if (!$currentDate->isSameDay($todayDate)) {
+                    $todayUrl .= '?date=' . $todayDate->format('Y-m-d');
+                }
             @endphp
 
-            @if($hotelCount > 1)
-                <div class="rounded-3xl border border-slate-200 bg-white/95 p-5 shadow-sm">
-                    <div class="space-y-3">
+            <div class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm">
+                <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+                    <div class="space-y-1">
+                        <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Schedule</p>
+                        <p class="text-lg font-semibold text-slate-900">{{ $currentDateFormatted }}</p>
+                        <p class="text-sm text-slate-500">Jump backwards or forwards to review other service days.</p>
+                    </div>
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <a href="{{ $prevUrl }}"
+                               class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-indigo-300 hover:text-indigo-600 sm:text-sm">
+                                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12.5 4.5L7.5 10L12.5 15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                Prev day
+                            </a>
+                            @if(!$currentDate->isSameDay($todayDate))
+                                <a href="{{ $todayUrl }}"
+                                   class="inline-flex items-center gap-1 rounded-full border border-indigo-200 bg-indigo-50 px-4 py-2 text-xs font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100 sm:text-sm">
+                                    Today
+                                </a>
+                            @endif
+                            <a href="{{ $nextUrl }}"
+                               class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-indigo-300 hover:text-indigo-600 sm:text-sm">
+                                Next day
+                                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.5 4.5L12.5 10L7.5 15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
+                        <form method="GET" action="{{ $baseRoute }}" class="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 shadow-sm">
+                            <label for="date-picker" class="text-xs font-semibold uppercase tracking-widest text-slate-500">Go to</label>
+                            <input id="date-picker" type="date" name="date" value="{{ $currentDate->format('Y-m-d') }}" class="w-36 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 focus:border-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-200" onchange="this.form.submit()" />
+                        </form>
+                    </div>
+                </div>
+
+                @php
+                    $hotelCount = count($hotels);
+                @endphp
+
+                @if($hotelCount > 1)
+                    <div class="mt-6 space-y-3 border-t border-slate-200 pt-6">
+
                         <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Properties</p>
                         <div id="hotelTabs" class="flex flex-wrap gap-2">
                             @foreach($hotels as $index => $hotel)
                                 @php
                                     $readyCount = isset($hotel['orders']['ready']) ? count($hotel['orders']['ready']) : 0;
+
+                                    $pendingCount = isset($hotel['orders']['pending']) ? count($hotel['orders']['pending']) : 0;
+                                    $completeCount = isset($hotel['orders']['complete']) ? count($hotel['orders']['complete']) : 0;
+                                    $totalCount = $readyCount + $pendingCount + $completeCount;
+
                                 @endphp
                                 <button
                                     type="button"
@@ -64,15 +125,19 @@
                                     @if($index === 0) aria-pressed="true" @else aria-pressed="false" @endif
                                 >
                                     <span>{{ $hotel['name'] }}</span>
-                                    @if($readyCount > 0)
-                                        <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">{{ $readyCount }}</span>
+
+                                    @if($totalCount > 0)
+                                        <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-600">{{ $totalCount }}</span>
+
                                     @endif
                                 </button>
                             @endforeach
                         </div>
                     </div>
-                </div>
-            @endif
+
+                @endif
+            </div>
+
 
             @foreach($hotels as $index => $hotel)
                 @php
@@ -80,62 +145,84 @@
                     $pending = $hotel['orders']['pending'] ?? [];
                     $complete = $hotel['orders']['complete'] ?? [];
                     $hasOrders = count($ready) > 0 || count($pending) > 0 || count($complete) > 0;
+
+                    $statusSections = [
+                        'ready' => [
+                            'title' => 'Ready to fulfil',
+                            'orders' => $ready,
+                        ],
+                        'pending' => [
+                            'title' => 'Awaiting arrival',
+                            'orders' => $pending,
+                        ],
+                        'complete' => [
+                            'title' => 'Completed today',
+                            'orders' => $complete,
+                        ],
+                    ];
+                    $statusDots = [
+                        'ready' => 'bg-emerald-500',
+                        'pending' => 'bg-amber-500',
+                        'complete' => 'bg-slate-400',
+                    ];
                 @endphp
 
                 <section
                     id="ordersPanel{{ $index }}"
                     data-hotel-panel
-                    class="orders-panel space-y-6 @if($index > 0 && $hotelCount > 1) hidden @endif"
+                    class="orders-panel space-y-6 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm @if($index > 0 && $hotelCount > 1) hidden @endif"
                 >
-                    <div class="flex items-center gap-3 rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 shadow-sm">
-                        @if(!empty($hotel['logo']))
-                            <img src="{{ $hotel['logo'] }}" alt="{{ $hotel['name'] }} logo" class="h-12 w-12 rounded-xl object-cover" loading="lazy">
-                        @endif
-                        <div>
-                            <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Property</p>
-                            <h2 class="text-xl font-semibold text-slate-900">{{ $hotel['name'] }}</h2>
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="flex flex-1 items-center gap-4">
+                            @if(!empty($hotel['logo']))
+                                <img src="{{ $hotel['logo'] }}" alt="{{ $hotel['name'] }} logo" class="h-14 w-14 flex-shrink-0 rounded-xl object-cover" loading="lazy">
+                            @endif
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Property</p>
+                                <h2 class="text-xl font-semibold text-slate-900">{{ $hotel['name'] }}</h2>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-xs text-slate-500 sm:text-sm">
+                            <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-600">
+                                {{ count($ready) }} ready
+                            </span>
+                            <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-600">
+                                {{ count($pending) }} waiting
+                            </span>
+                            <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-600">
+                                {{ count($complete) }} complete
+                            </span>
                         </div>
                     </div>
 
                     @if($hasOrders)
-                        @php
-                            $sections = [
-                                'ready' => [
-                                    'title' => 'Ready to fulfil',
-                                    'description' => 'Everything that can be handed over right now.',
-                                    'orders' => $ready,
-                                ],
-                                'pending' => [
-                                    'title' => 'Awaiting arrival',
-                                    'description' => 'These unlock once the guest has checked in.',
-                                    'orders' => $pending,
-                                ],
-                                'complete' => [
-                                    'title' => 'Completed today',
-                                    'description' => 'A record of everything already delivered.',
-                                    'orders' => $complete,
-                                ],
-                            ];
-                        @endphp
-
-                        @foreach($sections as $section => $meta)
-                            @if(count($meta['orders']) > 0)
-                                <div class="space-y-4">
-                                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                                        <div>
-                                            <h3 class="text-base font-semibold text-slate-900">{{ $meta['title'] }}</h3>
-                                            <p class="text-xs text-slate-500">{{ $meta['description'] }}</p>
+                        <div class="space-y-4">
+                            @foreach($statusSections as $section => $meta)
+                                @if(count($meta['orders']) > 0)
+                                    <details class="group overflow-hidden rounded-2xl border border-slate-200 bg-white/90 shadow-sm" @if($section !== 'complete') open @endif>
+                                        <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-700">
+                                            <span class="flex items-center gap-2">
+                                                <span class="h-2.5 w-2.5 rounded-full {{ $statusDots[$section] ?? 'bg-slate-400' }}"></span>
+                                                {{ $meta['title'] }}
+                                            </span>
+                                            <span class="flex items-center gap-2">
+                                                <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-600">{{ count($meta['orders']) }}</span>
+                                                <svg class="collapsible-chevron h-4 w-4 text-slate-400" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M1.5 1.5L10 10L18.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </span>
+                                        </summary>
+                                        <div class="border-t border-slate-200 bg-white">
+                                            <div class="space-y-4 p-4">
+                                                @foreach($meta['orders'] as $order)
+                                                    @include('admin.partials.fulfilment-panel', ['order' => $order, 'status' => $section, 'key' => $key, 'integration' => $hotel['integration']])
+                                                @endforeach
+                                            </div>
                                         </div>
-                                        <span class="inline-flex items-center justify-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">{{ count($meta['orders']) }}</span>
-                                    </div>
-                                    <div class="space-y-4">
-                                        @foreach($meta['orders'] as $order)
-                                            @include('admin.partials.fulfilment-panel', ['order' => $order, 'status' => $section, 'key' => $key, 'integration' => $hotel['integration']])
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
+                                    </details>
+                                @endif
+                            @endforeach
+                        </div>
                     @else
                         <div class="flex flex-col items-start gap-3 rounded-3xl border border-dashed border-slate-300 bg-white/80 p-6 text-sm text-slate-500 shadow-sm">
                             <div class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
@@ -146,10 +233,11 @@
                                 </svg>
                             </div>
                             <div>
-                                <p class="font-semibold text-slate-700">No orders for this property today</p>
-                                <p class="mt-1 text-xs text-slate-500">As new orders arrive they will appear here automatically.</p>
+                                <p class="font-semibold text-slate-700">No orders for this property on this day</p>
+                                <p class="mt-1 text-xs text-slate-500">When new orders are scheduled they will automatically appear here.</p>
                             </div>
                         </div>
+
                     @endif
                 </section>
             @endforeach
@@ -203,7 +291,14 @@
                         key: key
                     },
                     success: function () {
-                        that.parents('.fulfilment-panel').addClass('temporary-complete');
+
+                        const panel = that.parents('.fulfilment-panel');
+                        if (status === 'complete') {
+                            panel.addClass('temporary-complete');
+                        } else {
+                            panel.removeClass('temporary-complete');
+                        }
+
                     },
                     error: function (error) {
                         console.error(error);
