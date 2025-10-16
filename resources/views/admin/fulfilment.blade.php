@@ -7,6 +7,7 @@
     <style>
         .temporary-complete {
             opacity: 0.6;
+
         }
 
         .temporary-complete .fulfilment-order-title {
@@ -27,10 +28,12 @@
 
         details[open] .collapsible-chevron {
             transform: rotate(180deg);
+
         }
     </style>
 
     <x-slot name="header">
+
         <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div class="space-y-2">
                 <p class="text-xs font-semibold uppercase tracking-widest text-indigo-500">Fulfilment checklist</p>
@@ -43,10 +46,12 @@
                     <p class="text-base font-semibold text-slate-800">{{ $fulfilmentKeyDetails['name'] }}</p>
                 </div>
             @endif
+
         </div>
     </x-slot>
 
     <div class="py-6">
+
         <div class="mx-auto w-full max-w-5xl space-y-6 px-4 sm:px-6 lg:px-8">
             @php
                 $baseRoute = route('fulfilment', ['key' => $key]);
@@ -101,14 +106,17 @@
 
                 @if($hotelCount > 1)
                     <div class="mt-6 space-y-3 border-t border-slate-200 pt-6">
+
                         <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Properties</p>
                         <div id="hotelTabs" class="flex flex-wrap gap-2">
                             @foreach($hotels as $index => $hotel)
                                 @php
                                     $readyCount = isset($hotel['orders']['ready']) ? count($hotel['orders']['ready']) : 0;
+
                                     $pendingCount = isset($hotel['orders']['pending']) ? count($hotel['orders']['pending']) : 0;
                                     $completeCount = isset($hotel['orders']['complete']) ? count($hotel['orders']['complete']) : 0;
                                     $totalCount = $readyCount + $pendingCount + $completeCount;
+
                                 @endphp
                                 <button
                                     type="button"
@@ -117,15 +125,19 @@
                                     @if($index === 0) aria-pressed="true" @else aria-pressed="false" @endif
                                 >
                                     <span>{{ $hotel['name'] }}</span>
+
                                     @if($totalCount > 0)
                                         <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-600">{{ $totalCount }}</span>
+
                                     @endif
                                 </button>
                             @endforeach
                         </div>
                     </div>
+
                 @endif
             </div>
+
 
             @foreach($hotels as $index => $hotel)
                 @php
@@ -133,6 +145,7 @@
                     $pending = $hotel['orders']['pending'] ?? [];
                     $complete = $hotel['orders']['complete'] ?? [];
                     $hasOrders = count($ready) > 0 || count($pending) > 0 || count($complete) > 0;
+
                     $statusSections = [
                         'ready' => [
                             'title' => 'Ready to fulfil',
@@ -224,6 +237,7 @@
                                 <p class="mt-1 text-xs text-slate-500">When new orders are scheduled they will automatically appear here.</p>
                             </div>
                         </div>
+
                     @endif
                 </section>
             @endforeach
@@ -277,12 +291,14 @@
                         key: key
                     },
                     success: function () {
+
                         const panel = that.parents('.fulfilment-panel');
                         if (status === 'complete') {
                             panel.addClass('temporary-complete');
                         } else {
                             panel.removeClass('temporary-complete');
                         }
+
                     },
                     error: function (error) {
                         console.error(error);
