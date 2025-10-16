@@ -5,171 +5,187 @@
         crossorigin="anonymous"></script>
 
     <style>
-
-        .fulfilment-panel input{
-            width: 0;
-            height: 0;
-            opacity: 0;
-            position: absolute;
-        }
-        .fulfilment-panel input + label{
-            border: 1px solid black;
-            width: 30px;
-            height: 30px;
-            display: block;
-            border-radius: 5px
+        .temporary-complete {
+            opacity: 0.6;
         }
 
-        .fulfilment-panel input + label svg{
-            display: none
-        }
-
-        .fulfilment-panel input:checked + label{
-            background: #D4F6D1;
-            position: relative;
-        }
-
-        .fulfilment-panel input:checked + label svg{
-            display: block;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .temporary-complete{
-            opacity: 0.5;
-        }
-
-        .temporary-complete span{
+        .temporary-complete .fulfilment-order-title {
             text-decoration: line-through;
         }
-
-        .no-integration .status-pill{
-            display: none;
-        }
     </style>
+
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Today's Upsells
-            </h2>
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div class="space-y-2">
+                <p class="text-xs font-semibold uppercase tracking-widest text-indigo-500">Fulfilment checklist</p>
+                <h1 class="text-3xl font-semibold text-slate-900 sm:text-4xl">Today's orders</h1>
+                <p class="text-sm text-slate-500">Tick orders off as soon as they are prepared or delivered.</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white/80 px-4 py-2 text-sm font-medium text-slate-500 shadow-sm">
+                {{ now()->timezone(config('app.timezone'))->format('l j F Y') }}
+            </div>
         </div>
     </x-slot>
-    <div class="py-2 max-w-[700px] mx-auto">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    @if(!empty($fulfilmentKeyDetails))
-                        <div class="mb-6 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Fulfilment key</p>
-                            <p class="mt-1 text-lg font-semibold text-slate-900">{{ $fulfilmentKeyDetails['name'] }}</p>
-                            <p class="mt-1 font-mono text-xs text-slate-500 break-all">{{ $key }}</p>
-                            <p class="mt-2 text-sm text-slate-500">
-                                @if(!empty($fulfilmentKeyDetails['expires_at_formatted']))
-                                    Expires {{ $fulfilmentKeyDetails['expires_at_formatted'] }}
-                                @else
-                                    No expiry date set
-                                @endif
-                            </p>
-                            @if(!empty($hotels))
-                                <div class="mt-3">
-                                    <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Access to</p>
-                                    <div class="mt-2 flex flex-wrap gap-2">
-                                        @foreach($hotels as $hotel)
-                                            <span class="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-600 shadow-sm ring-1 ring-slate-200">
-                                                {{ $hotel['name'] }}
-                                            </span>
+
+    <div class="py-6">
+        <div class="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 sm:px-6 lg:px-8">
+            @if(!empty($fulfilmentKeyDetails))
+                <div class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm">
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="space-y-1">
+                            <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Fulfilment team</p>
+                            <h2 class="text-2xl font-semibold text-slate-900">{{ $fulfilmentKeyDetails['name'] }}</h2>
+                            <p class="text-sm text-slate-500">Orders scheduled for today are listed below.</p>
+                        </div>
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2 text-xs text-slate-500">
+                            Share this page with your on-the-ground team so everyone stays in sync.
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @php
+                $hotelCount = count($hotels);
+            @endphp
+
+            @if($hotelCount > 1)
+                <div class="rounded-3xl border border-slate-200 bg-white/95 p-5 shadow-sm">
+                    <div class="space-y-3">
+                        <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Properties</p>
+                        <div id="hotelTabs" class="flex flex-wrap gap-2">
+                            @foreach($hotels as $index => $hotel)
+                                @php
+                                    $readyCount = isset($hotel['orders']['ready']) ? count($hotel['orders']['ready']) : 0;
+                                @endphp
+                                <button
+                                    type="button"
+                                    class="hotel-tab inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 transition hover:border-indigo-200 hover:text-indigo-600"
+                                    data-hotel-target="ordersPanel{{ $index }}"
+                                    @if($index === 0) aria-pressed="true" @else aria-pressed="false" @endif
+                                >
+                                    <span>{{ $hotel['name'] }}</span>
+                                    @if($readyCount > 0)
+                                        <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">{{ $readyCount }}</span>
+                                    @endif
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @foreach($hotels as $index => $hotel)
+                @php
+                    $ready = $hotel['orders']['ready'] ?? [];
+                    $pending = $hotel['orders']['pending'] ?? [];
+                    $complete = $hotel['orders']['complete'] ?? [];
+                    $hasOrders = count($ready) > 0 || count($pending) > 0 || count($complete) > 0;
+                @endphp
+
+                <section
+                    id="ordersPanel{{ $index }}"
+                    data-hotel-panel
+                    class="orders-panel space-y-6 @if($index > 0 && $hotelCount > 1) hidden @endif"
+                >
+                    <div class="flex items-center gap-3 rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 shadow-sm">
+                        @if(!empty($hotel['logo']))
+                            <img src="{{ $hotel['logo'] }}" alt="{{ $hotel['name'] }} logo" class="h-12 w-12 rounded-xl object-cover" loading="lazy">
+                        @endif
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-widest text-slate-500">Property</p>
+                            <h2 class="text-xl font-semibold text-slate-900">{{ $hotel['name'] }}</h2>
+                        </div>
+                    </div>
+
+                    @if($hasOrders)
+                        @php
+                            $sections = [
+                                'ready' => [
+                                    'title' => 'Ready to fulfil',
+                                    'description' => 'Everything that can be handed over right now.',
+                                    'orders' => $ready,
+                                ],
+                                'pending' => [
+                                    'title' => 'Awaiting arrival',
+                                    'description' => 'These unlock once the guest has checked in.',
+                                    'orders' => $pending,
+                                ],
+                                'complete' => [
+                                    'title' => 'Completed today',
+                                    'description' => 'A record of everything already delivered.',
+                                    'orders' => $complete,
+                                ],
+                            ];
+                        @endphp
+
+                        @foreach($sections as $section => $meta)
+                            @if(count($meta['orders']) > 0)
+                                <div class="space-y-4">
+                                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                        <div>
+                                            <h3 class="text-base font-semibold text-slate-900">{{ $meta['title'] }}</h3>
+                                            <p class="text-xs text-slate-500">{{ $meta['description'] }}</p>
+                                        </div>
+                                        <span class="inline-flex items-center justify-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">{{ count($meta['orders']) }}</span>
+                                    </div>
+                                    <div class="space-y-4">
+                                        @foreach($meta['orders'] as $order)
+                                            @include('admin.partials.fulfilment-panel', ['order' => $order, 'status' => $section, 'key' => $key, 'integration' => $hotel['integration']])
                                         @endforeach
                                     </div>
                                 </div>
                             @endif
+                        @endforeach
+                    @else
+                        <div class="flex flex-col items-start gap-3 rounded-3xl border border-dashed border-slate-300 bg-white/80 p-6 text-sm text-slate-500 shadow-sm">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 7H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M6 11H18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    <path d="M9 15H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-slate-700">No orders for this property today</p>
+                                <p class="mt-1 text-xs text-slate-500">As new orders arrive they will appear here automatically.</p>
+                            </div>
                         </div>
                     @endif
-                    <div class="relative mb-6">
-                        <ul id="hotelsDropdown"
-                            class="bg-yellow border border-black rounded-xl p-2  cursor-pointer">
-                            @php $i = 0; @endphp
-                            @foreach($hotels as $hotel)
-                                <li id="orderTrigger{{$i}}"
-                                    data-target="ordersPanel{{$i}}"
-                                    class="text-xl pr-6 font-bold @if($i > 0) hidden @else active @endif cursor-pointer">
-                                    {{$hotel['name']}}
-                                    @if(isset($hotel['orders']['ready']) && count($hotel['orders']['ready']) > 0)
-                                        <span class="">
-                                            ({{count($hotel['orders']['ready'])}})
-                                        </span>
-                                    @endif
-
-                                </li>
-                                @php $i++; @endphp
-                            @endforeach
-                        </ul>
-                        <div style="pointer-events: none" class="absolute right-2 top-[19px]">
-                            <svg width="14" height="9" viewBox="0 0 14 9" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 1L7 7L13 0.999999" stroke="black" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <hr>
-                    @php $i = 0; @endphp
-                    @foreach($hotels as $hotel)
-                        <div class="orders-panel  mt-6 {{$hotel['integration'] ?: 'no-integration'}} @if($i > 0) hidden @endif" id="ordersPanel{{$i}}">
-                            @if(isset($hotel['orders']['ready']) && count($hotel['orders']['ready']) > 0)
-                                <div>
-                                    <h2 class="text-lg font-bold mb-6">Ready to be fulfilled:</h2>
-                                </div>
-                                @foreach($hotel['orders']['ready'] as $order)
-                                    @include('admin.partials.fulfilment-panel', ['order' => $order, 'status' => 'ready', 'key' => $key])
-                                @endforeach
-                            @endif
-
-                            @if(isset($hotel['orders']['pending']) && count($hotel['orders']['pending']) > 0)
-                                <div>
-                                    <h2 class="text-lg font-bold mb-6">Awaiting assignment or arrival:</h2>
-                                </div>
-                                @foreach($hotel['orders']['pending'] as $order)
-                                    @include('admin.partials.fulfilment-panel', ['order' => $order, 'status' => 'pending', 'key' => $key])
-                                @endforeach
-                            @endif
-
-                            @if(isset($hotel['orders']['complete']) && count($hotel['orders']['complete']) > 0)
-                                <div>
-                                    <h2 class="text-lg font-bold mb-6">Completed:</h2>
-                                </div>
-                                @foreach($hotel['orders']['complete'] as $order)
-                                    @include('admin.partials.fulfilment-panel', ['order' => $order, 'status' => 'complete', 'key' => $key])
-                                @endforeach
-                            @endif
-                        </div>
-                        @php $i++; @endphp
-                    @endforeach
-                </div>
-            </div>
+                </section>
+            @endforeach
         </div>
     </div>
 
     <script>
         $(document).ready(function () {
-            // Handle click on the active hotel (initially the first one)
-            $('#hotelsDropdown').on('click', 'li.active', function () {
-                $('#hotelsDropdown li').not('.active').toggleClass('hidden');
+            const activateTab = (targetId) => {
+                const panels = $('[data-hotel-panel]');
+                const tabs = $('.hotel-tab');
+
+                panels.addClass('hidden');
+                $(`#${targetId}`).removeClass('hidden');
+
+                tabs.each(function () {
+                    $(this)
+                        .removeClass('bg-indigo-50 border-indigo-300 text-indigo-600')
+                        .attr('aria-pressed', 'false');
+                });
+
+                const activeTab = $(`.hotel-tab[data-hotel-target="${targetId}"]`);
+                activeTab
+                    .addClass('bg-indigo-50 border-indigo-300 text-indigo-600')
+                    .attr('aria-pressed', 'true');
+            };
+
+            $('.hotel-tab').on('click', function () {
+                const target = $(this).data('hotel-target');
+                activateTab(target);
             });
 
-            // Handle click on non-active hotel elements
-            $('#hotelsDropdown').on('click', 'li:not(.active)', function () {
-                // Hide all order panels
-                $('.orders-panel').addClass('hidden');
-
-                // Show the targeted order panel
-                const target = $(this).data('target');
-                $(`#${target}`).removeClass('hidden');
-
-                // Update active state for the clicked hotel and hide others
-                $('#hotelsDropdown li').removeClass('active').addClass('hidden');
-                $(this).addClass('active').removeClass('hidden');
-            });
+            const firstTab = $('.hotel-tab').first();
+            if (firstTab.length) {
+                activateTab(firstTab.data('hotel-target'));
+            }
 
             $('[data-action="fulfilOrder"]').on('change', function () {
                 const orderId = $(this).attr('id').replace('order', '');
@@ -186,9 +202,8 @@
                         status: status,
                         key: key
                     },
-                    success: function (response) {
-                        that.parents('.fulfilment-panel').addClass('temporary-complete')
-                        console.log(response);
+                    success: function () {
+                        that.parents('.fulfilment-panel').addClass('temporary-complete');
                     },
                     error: function (error) {
                         console.error(error);
@@ -198,5 +213,4 @@
         });
 
     </script>
-
 </x-app-layout>
