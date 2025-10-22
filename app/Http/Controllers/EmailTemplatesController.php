@@ -37,7 +37,8 @@ class EmailTemplatesController extends Controller
 
     public function create($hotel_id)
     {
-        return view('admin.builder.builder', ['hotel_id' => $hotel_id, 'template_id' => null]);
+        $hotel = Hotel::find($hotel_id);
+        return view('admin.builder.builder', ['hotel_id' => $hotel_id, 'template_id' => null, 'hotel' => $hotel]);
     }
 
     public function store(Request $request, $hotel_id){
