@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--TEST-->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <!-- Google tag (gtag.js) -->
@@ -19,7 +20,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{$title ?? 'Enhance My Stay'}}</title>
-    <link rel="icon" type="image/x-icon" href="{{$favicon ?? '/img/hank.png'}}">
+    <link rel="icon" type="image/x-icon" href="{{ $favicon ?? asset('favicon.ico') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Fonts -->
@@ -33,8 +34,8 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/builder.js'])
 </head>
-<body class="font-sans antialiased">
-<div class="min-h-screen bg-gray-100">
+<body class="font-sans antialiased bg-brand-background text-brand-text">
+<div class="min-h-screen bg-brand-surface/50">
     @if(!Route::is('fulfilment'))
         @include('layouts.navigation')
     @endif

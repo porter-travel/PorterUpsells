@@ -2,7 +2,7 @@
 
 import { createApp } from 'vue';
 import PageBuilder from './components/Builder.vue';
-
+alert("builder.js loaded");
 // Determine the builder type (e.g., from a data attribute or global variable)
 const builderElement = document.getElementById('builder');
 const builderType = builderElement.dataset.type; // Assumes a data-type attribute on the #builder div

@@ -15,6 +15,7 @@
                 " bgcolor="" valign="top">
                 <table
                     style="width: 100%; background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);">
+                    <tbody>
                     <tr>
                         <td style="height: 150px">
 
@@ -23,6 +24,7 @@
                     <tr>
                         <td style="text-align: left; padding: 16px">
                             <table>
+                                <tbody>
                                 <tr>
                                     <td>
                                         <img :src="props.hotelLogo" alt="hotel"
@@ -36,10 +38,12 @@
 
                                     </td>
                                 </tr>
+                                </tbody>
                             </table>
 
                         </td>
                     </tr>
+                    </tbody>
                 </table>
 
             </td>

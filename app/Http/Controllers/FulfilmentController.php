@@ -10,25 +10,42 @@ use Illuminate\Http\Request;
 
 class FulfilmentController extends Controller
 {
-    public function fulfilment($key)
+    public function fulfilment(Request $request, $key)
     {
         $fulfilmentKeys = FulfilmentKey::with('hotel')->where('key', $key)->get();
-        $fulfilmentKey = $fulfilmentKeys->first();
+
+        if ($fulfilmentKeys->isEmpty()) {
+            return response()->json(['message' => 'Invalid key'], 404);
+        }
+
+        $primaryKey = $fulfilmentKeys->first();
+
+        $timezone = config('app.timezone');
+        $dateParam = $request->query('date');
+
+        try {
+            $targetDate = $dateParam
+                ? Carbon::createFromFormat('Y-m-d', $dateParam, $timezone)->startOfDay()
+                : now($timezone)->startOfDay();
+        } catch (\Exception $exception) {
+            $targetDate = now($timezone)->startOfDay();
+        }
 
         $hotels = [];
 
-        foreach ($fulfilmentKeys as $fulfilmentKey) {
-            $hotels[] = $fulfilmentKey->hotel->toArray();
+        foreach ($fulfilmentKeys as $keyRecord) {
+            $hotels[] = $keyRecord->hotel->toArray();
         }
 
         foreach ($hotels as $k => $hotel) {
 //            $hotels[$k]['orders'] = 'styff';
             $hotels[$k]['orders'] = Order::where('hotel_id', $hotel['id'])
-                ->whereHas('items', function ($query) {
-                    $query->whereDate('date', '=', Carbon::now()->toDateString('Y-m-d'));
+                ->whereHas('items', function ($query) use ($targetDate) {
+                    $query->whereDate('date', '=', $targetDate->toDateString());
                 })
-                ->with(['items' => function ($query) {
-                    $query->orderBy('date', 'asc');
+                ->with(['items' => function ($query) use ($targetDate) {
+                    $query->whereDate('date', '=', $targetDate->toDateString())
+                        ->orderBy('date', 'asc');
                 },        'items.product' => function ($query) {
                     $query->withTrashed(); // Include soft-deleted products
                 }, 'items.product.specifics', 'booking'])
@@ -87,15 +104,38 @@ class FulfilmentController extends Controller
 //        dd($output);
 
 
-        if (!$fulfilmentKey) {
-            return response()->json(['message' => 'Invalid key'], 404);
-        }
-        if ($fulfilmentKey->expires_at && $fulfilmentKey->expires_at < now()) {
+        if ($primaryKey->expires_at && $primaryKey->expires_at < now()) {
             return response()->json(['message' => 'Key has expired'], 404);
         }
 
+        $expiresAtFormatted = null;
+
+        if ($primaryKey->expires_at) {
+            $expiresAtFormatted = $primaryKey->expires_at
+                ->timezone(config('app.timezone'))
+                ->format('j M Y g:ia');
+        }
+
+        $keyDetails = [
+            'name' => $primaryKey->name,
+            'expires_at_formatted' => $expiresAtFormatted,
+        ];
+
+        $previousDate = $targetDate->copy()->subDay();
+        $nextDate = $targetDate->copy()->addDay();
+        $today = now($timezone)->startOfDay();
+
 //        dd($hotels);
-        return view('admin.fulfilment', ['hotels' => $output, 'key' => $key]);
+        return view('admin.fulfilment', [
+            'hotels' => $output,
+            'key' => $key,
+            'fulfilmentKeyDetails' => $keyDetails,
+            'currentDate' => $targetDate,
+            'currentDateFormatted' => $targetDate->format('l j F Y'),
+            'previousDate' => $previousDate,
+            'nextDate' => $nextDate,
+            'todayDate' => $today,
+        ]);
     }
 
     public function fulfilOrder(Request $request){

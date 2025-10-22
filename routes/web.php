@@ -21,19 +21,8 @@ use App\Models\Hotel;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
-
-
-Route::get('/about', function () {
-    return view('about');
-});
-
-Route::get('/contact', function () {
-    return view('contact');
-});
-
-Route::post('/submit-contact-form',[WelcomeController::class, 'submit_form'] )->name('welcome.submit-form');
 
 Route::get('/hotel/{id}/welcome', [HotelController::class, 'welcome'] )->name('hotel.welcome');
 
@@ -81,6 +70,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('admin/hotel/create', [HotelController::class, 'create'] )->name('hotel.create');
 
     Route::get('admin/hotel/{id}/edit', [HotelController::class, 'edit'] )->name('hotel.edit');
+    Route::get('admin/hotel/{id}/branding', [HotelController::class, 'branding'] )->name('hotel.branding');
     Route::post('admin/hotel/{id}/update', [HotelController::class, 'update'] )->name('hotel.update');
 
     Route::get('admin/hotel/{id}/product/create/{type?}', [ProductController::class, 'create'] )->name('product.create');

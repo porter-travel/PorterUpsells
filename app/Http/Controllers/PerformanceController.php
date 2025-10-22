@@ -61,6 +61,7 @@ class PerformanceController extends Controller
             'hotel' => $hotel,
             'startDate' => $startDate->format('Y-m-d'),
             'endDate' => $endDate->format('Y-m-d'),
+            'quickRanges' => $this->getQuickRanges(),
         ]);
     }
 
@@ -84,5 +85,28 @@ class PerformanceController extends Controller
     private function getHotels($user)
     {
         return $user->role === 'superadmin' ? Hotel::all() : Hotel::whereBelongsTo($user)->get();
+    }
+
+    private function getQuickRanges(): array
+    {
+        $today = Carbon::today();
+
+        return [
+            [
+                'label' => 'Last week',
+                'start' => $today->copy()->subDays(6)->format('Y-m-d'),
+                'end' => $today->format('Y-m-d'),
+            ],
+            [
+                'label' => 'Last month',
+                'start' => $today->copy()->subDays(29)->format('Y-m-d'),
+                'end' => $today->format('Y-m-d'),
+            ],
+            [
+                'label' => 'Last 3 months',
+                'start' => $today->copy()->subDays(89)->format('Y-m-d'),
+                'end' => $today->format('Y-m-d'),
+            ],
+        ];
     }
 }

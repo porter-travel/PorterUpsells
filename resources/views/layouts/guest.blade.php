@@ -22,7 +22,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{$title ?? 'Enhance My Stay'}}</title>
-    <link rel="icon" type="image/x-icon" href="{{$favicon ?? '/img/hank.png'}}">
+    <link rel="icon" type="image/x-icon" href="{{ $favicon ?? asset('favicon.ico') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -43,8 +43,9 @@
 
 <footer class="mt-auto pb-8">
     <div class="mx-auto text-center">
-        <img class="mx-auto mb-4 mt-24" src="/img/logo.svg" alt="logo">
-        <p class="poppins">Personalising your stay</p>
+
+        <img class="mx-auto mb-4 mt-24" src="{{ asset('img/EMSLogo.png') }}" alt="logo">
+        <p class="open-sans">Personalising your stay</p>
     </div>
 </footer>
 </body>
