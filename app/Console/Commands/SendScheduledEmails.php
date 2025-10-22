@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Booking;
+use App\Models\EmailTemplate;
+use App\Services\CustomerEmailService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -41,23 +43,34 @@ class SendScheduledEmails extends Command
 //        dd($emails);
 
         foreach ($emails as $email) {
+
+            if($email->type == 'pre-arrival') {
 //            var_dump($email);
-            $booking = Booking::find($email->booking_id);
+                $booking = Booking::find($email->booking_id);
 // Prepare request data to call CustomerEmailController@send
-            $request = new \Illuminate\Http\Request();
-            $request->replace([
-                'guest_name' => $booking->name,
-                'arrival_date' => $booking->arrival_date,
-                'departure_date' => $booking->departure_date,
-                'email_address' => $booking->email_address,
-                'booking_ref' => $booking->booking_ref,
-                'hotel_email_id' => $email->hotel_email_id,
-                'email_type' => $email->email_type,
-            ]);
+                $request = new \Illuminate\Http\Request();
+                $request->replace([
+                    'guest_name' => $booking->name,
+                    'arrival_date' => $booking->arrival_date,
+                    'departure_date' => $booking->departure_date,
+                    'email_address' => $booking->email_address,
+                    'booking_ref' => $booking->booking_ref,
+                    'hotel_email_id' => $email->hotel_email_id,
+                    'email_type' => $email->email_type,
+                ]);
 
 // Call the send method of CustomerEmailController
-            $controller = new CustomerEmailController();
-            $controller->send($request, $booking->hotel_id);
+                $controller = new CustomerEmailController();
+                $controller->send($request, $booking->hotel_id);
+
+            } else {
+
+                $service = new CustomerEmailService();
+                $booking = Booking::find($email->booking_id);
+                $emailTemplate = EmailTemplate::find($email->email_template_id);
+                $service->sendTemplateEmail($booking, $emailTemplate);
+
+            }
 
 // Update the sent_at column to the current time
             DB::table('customer_emails')

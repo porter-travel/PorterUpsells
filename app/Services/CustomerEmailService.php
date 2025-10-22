@@ -3,9 +3,14 @@
 namespace App\Services;
 
 use App\Jobs\TrackEmailSends;
+use App\Mail\CustomerTemplateEmail;
+use App\Models\Booking;
 use App\Models\CustomerEmail;
+use App\Models\EmailTemplate;
+use App\Models\Hotel;
 use App\Models\HotelMeta;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class CustomerEmailService
@@ -35,18 +40,17 @@ class CustomerEmailService
 
         //This is the new code to handle the new email schedule if it exists
 
-        $new_email_schedule = HotelMeta::where('hotel_id', $params['hotel']->id)
-            ->where('key', 'custom-email-schedule')
-            ->first();
-        if (!$new_email_schedule) {
+        $emails = $params['hotel']->emailTemplates()->get();
+
+        $hotel = Hotel::find(2);
+        $emails = $hotel->activeEmailTemplates();
+        if ($emails->count() == 0)
             return;
-        }
 
-        $schedule = json_decode($new_email_schedule->value);
 
-        foreach ($schedule as $item) {
+        foreach ($emails as $item) {
             $customer_email = new CustomerEmail(['booking_id' => $params['booking']->id]);
-            $customer_email->email_type = 'customised-email';
+            $customer_email->email_type = $item->type;
             $days = $item->days;
 
             if ($item->when_to_send == 'before_arrival') {
@@ -66,14 +70,29 @@ class CustomerEmailService
                     continue;
                 $customer_email->scheduled_at = Carbon::parse($params['departure_date'])->addDays($days)->setTimeFromTimeString($item->time);
             }
-            if(!$customer_email->scheduled_at){
+            if (!$customer_email->scheduled_at) {
 
-            dd($customer_email, $item, $params);
+                dd($customer_email, $item, $params);
             }
-            $customer_email->hotel_email_id = $item->email_id;
+            $customer_email->email_template_id = $item->id;
             $customer_email->save();
         }
 
 
+    }
+
+
+    public function sendTemplateEmail(Booking $booking, EmailTemplate $email)
+    {
+
+        $email_address = $booking->email_address;
+        $subject = $email->subject;
+        $body = $email->body;
+        $hotel = $booking->hotel;
+//        dd($email_address, $subject, $body);
+        // Send email
+        Mail::to($email_address)->send(new CustomerTemplateEmail($subject, $body, $hotel));
+
+        return redirect()->back()->with('success', 'Email sent successfully');
     }
 }

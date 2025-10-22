@@ -7,12 +7,8 @@
                     <div class="relative mb-4 p-4 border rounded bg-white shadow-sm">
                         <div class="flex items-center mb-2">
                             <div class="grab-handle cursor-grab mr-2 text-gray-400 hover:text-gray-600">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                     fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                          d="M10 12a2 2 0 100-4 2 2 0 000 4zM2 10a2 2 0 114 0 2 2 0 01-4 0zm8-8a2 2 0 100 4 2 2 0 000-4zm8 8a2 2 0 11-4 0 2 2 0 014 0zm-8 8a2 2 0 100 4 2 2 0 000-4z"
-                                          clip-rule="evenodd"/>
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-vertical-icon lucide-move-vertical"><path d="M12 2v20"/><path d="m8 18 4 4 4-4"/><path d="m8 6 4-4 4 4"/></svg>
+
                             </div>
                             <div class="flex-1">
                                 <component
@@ -24,25 +20,24 @@
                                 />
                             </div>
                             <button @click="removeBlock(1, index)" class="text-red-500 hover:text-red-700 ml-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+
                             </button>
 
                         </div>
                         <div class="flex justify-center mt-2">
-                            <button @click="openModal(1, index + 1)" class="text-gray-500 hover:text-black text-xs">
-                                ➕ Add Block
+                            <button @click="openModal(1, index + 1)" class="text-gray-500 hover:text-black text-xs flex gap-2 items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                                Add Block
                             </button>
                         </div>
                     </div>
                 </template>
             </draggable>
             <div class="flex justify-center mt-2">
-                <button @click="openModal(1, 0)" class="text-gray-500 hover:text-black text-xs">
-                    ➕ Add Block
+                <button @click="openModal(1, internalBlocks.column1.length)" class="text-gray-500 hover:text-black text-xs flex gap-2 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                    Add Block
                 </button>
             </div>
         </div>
@@ -54,12 +49,8 @@
                     <div class="relative mb-4 p-4 border rounded bg-white shadow-sm">
                         <div class="flex items-center mb-2">
                             <div class="grab-handle cursor-grab mr-2 text-gray-400 hover:text-gray-600">
-                                <svg xmlns="http://www.w3.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                     fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                          d="M10 12a2 2 0 100-4 2 2 0 000 4zM2 10a2 2 0 114 0 2 2 0 01-4 0zm8-8a2 2 0 100 4 2 2 0 000-4zm8 8a2 2 0 11-4 0 2 2 0 014 0zm-8 8a2 2 0 100 4 2 2 0 000-4z"
-                                          clip-rule="evenodd"/>
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-vertical-icon lucide-move-vertical"><path d="M12 2v20"/><path d="m8 18 4 4 4-4"/><path d="m8 6 4-4 4 4"/></svg>
+
                             </div>
                             <div class="flex-1">
                                 <component
@@ -71,24 +62,24 @@
                                 />
                             </div>
                             <button @click="removeBlock(2, index)" class="text-red-500 hover:text-red-700 ml-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+
                             </button>
                         </div>
                         <div class="flex justify-center mt-2">
-                            <button @click="openModal(2, index + 1)" class="text-gray-500 hover:text-black text-xs">
-                                ➕ Add Block
+                            <button @click="openModal(2, index + 1)" class="text-gray-500 hover:text-black text-xs flex gap-2 items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                                Add Block
                             </button>
                         </div>
                     </div>
                 </template>
             </draggable>
             <div class="flex justify-center mt-2">
-                <button @click="openModal(2, 0)" class="text-gray-500 hover:text-black text-xs">
-                    ➕ Add Block
+                <button @click="openModal(2, internalBlocks.column2.length)" class="text-gray-500 hover:text-black text-xs flex gap-2 items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+
+                    Add Block
                 </button>
             </div>
         </div>
@@ -208,6 +199,7 @@ const addBlock = (type) => {
         case 'ContentBreak':
             break;
     }
+    console.log(insertIndex.value, newBlock, internalBlocks);
 
     if (insertColumn.value === 1) {
         internalBlocks.value.column1.splice(insertIndex.value, 0, newBlock);

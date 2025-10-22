@@ -11,6 +11,13 @@ class EmailTemplatesController extends Controller
 {
 
 
+    public $labelKeys =  [
+            'before_arrival' => 'Before Arrival',
+            'after_arrival' => 'After Arrival',
+            'before_checkout' => 'Before Checkout',
+            'after_checkout' => 'After Checkout'
+        ];
+
     public function listTemplates($hotel_id)
     {
         $hotel = Hotel::find($hotel_id);
@@ -19,7 +26,8 @@ class EmailTemplatesController extends Controller
             $email_templates = EmailTemplate::where('hotel_id', $hotel_id)->get();
             return view('admin.emails.templates', [
                 'hotel' => $hotel,
-                'email_templates' => $email_templates
+                'email_templates' => $email_templates,
+                'keys' => $this->labelKeys
             ]);
         } else {
             return redirect()->route('dashboard');

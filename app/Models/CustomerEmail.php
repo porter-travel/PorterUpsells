@@ -9,7 +9,7 @@ class CustomerEmail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['booking_id', 'email_type', 'scheduled_at', 'sent_at'];
+    protected $fillable = ['booking_id', 'email_type', 'scheduled_at', 'sent_at', 'email_template_id'];
 
     public function booking()
     {

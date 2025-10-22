@@ -1,14 +1,18 @@
-<x-hotel-admin-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Email Template') }}
-        </h2>
-    </x-slot>
+<x-hotel-admin-layout :hotel="$hotel">
+
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div id="builder" data-type="email" data-hotel-id="{{$hotel_id}}" data-template-id="{{$template_id}}"></div>
+            <div class="bg-white  shadow-sm sm:rounded-lg">
+                <div id="builder"
+                     data-type="email"
+                     data-hotel-id="{{$hotel_id}}"
+                     data-template-id="{{$template_id}}"
+                     data-hotel-name="{{$hotel->name}}"
+                     data-hotel-logo="{{$hotel->logo}}"
+                     data-hotel-featured-image="{{$hotel->featured_image}}"
+
+                ></div>
             </div>
         </div>
     </div>

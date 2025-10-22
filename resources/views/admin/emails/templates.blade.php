@@ -17,7 +17,7 @@
                             <a href="{{route('email.builder.edit', ['hotel_id' => $hotel->id, 'template_id' => $template->id])}}">
                                 <h4 class="font-semibold">{{$template->name}}</h4>
                             <div class="flex items-center justify-end">
-                                <span class="mr-4">{{$template->days}} {{$template->days > 1 ? 'Days' : 'Day'}} {{$template->when_to_send == 'before' ? 'Before Arrival ' : ($template->when_to_send == 'after_arrival' ? 'After Arrival' : 'After Checkout')}}</span>
+                                <span class="mr-4">{{$template->days}} {{$template->days > 1 ? 'Days' : 'Day'}} {{$keys[$template->when_to_send] }}</span>
                             <a href="{{route('email-v2.delete-template', $template->id)}}">
                                 <img src="/img/icons/remove.svg"
                                      alt="remove"

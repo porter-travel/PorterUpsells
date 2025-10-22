@@ -18,4 +18,9 @@ class EmailTemplate extends Model
         'time',
         'hotel_id'
     ];
+
+    public function hotel()
+    {
+        return $this->belongsTo(Hotel::class);
+    }
 }
