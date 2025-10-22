@@ -56,7 +56,7 @@
         [
             'label' => 'Emails',
             'icon' => 'mail',
-            'href' => $hotel ? route('email.customise', ['id' => $hotel->id]) : route('hotel.create'),
+            'href' => $hotel ? route('email-v2.list-templates', ['hotel_id' => $hotel->id]) : route('hotel.create'),
             'active' => request()->routeIs('email.*'),
             'disabled' => ! $hotel,
         ],
