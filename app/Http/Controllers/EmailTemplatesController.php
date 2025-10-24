@@ -63,7 +63,7 @@ class EmailTemplatesController extends Controller
                 'is_active' => 'nullable|boolean',
                 'when_to_send' => 'required|string|max:255',
                 'days' => 'required|integer',
-                'time' => 'required|date_format:H:i:s',
+                'time' => 'required',
             ]);
 
             $data['is_active'] = $request->has('is_active') ? 1 : 0;
@@ -126,7 +126,7 @@ class EmailTemplatesController extends Controller
             'is_active' => 'nullable|boolean',
             'when_to_send' => 'required|string|max:255',
             'days' => 'required|integer',
-            'time' => 'required|date_format:H:i',
+            'time' => 'required',
         ]);
 
         $data['is_active'] = $request->has('is_active') ? 1 : 0;
