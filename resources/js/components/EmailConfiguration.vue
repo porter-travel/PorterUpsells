@@ -7,8 +7,9 @@
         </summary>
         <div class="grid grid-cols-1 gap-4 mb-8 p-2 bg-grey/20">
             <div class="w-full">
-                <label for="email_name" class="block mb-1 font-medium text-sm text-gray-700">Email Name</label>
+                <label for="email_name" class="block mb-1 font-medium text-sm text-gray-700">Email Name<sup>*</sup></label>
                 <input
+                    required
                     type="text"
                     id="email_name"
                     class="w-full border-gray-300 rounded-md shadow-sm"
@@ -16,8 +17,9 @@
                 >
             </div>
             <div>
-                <label for="email_subject" class="block mb-1 font-medium text-sm text-gray-700">Email Subject</label>
+                <label for="email_subject" class="block mb-1 font-medium text-sm text-gray-700">Email Subject<sup>*</sup></label>
                 <input
+                    required
                     type="text"
                     id="email_subject"
                     class="w-full border-gray-300 rounded-md shadow-sm"

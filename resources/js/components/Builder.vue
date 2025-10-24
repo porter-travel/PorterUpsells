@@ -313,6 +313,16 @@ const sendTestEmail = (email) => {
 
 const saveContent = () => {
 
+    if(!emailMeta.value.email_name){
+        alert('Please provide an email name in the configuration section.');
+        return;
+    }
+
+    if(!emailMeta.value.email_subject){
+        alert('Please provide an email subject in the configuration section.');
+        return;
+    }
+
     axios.post(`/admin/hotel/${props.hotelId}/email_builder/store`, {
         name: emailMeta.value.email_name,
         subject: emailMeta.value.email_subject,
