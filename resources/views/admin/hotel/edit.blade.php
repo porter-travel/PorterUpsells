@@ -45,24 +45,7 @@
         </section>
     </div>
 
-    <div class="productDeleteModalContainer hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur">
-        <div class="fixed left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-slate-200 bg-white p-8 shadow-2xl">
-            <form method="post" action="">
-                @csrf
-                <div class="space-y-4 text-center">
-                    <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-rose-100 text-rose-600">
-                        <i data-lucide="alert-triangle" class="h-6 w-6"></i>
-                    </div>
-                    <h4 class="text-lg font-semibold text-slate-900">Delete product</h4>
-                    <p class="text-sm text-slate-500">Are you sure you want to remove <span id="productToDeleteName" class="font-semibold text-slate-900"></span>? This action cannot be undone.</p>
-                </div>
-                <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
-                    <x-secondary-button dusk="cancel-delete-product" type="button" class="justify-center">Cancel</x-secondary-button>
-                    <x-danger-button dusk="confirm-delete-product" class="justify-center">Delete</x-danger-button>
-                </div>
-            </form>
-        </div>
-    </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -153,4 +136,25 @@
             });
         });
     </script>
+
+    <x-slot name="modals">
+        <div class="productDeleteModalContainer hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur">
+            <div class="fixed left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-slate-200 bg-white p-8 shadow-2xl">
+                <form method="post" action="">
+                    @csrf
+                    <div class="space-y-4 text-center">
+                        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-rose-100 text-rose-600">
+                            <i data-lucide="alert-triangle" class="h-6 w-6"></i>
+                        </div>
+                        <h4 class="text-lg font-semibold text-slate-900">Delete product</h4>
+                        <p class="text-sm text-slate-500">Are you sure you want to remove <span id="productToDeleteName" class="font-semibold text-slate-900"></span>? This action cannot be undone.</p>
+                    </div>
+                    <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+                        <x-secondary-button dusk="cancel-delete-product" type="button" class="justify-center">Cancel</x-secondary-button>
+                        <x-danger-button dusk="confirm-delete-product" class="justify-center">Delete</x-danger-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </x-slot>
 </x-hotel-admin-layout>

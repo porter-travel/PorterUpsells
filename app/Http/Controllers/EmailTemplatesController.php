@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomerEmail;
 use App\Models\EmailTemplate;
 use App\Models\Hotel;
 use App\Models\HotelMeta;
@@ -114,6 +115,27 @@ class EmailTemplatesController extends Controller
         }
 
         return response()->json(['template' => $template]);
+    }
+
+    public function destroy($hotel_id, $template_id)
+    {
+        $hotel = Hotel::find($hotel_id);
+        $user = auth()->user();
+        if (!($user->role === 'superadmin' || $hotel->user_id === $user->id)) {
+            return response()->json(['error' => 'Unauthorized.'], 403);
+        }
+
+        $template = EmailTemplate::find($template_id);
+        if(!$template){
+            return response()->json(['error' => 'Template not found.'], 404);
+        }
+
+        $customerEmails = CustomerEmail::where('email_template_id', $template_id);
+        $customerEmails->delete();
+
+        $template->delete();
+
+        return response()->json(['success' => 'Email template deleted successfully.']);
     }
 
 

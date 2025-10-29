@@ -99,10 +99,10 @@
                     </button>
                 </div>
 
-                <h2 class="font-bold text-xl mb-4">Configuration</h2>
+
 
                 <div v-if="type === 'email'">
-                    <EmailConfiguration v-model:meta="emailMeta" @send-test-email="sendTestEmail"/>
+                    <EmailConfiguration v-model:meta="emailMeta" @send-test-email="sendTestEmail" @template-selected="selectTemplate"/>
                 </div>
 
                 <div v-else-if="type === 'webpage'">
@@ -309,6 +309,15 @@ const sendTestEmail = (email) => {
         return;
     }
 
+};
+
+const selectTemplate = (data) => {
+    emailMeta.value.email_name = data.emailName || '';
+    emailMeta.value.email_subject = data.emailSubject || '';
+    emailMeta.value.when_to_send = data.whenToSend || 'before_arrival';
+    emailMeta.value.days = data.days || 1;
+    emailMeta.value.time = data.time || '12:00';
+    blocks.value = JSON.parse(data.emailBody);
 };
 
 const saveContent = () => {

@@ -363,6 +363,10 @@
         </div>
     </div>
 </div>
+
+    @isset($modals)
+        {{ $modals }}
+    @endisset
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
     const refreshLucideIcons = () => {
