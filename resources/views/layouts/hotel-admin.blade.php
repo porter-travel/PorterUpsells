@@ -269,12 +269,6 @@
                         </button>
                     </div>
                     <div class="flex items-center gap-4">
-
-                        <div class="hidden sm:flex items-center gap-3 rounded-2xl border border-slate-200/70 bg-gradient-to-r from-indigo-100/80 via-sky-100 to-emerald-100/80 px-3 py-2 text-sm text-slate-600 shadow-sm">
-                            <i data-lucide="bell" class="h-4 w-4 text-indigo-500"></i>
-                            <span class="text-slate-700">Notifications</span>
-
-                        </div>
                         <div class="flex items-center gap-3">
                             <div class="hidden text-right sm:block">
                                 <p class="text-sm font-semibold text-slate-900">{{ auth()->user()->name ?? 'Account' }}</p>
