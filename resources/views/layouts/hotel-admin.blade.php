@@ -167,7 +167,7 @@
 
                 <div class="flex items-center justify-between border-b border-white/5 px-6 py-4">
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                        <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay" class="h-8">
+                        <img src="{{ asset('emslogo.png') }}" alt="Enhance My Stay" class="h-8">
                     </a>
                     <button
                         type="button"
@@ -217,7 +217,7 @@
 
             <div class="flex items-center gap-3">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                    <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay" class="h-9">
+                    <img src="{{ asset('emslogo.png') }}" alt="Enhance My Stay" class="h-9">
                 </a>
             </div>
             {{-- Property details removed from desktop sidebar per request --}}
