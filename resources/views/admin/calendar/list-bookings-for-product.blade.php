@@ -43,16 +43,30 @@
                         <form method="get" class="rounded-2xl border border-slate-200/60 bg-slate-50/60 p-4 shadow-sm">
                             <p class="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Date</p>
                             <div class="mt-3 flex items-center gap-3">
-                                <a href="?date={{$yesterday}}" class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-[#FF5E57] hover:text-[#FF5E57]">
+                                <a
+                                    href="?date={{$yesterday}}"
+                                    data-calendar-date-nav="true"
+                                    class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-[#FF5E57] hover:text-[#FF5E57]"
+                                >
                                     <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition group-hover:scale-110">
                                         <path d="M-2.40413e-07 5.5L6 11L6 0L-2.40413e-07 5.5Z" fill="currentColor"/>
                                     </svg>
                                 </a>
                                 <div>
                                     <label class="sr-only block" for="calendarDatePicker">Date</label>
-                                    <input id="calendarDatePicker" onchange="this.form.submit();" type="date" name="date" value="{{$date}}" class="h-10 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition focus:border-[#FF5E57] focus:ring-2 focus:ring-[#FF5E57]/30">
+                                    <input
+                                        id="calendarDatePicker"
+                                        type="date"
+                                        name="date"
+                                        value="{{$date}}"
+                                        class="h-10 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm outline-none transition focus:border-[#FF5E57] focus:ring-2 focus:ring-[#FF5E57]/30"
+                                    >
                                 </div>
-                                <a href="?date={{$tomorrow}}" class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-[#FF5E57] hover:text-[#FF5E57]">
+                                <a
+                                    href="?date={{$tomorrow}}"
+                                    data-calendar-date-nav="true"
+                                    class="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-[#FF5E57] hover:text-[#FF5E57]"
+                                >
                                     <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition group-hover:scale-110">
                                         <path d="M6 5.5L-4.80825e-07 0L0 11L6 5.5Z" fill="currentColor"/>
                                     </svg>
