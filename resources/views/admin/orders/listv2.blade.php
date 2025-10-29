@@ -4,16 +4,15 @@
             {{ __('Orders for: ') . $hotel->name }}
         </h2>
     </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <x-date-filter-bar :startDate="$startDate" :endDate="$endDate" :status="$filterStatus" :exportLink="route('orders.export-to-csv', $hotel->id)"/>
+    <div class="space-y-8">
+        <div class="rounded-3xl border border-indigo-100/70 bg-white/95 p-6 text-gray-900 shadow-lg shadow-indigo-500/10">
+            <x-date-filter-bar :startDate="$startDate" :endDate="$endDate" :status="$filterStatus" :exportLink="route('orders.export-to-csv', $hotel->id)" class="w-full"/>
+        </div>
 
-                    @if(count($orders) > 0)
-
-                        <div class="flex flex-wrap">
-                            <table class="w-full rounded border-b">
+        @if(count($orders) > 0)
+            <div class="rounded-3xl border border-indigo-100/70 bg-white/95 p-6 text-gray-900 shadow-lg shadow-indigo-500/10">
+                <div class="flex flex-wrap">
+                    <table class="w-full rounded border-b">
                                 <thead>
                                 <tr class="text-left bg-grey border-grey">
                                     <th class="p-2 rounded-tl-2xl">Booking Ref</th>
@@ -93,19 +92,12 @@
 
                                 @endforeach
                             </table>
-
-                            <div class="flex items-center justify-center mt-8 w-full">
-
-                            {{$orders->links()}}
-
-                            </div>
-                        </div>
-
-                    @endif
-
+                    <div class="flex items-center justify-center mt-8 w-full">
+                        {{$orders->links()}}
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 
     <script>
