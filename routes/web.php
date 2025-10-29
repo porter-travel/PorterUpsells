@@ -156,12 +156,14 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     Route::get('/admin/hotel/{hotel_id}/email/v2/list', [EmailTemplatesController::class, 'listTemplates'])->name('email-v2.list-templates');
 
-    Route::get('/admin/hotel/{hotel_id}/email_builder', [EmailTemplatesController::class, 'create'])->name('email.builder');
+    Route::get('/admin/hotel/{hotel_id}/email_builder/{example_key?}', [EmailTemplatesController::class, 'create'])->name('email.builder');
     Route::get('/admin/hotel/{hotel_id}/email_builder/{template_id}/edit', [EmailTemplatesController::class, 'edit'])->name('email.builder.edit');
     Route::get('/admin/hotel/{hotel_id}/email_builder/{template_id}/delete', [EmailTemplatesController::class, 'destroy'])->name('email.builder.destroy');
     Route::get('/admin/hotel/{hotel_id}/email_builder/{template_id}/template_data', [EmailTemplatesController::class, 'getTemplateData'])->name('email.builder.get-template-data');
 
     Route::post('/admin/hotel/{hotel_id}/email_builder/store', [EmailTemplatesController::class, 'store'])->name('email.builder.store');
+
+    Route::post('/admin/hotel/{hotel_id}/email_builder/send-test-email', [EmailTemplatesController::class, 'sendTestEmail'])->name('email.builder.send-test-email');
 
     Route::get('/builder/preview', function () {
         $blocks = json_decode(\Storage::disk('local')->get('template.json'), true);

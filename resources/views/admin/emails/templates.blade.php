@@ -15,12 +15,24 @@
                     <h2 class="text-xl font-semibold text-slate-900">Email Templates</h2>
                     <p class="text-sm text-slate-500">Create, update or delete your email templates</p>
                 </div>
-                <a href="{{route('email.builder', ['hotel_id' => $hotel->id])}}"
-                   class="">
-                    <x-primary-button>
-                        Add New Template
-                    </x-primary-button>
-                </a>
+                <div x-data="{ open: false }" class="relative">
+                    <button type="button" @click="open = !open" class="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100">
+                        <i data-lucide="plus" class="h-4 w-4"></i>
+                        Add template
+                        <i data-lucide="chevron-down" class="h-4 w-4 transition" :class="{ 'rotate-180': open }"></i>
+                    </button>
+                    <div x-cloak x-show="open" @click.outside="open = false" x-transition class="absolute right-0 z-10 mt-2 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
+                        <a href="{{ route('email.builder', ['hotel_id' => $hotel->id]) }}" class="flex items-center gap-3 px-4 py-3 text-sm text-slate-600 transition hover:bg-slate-50">
+                            Blank Template
+                        </a>
+                        @foreach($sampleTemplates as $key => $template)
+                        <a href="{{ route('email.builder', ['hotel_id' => $hotel->id, 'example_key' => $key]) }}" class="flex items-center gap-3 px-4 py-3 text-sm text-slate-600 transition hover:bg-slate-50">
+                            {{ $template['emailName'] }}
+                        </a>
+                        @endforeach
+
+                    </div>
+                </div>
             </div>
 
             <div class="mt-8">

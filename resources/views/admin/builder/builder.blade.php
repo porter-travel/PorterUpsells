@@ -10,10 +10,17 @@
                      data-hotel-name="{{$hotel->name}}"
                      data-hotel-logo="{{$hotel->logo}}"
                      data-hotel-featured-image="{{$hotel->featured_image}}"
-
                 ></div>
             </div>
         </div>
     </div>
+
+    <script>
+        @if(isset($data))
+        window.example_template_data = {!! json_encode($data) !!};
+        @else
+        window.example_template_data = null;
+        @endif
+    </script>
 
 </x-hotel-admin-layout>

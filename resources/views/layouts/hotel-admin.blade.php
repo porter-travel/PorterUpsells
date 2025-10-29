@@ -150,7 +150,7 @@
     <div class="relative z-10 mx-auto flex min-h-screen w-full flex-col px-4 py-6 text-slate-900 sm:px-6 lg:px-10">
         <div
             x-data="{ sidebarOpen: false }"
-            class="flex min-h-[calc(100vh-3rem)] flex-1 overflow-hidden rounded-3xl border border-white/10 bg-white/15 shadow-[0_45px_120px_-60px_rgba(15,23,42,0.9)] backdrop-blur-2xl lg:flex-row"
+            class="flex min-h-[calc(100vh-3rem)] flex-1 overflow-hidden rounded-3xl border border-white/10 bg-white/15 shadow-[0_45px_120px_-60px_rgba(15,23,42,0.9)] lg:flex-row"
 
         >
         <!-- Mobile sidebar -->

@@ -1,6 +1,6 @@
 <template>
     <div class="flex min-h-screen">
-        <div class="flex-1 p-4">
+        <div class="basis-3/4 flex-grow-0 p-4">
             <h2 class="font-bold text-xl mb-4">Email Preview</h2>
             <div class="border p-4 min-h-[400px] bg-gray-50 rounded">
                 <div class="flex justify-center mb-2">
@@ -81,7 +81,7 @@
             </div>
         </div>
 
-        <div class="w-1/4 border-l p-4 h-screen sticky top-0 ">
+        <div class="w-1/4 basis-1/4 flex-shrink-0 border-l p-4 h-screen sticky top-0 ">
             <div class="sticky top-4">
 
                 <div class="my-4">
@@ -102,7 +102,7 @@
 
 
                 <div v-if="type === 'email'">
-                    <EmailConfiguration v-model:meta="emailMeta" @send-test-email="sendTestEmail" @template-selected="selectTemplate"/>
+                    <EmailConfiguration v-model:meta="emailMeta" @send-test-email="sendTestEmail"/>
                 </div>
 
                 <div v-else-if="type === 'webpage'">
@@ -198,6 +198,13 @@ const props = defineProps({
 
 const blocks = ref([]);
 const templateId = ref(props.templateId || null);
+const emailMeta = ref({
+    email_name: '',
+    email_subject: '',
+    when_to_send: 'before_arrival',
+    days: 1,
+    time: '12:00'
+});
 
 onMounted(() => {
     console.log(props);
@@ -225,6 +232,17 @@ onMounted(() => {
             .catch(error => {
                 console.error('Error fetching template data:', error);
             });
+    } else {
+        if(example_template_data){
+            console.log(example_template_data.emailName);
+            emailMeta.value.email_name = example_template_data.emailName ;
+            emailMeta.value.email_subject = example_template_data.emailSubject || '';
+            emailMeta.value.when_to_send = example_template_data.whenToSend || 'before_arrival';
+            emailMeta.value.days = example_template_data.days || 1;
+            emailMeta.value.time = example_template_data.time || '12:00';
+            blocks.value = JSON.parse(example_template_data.emailBody);
+            console.log(emailMeta.value)
+        }
     }
 })
 const componentsMap = {
@@ -239,13 +257,7 @@ const componentsMap = {
 };
 
 // Define the reactive state for email settings
-const emailMeta = ref({
-    email_name: '',
-    email_subject: '',
-    when_to_send: 'before_arrival',
-    days: 1,
-    time: '12:00'
-});
+
 
 const showModal = ref(false);
 const insertIndex = ref(null);
@@ -301,24 +313,31 @@ const addBlock = (type) => {
     closeModal();
 };
 
-const sendTestEmail = (email) => {
+const sendTestEmail = (email, use_test_booking) => {
 
-    alert('Sending test email to ' + email);
     if (!email) {
         alert('Please enter a valid email address.');
         return;
     }
 
+    axios.post(`/admin/hotel/${props.hotelId}/email_builder/send-test-email`, {
+        email: email,
+        use_test_booking: use_test_booking,
+        content: blocks.value,
+        meta: emailMeta.value,
+    }).then(response => {
+        if (response.data.success) {
+            alert(response.data.success);
+        } else {
+            alert('Failed to send test email.');
+        }
+    }).catch(error => {
+        console.error('Error sending test email:', error);
+        alert('An error occurred while sending test email.');
+    })
+
 };
 
-const selectTemplate = (data) => {
-    emailMeta.value.email_name = data.emailName || '';
-    emailMeta.value.email_subject = data.emailSubject || '';
-    emailMeta.value.when_to_send = data.whenToSend || 'before_arrival';
-    emailMeta.value.days = data.days || 1;
-    emailMeta.value.time = data.time || '12:00';
-    blocks.value = JSON.parse(data.emailBody);
-};
 
 const saveContent = () => {
 

@@ -1,7 +1,7 @@
 <template>
     <div class="p-4 border rounded bg-white shadow-sm">
         <h4 class="font-bold text-lg mb-4">Featured Products</h4>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2  gap-4">
             <div
                 v-for="(product, key) in internalProducts"
                 :key="key"

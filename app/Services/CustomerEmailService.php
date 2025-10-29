@@ -91,7 +91,7 @@ class CustomerEmailService
         $hotel = $booking->hotel;
 //        dd($email_address, $subject, $body);
         // Send email
-        Mail::to($email_address)->send(new CustomerTemplateEmail($subject, $body, $hotel));
+        Mail::to($email_address)->send(new CustomerTemplateEmail($subject, $body, $hotel, $booking));
 
         return redirect()->back()->with('success', 'Email sent successfully');
     }

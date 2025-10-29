@@ -30,4 +30,12 @@ class Booking extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function getDaysUntilArrival()
+    {
+        $arrivalDate = new \DateTime($this->arrival_date);
+        $now = new \DateTime();
+        $interval = $now->diff($arrivalDate);
+        return $interval->days;
+    }
 }
