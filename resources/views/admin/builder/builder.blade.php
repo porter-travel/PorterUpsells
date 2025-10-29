@@ -17,7 +17,7 @@
                      stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4">
                     <path d="m15 18-6-6 6-6"/>
                 </svg>
-                Back to templates
+                Back to emails
             </a>
         </div>
     </x-slot>
