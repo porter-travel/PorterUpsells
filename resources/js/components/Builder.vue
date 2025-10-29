@@ -1,11 +1,66 @@
 <template>
-    <div class="flex flex-col gap-6 lg:flex-row">
-        <div class="flex-1 space-y-6">
-            <div class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm sm:p-8">
-                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div class="space-y-1">
-                        <h2 class="text-xl font-semibold text-slate-900">Email preview</h2>
-                        <p class="text-sm text-slate-500">Drag, drop and edit blocks to craft the perfect guest journey.</p>
+    <div class="space-y-6">
+        <div class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm sm:p-7">
+            <div v-if="type === 'email'">
+                <EmailConfiguration
+                    v-model:meta="emailMeta"
+                    @send-test-email="sendTestEmail"
+                    @template-selected="selectTemplate"
+                />
+            </div>
+
+            <div v-else-if="type === 'webpage'" class="space-y-3">
+                <h3 class="text-lg font-semibold text-slate-900">Web page settings</h3>
+                <label class="block space-y-1">
+                    <span class="text-sm font-medium text-slate-600">Page title</span>
+                    <input type="text" class="mt-1 block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100" />
+                </label>
+            </div>
+        </div>
+
+        <div class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm sm:p-8">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div class="space-y-1">
+                    <h2 class="text-xl font-semibold text-slate-900">Email preview</h2>
+                    <p class="text-sm text-slate-500">Drag, drop and edit blocks to craft the perfect guest journey.</p>
+                </div>
+                <button
+                    type="button"
+                    @click="openModal()"
+                    class="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:bg-indigo-100"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                         class="h-4 w-4">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Add block
+                </button>
+            </div>
+
+            <div class="mt-6 space-y-4">
+                <div
+                    v-if="!blocks.length"
+                    class="flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-slate-300 bg-white/70 p-12 text-center"
+                >
+                    <div class="flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50 text-indigo-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                             class="h-6 w-6">
+                            <path d="M7 10v12"></path>
+                            <path d="M17 10v12"></path>
+                            <path d="M5 6h14"></path>
+                            <path d="M19 10H5"></path>
+                            <path d="M9 6V4"></path>
+                            <path d="M15 6V4"></path>
+                        </svg>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-lg font-semibold text-slate-900">Start by adding your first block</p>
+                        <p class="text-sm text-slate-500">
+                            Combine headers, copy, imagery and CTAs to build your automated message.
+                        </p>
                     </div>
                     <button
                         type="button"
@@ -18,172 +73,111 @@
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
-                        Add block
+                        Add a block
                     </button>
                 </div>
 
-                <div class="mt-6 space-y-4">
-                    <div
-                        v-if="!blocks.length"
-                        class="flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-slate-300 bg-white/70 p-12 text-center"
-                    >
-                        <div class="flex h-14 w-14 items-center justify-center rounded-full bg-indigo-50 text-indigo-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                                 class="h-6 w-6">
-                                <path d="M7 10v12"></path>
-                                <path d="M17 10v12"></path>
-                                <path d="M5 6h14"></path>
-                                <path d="M19 10H5"></path>
-                                <path d="M9 6V4"></path>
-                                <path d="M15 6V4"></path>
-                            </svg>
-                        </div>
-                        <div class="space-y-2">
-                            <p class="text-lg font-semibold text-slate-900">Start by adding your first block</p>
-                            <p class="text-sm text-slate-500">
-                                Combine headers, copy, imagery and CTAs to build your automated message.
-                            </p>
-                        </div>
-                        <button
-                            type="button"
-                            @click="openModal()"
-                            class="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:bg-indigo-100"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                                 class="h-4 w-4">
-                                <line x1="12" y1="5" x2="12" y2="19"></line>
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
-                            Add a block
-                        </button>
-                    </div>
-
-                    <draggable
-                        v-else
-                        v-model="blocks"
-                        item-key="id"
-                        handle=".grab-handle"
-                        class="space-y-4"
-                        :animation="200"
-                    >
-                        <template #item="{ element: block, index }">
-                            <div class="rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:border-indigo-200">
-                                <div class="flex items-start justify-between gap-3 border-b border-slate-100 px-4 py-3">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="grab-handle inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-400 transition hover:border-indigo-200 hover:text-indigo-500"
-                                        >
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                 class="h-4 w-4">
-                                                <path d="M9 4h0"></path>
-                                                <path d="M15 4h0"></path>
-                                                <path d="M9 12h0"></path>
-                                                <path d="M15 12h0"></path>
-                                                <path d="M9 20h0"></path>
-                                                <path d="M15 20h0"></path>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="text-sm font-semibold text-slate-700">{{ blockMeta[block.type]?.label ?? 'Custom block' }}</p>
-                                            <p class="text-xs text-slate-500">{{ blockMeta[block.type]?.hint ?? 'Drag to reorder or edit the content below.' }}</p>
-                                        </div>
+                <draggable
+                    v-else
+                    v-model="blocks"
+                    item-key="id"
+                    handle=".grab-handle"
+                    class="space-y-4"
+                    :animation="200"
+                >
+                    <template #item="{ element: block, index }">
+                        <div class="rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:border-indigo-200">
+                            <div class="flex items-start justify-between gap-3 border-b border-slate-100 px-4 py-3">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="grab-handle inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-400 transition hover:border-indigo-200 hover:text-indigo-500"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="h-4 w-4">
+                                            <path d="M9 4h0"></path>
+                                            <path d="M15 4h0"></path>
+                                            <path d="M9 12h0"></path>
+                                            <path d="M15 12h0"></path>
+                                            <path d="M9 20h0"></path>
+                                            <path d="M15 20h0"></path>
+                                        </svg>
                                     </div>
-                                    <button
-                                        type="button"
-                                        @click="removeBlock(index)"
-                                        class="inline-flex items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-600 transition hover:border-rose-300 hover:bg-rose-100"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                                             class="h-3.5 w-3.5">
-                                            <path d="M3 6h18"></path>
-                                            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-                                            <path d="M10 11v6"></path>
-                                            <path d="M14 11v6"></path>
-                                        </svg>
-                                        Remove
-                                    </button>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-700">{{ blockMeta[block.type]?.label ?? 'Custom block' }}</p>
+                                        <p class="text-xs text-slate-500">{{ blockMeta[block.type]?.hint ?? 'Drag to reorder or edit the content below.' }}</p>
+                                    </div>
                                 </div>
-                                <div class="px-4 py-5 sm:px-6">
-                                    <component
-                                        :is="componentsMap[block.type]"
-                                        v-model:content="block.content"
-                                        v-model:level="block.level"
-                                        v-model:alignment="block.alignment"
-                                        v-model:url="block.url"
-                                        v-model:products="block.products"
-                                        v-model:blocks="block.blocks"
-                                        :hotel-name="hotelName"
-                                        :hotel-logo="hotelLogo"
-                                        :hotel-featured-image="hotelFeaturedImage"
-                                    />
-                                </div>
-                                <div class="flex justify-center border-t border-slate-100 px-4 py-3">
-                                    <button
-                                        type="button"
-                                        @click="openModal(index + 1)"
-                                        class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                                             class="h-3.5 w-3.5">
-                                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        </svg>
-                                        Insert block below
-                                    </button>
-                                </div>
+                                <button
+                                    type="button"
+                                    @click="removeBlock(index)"
+                                    class="inline-flex items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-600 transition hover:border-rose-300 hover:bg-rose-100"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                         class="h-3.5 w-3.5">
+                                        <path d="M3 6h18"></path>
+                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                        <path d="M10 11v6"></path>
+                                        <path d="M14 11v6"></path>
+                                    </svg>
+                                    Remove
+                                </button>
                             </div>
-                        </template>
-                    </draggable>
-                </div>
+                            <div class="px-4 py-5 sm:px-6">
+                                <component
+                                    :is="componentsMap[block.type]"
+                                    v-model:content="block.content"
+                                    v-model:level="block.level"
+                                    v-model:alignment="block.alignment"
+                                    v-model:url="block.url"
+                                    v-model:products="block.products"
+                                    v-model:blocks="block.blocks"
+                                    :hotel-name="hotelName"
+                                    :hotel-logo="hotelLogo"
+                                    :hotel-featured-image="hotelFeaturedImage"
+                                />
+                            </div>
+                            <div class="flex justify-center border-t border-slate-100 px-4 py-3">
+                                <button
+                                    type="button"
+                                    @click="openModal(index + 1)"
+                                    class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                         class="h-3.5 w-3.5">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    Insert block below
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                </draggable>
             </div>
         </div>
 
-        <div class="lg:w-80 lg:flex-none">
-            <div class="space-y-6 lg:sticky lg:top-6">
-                <div class="rounded-3xl border border-slate-900/10 bg-slate-900 text-white shadow-xl shadow-indigo-500/20">
-                    <div class="space-y-3 p-6">
-                        <h3 class="text-lg font-semibold">Save changes</h3>
-                        <p class="text-sm text-white/70">Keep your progress safe and publish updates to your automated journeys.</p>
-                        <button
-                            type="button"
-                            @click="saveContent"
-                            class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:shadow-xl hover:shadow-indigo-500/40"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                                 class="h-4 w-4">
-                                <path d="M7 3v4a1 1 0 0 0 1 1h7"></path>
-                                <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"></path>
-                                <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path>
-                            </svg>
-                            Save content
-                        </button>
-                    </div>
-                </div>
-
-                <div class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm sm:p-7">
-                    <div v-if="type === 'email'">
-                        <EmailConfiguration
-                            v-model:meta="emailMeta"
-                            @send-test-email="sendTestEmail"
-                            @template-selected="selectTemplate"
-                        />
-                    </div>
-
-                    <div v-else-if="type === 'webpage'" class="space-y-3">
-                        <h3 class="text-lg font-semibold text-slate-900">Web page settings</h3>
-                        <label class="block space-y-1">
-                            <span class="text-sm font-medium text-slate-600">Page title</span>
-                            <input type="text" class="mt-1 block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100" />
-                        </label>
-                    </div>
-                </div>
+        <div class="rounded-3xl border border-slate-900/10 bg-slate-900 text-white shadow-xl shadow-indigo-500/20">
+            <div class="space-y-3 p-6">
+                <h3 class="text-lg font-semibold">Save changes</h3>
+                <p class="text-sm text-white/70">Keep your progress safe and publish updates to your automated journeys.</p>
+                <button
+                    type="button"
+                    @click="saveContent"
+                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:shadow-xl hover:shadow-indigo-500/40"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                         class="h-4 w-4">
+                        <path d="M7 3v4a1 1 0 0 0 1 1h7"></path>
+                        <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"></path>
+                        <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path>
+                    </svg>
+                    Save content
+                </button>
             </div>
         </div>
 
