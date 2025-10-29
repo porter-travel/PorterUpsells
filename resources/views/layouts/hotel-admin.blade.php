@@ -40,7 +40,7 @@
             'active' => request()->routeIs('dashboard'),
         ],
         [
-            'label' => 'Products & Experiences',
+            'label' => 'Products',
             'icon' => 'sparkles',
             'href' => $hotel ? route('hotel.edit', ['id' => $hotel->id]) : route('hotel.create'),
             'active' => request()->routeIs('hotel.edit') || request()->routeIs('product.*'),
