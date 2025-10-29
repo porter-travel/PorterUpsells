@@ -12,10 +12,10 @@
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
-                Use Template
+                Use Automation
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                      stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                     class="h-4 w-4 transition duration-200" :class="{ 'rotate-180': isDropdownOpen }">
+                     :class="['h-4 w-4 transition-transform duration-200', isDropdownOpen ? 'rotate-180' : '']">
                     <path d="m6 9 6 6 6-6"></path>
                 </svg>
             </button>
@@ -25,8 +25,8 @@
                 @click.stop
                 class="absolute right-0 z-50 mt-2 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg"
             >
-                <template v-for="(templateKey, index) in Object.keys(emailTemplates)" :key="index">
-                    <a href="#" @click.prevent="selectTemplate(templateKey)"
+                <template v-for="(templateKey, index) in Object.keys(automationPresets)" :key="index">
+                    <a href="#" @click.prevent="selectAutomation(templateKey)"
                        class="flex items-center gap-3 px-4 py-3 text-sm text-slate-600 transition hover:bg-slate-50">
 <!--                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"-->
 <!--                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"-->
@@ -34,8 +34,8 @@
 <!--                            <path d="M15 17L12 21L9 17L5 14L9 11L12 7L15 11L19 14Z"></path>-->
 <!--                        </svg>-->
                         <div>
-                            <div class="font-medium text-slate-900">{{ emailTemplates[templateKey].emailName }}</div>
-                            <div class="text-xs text-slate-500">{{ emailTemplates[templateKey].emailSubject }}</div>
+                            <div class="font-medium text-slate-900">{{ automationPresets[templateKey].emailName }}</div>
+                            <div class="text-xs text-slate-500">{{ automationPresets[templateKey].emailSubject }}</div>
                         </div>
                     </a>
                 </template>
@@ -46,13 +46,13 @@
 
     <h2 class="font-bold text-xl mb-4">Configuration</h2>
 
-    <details name="config" class="border-y" open>
+    <details name="config" class="border-y" :open="emailSettingsOpen" @toggle="handleEmailSettingsToggle">
         <summary class="flex items-center justify-between mb-2 py-2 cursor-pointer">
             <h3 class="text-lg font-semibold">Email Settings</h3>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-chevron-up-icon lucide-chevron-up">
-                <path d="m18 15-6-6-6 6"/>
+                 :class="['h-5 w-5 transition-transform duration-200 text-slate-500', emailSettingsOpen ? 'rotate-180' : '']">
+                <path d="m6 9 6 6 6-6"/>
             </svg>
         </summary>
         <div class="grid grid-cols-1 gap-4 mb-8 p-2 bg-grey/20">
@@ -112,13 +112,13 @@
         </div>
     </details>
 
-    <details name="config" class="border-b ">
+    <details name="config" class="border-b" :open="testEmailOpen" @toggle="handleTestEmailToggle">
         <summary class="flex items-center justify-between mb-2 py-2 cursor-pointer">
             <h3 class="text-lg font-semibold">Test Email</h3>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-chevron-up-icon lucide-chevron-up">
-                <path d="m18 15-6-6-6 6"/>
+                 :class="['h-5 w-5 transition-transform duration-200 text-slate-500', testEmailOpen ? 'rotate-180' : '']">
+                <path d="m6 9 6 6 6-6"/>
             </svg>
         </summary>
 
@@ -173,12 +173,14 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['update:meta', 'send-test-email', 'template-selected', 'selectTemplate']);
+const emit = defineEmits(['update:meta', 'send-test-email', 'automation-selected']);
 
 const internalMeta = ref({});
 const email_address = ref('');
 // State for the new dropdown
 const isDropdownOpen = ref(false);
+const emailSettingsOpen = ref(true);
+const testEmailOpen = ref(false);
 
 
 // Initialize internal state from props
@@ -208,19 +210,25 @@ const daysLabel = computed(() => {
 });
 
 const toggleDropdown = () => {
-
     isDropdownOpen.value = !isDropdownOpen.value;
 };
 
-// Function to handle the selection of a template type
-const selectTemplate = (type) => {
-    isDropdownOpen.value = false;
-    emit('template-selected', emailTemplates[type]);
-    // You would typically navigate or trigger a component change here
-    console.log(`Template type selected: ${type}`);
+const handleEmailSettingsToggle = (event) => {
+    emailSettingsOpen.value = event.target.open;
 };
 
-const emailTemplates = {
+const handleTestEmailToggle = (event) => {
+    testEmailOpen.value = event.target.open;
+};
+
+// Function to handle the selection of a preset automation type
+const selectAutomation = (type) => {
+    isDropdownOpen.value = false;
+    emit('automation-selected', automationPresets[type]);
+    console.log(`Automation type selected: ${type}`);
+};
+
+const automationPresets = {
     preArrivalUpselEmail: {
         emailName: 'Pre-Arrival Upsell Email',
         emailSubject: 'Enhance your upcoming experience',
@@ -257,17 +265,3 @@ const emailTemplates = {
 
 
 </script>
-
-<style scoped>
-/* Ensure chevron icon rotates correctly for the details/summary elements */
-details[open] summary svg {
-    transform: rotate(180deg);
-}
-
-/* Add transition for the dropdown button's chevron rotation */
-.transition.duration-200 {
-    transition-property: transform;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 200ms;
-}
-</style>

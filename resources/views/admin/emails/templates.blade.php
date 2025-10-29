@@ -1,9 +1,9 @@
 <x-hotel-admin-layout :hotel="$hotel">
     <x-slot name="header">
         <div class="space-y-2">
-            <p class="text-xs font-semibold uppercase tracking-widest text-indigo-500">Email templates</p>
-            <h1 class="text-3xl font-semibold text-slate-900 sm:text-4xl">Add new email templates</h1>
-            <p class="max-w-2xl text-sm text-slate-500">Build email templates for  {{ $hotel->name }} that
+            <p class="text-xs font-semibold uppercase tracking-widest text-indigo-500">Email automations</p>
+            <h1 class="text-3xl font-semibold text-slate-900 sm:text-4xl">Add new email automations</h1>
+            <p class="max-w-2xl text-sm text-slate-500">Build email automations for  {{ $hotel->name }} that
                 will help inform your guests and drive revenue before, during and after their stay.</p>
         </div>
     </x-slot>
@@ -12,13 +12,13 @@
         <section class="rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-sm sm:p-8">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <h2 class="text-xl font-semibold text-slate-900">Email Templates</h2>
-                    <p class="text-sm text-slate-500">Create, update or delete your email templates</p>
+                    <h2 class="text-xl font-semibold text-slate-900">Email Automations</h2>
+                    <p class="text-sm text-slate-500">Create, update or delete your email automations</p>
                 </div>
                 <a href="{{route('email.builder', ['hotel_id' => $hotel->id])}}"
                    class="">
                     <x-primary-button>
-                        Add New Template
+                        Add New Automation
                     </x-primary-button>
                 </a>
             </div>
@@ -38,7 +38,7 @@
                                 {{--                                        <i data-lucide="grip-vertical" class="h-5 w-5"></i>--}}
                                 {{--                                    </div>--}}
 
-                                {{-- Template Icon (Replaces the image area with a visual identifier) --}}
+                                {{-- Automation Icon (Replaces the image area with a visual identifier) --}}
                                 <div
                                     class="flex h-20 w-24 shrink-0 items-center justify-center rounded-xl bg-indigo-50/70 text-indigo-600 border border-indigo-200">
                                     <i data-lucide="mail" class="h-8 w-8"></i>
@@ -48,7 +48,7 @@
                                 <div
                                     class="flex flex-1 flex-col justify-center sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                                     <div class="flex-1 space-y-1.5">
-                                        {{-- Template Name --}}
+                                        {{-- Automation Name --}}
                                         <a href="{{ route('email.builder.edit', ['hotel_id' => $hotel->id, 'template_id' => $template->id]) }}"
                                            class="hover:underline">
                                             <p class="text-base font-semibold text-slate-900">{{ $template->name }}</p>
@@ -90,7 +90,7 @@
                                             <a href="{{ route('email.builder.destroy', ['hotel_id' => $hotel->id, 'template_id' => $template->id]) }}"
                                                data-hotel-id="{{ $hotel->id }}" data-template-id="{{ $template->id }}"
                                                data-template-name="{{ $template->name }}"
-                                               class="launchTemplateDeleteModal inline-flex items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-700 transition hover:border-rose-300 hover:bg-rose-100">
+                                               class="launchAutomationDeleteModal inline-flex items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-700 transition hover:border-rose-300 hover:bg-rose-100">
                                                 <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
                                                 Delete
                                             </a>
@@ -116,15 +116,15 @@
                             <i data-lucide="mail-check" class="h-6 w-6"></i>
                         </div>
                         <div class="space-y-2">
-                            <h3 class="text-xl font-semibold text-slate-900">No Email Templates Found</h3>
-                            <p class="max-w-md text-sm text-slate-500">Create new email templates to communicate with
+                            <h3 class="text-xl font-semibold text-slate-900">No Email Automations Found</h3>
+                            <p class="max-w-md text-sm text-slate-500">Create new email automations to communicate with
                                 your guests at key moments, such as before or after their stay.</p>
                         </div>
-                        {{-- Assuming a route for creating a new template exists --}}
+                        {{-- Assuming a route for creating a new automation exists --}}
                         <a href="{{ route('email.builder', ['hotel_id' => $hotel->id]) }}"
                            class="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100">
                             <i data-lucide="plus" class="h-4 w-4"></i>
-                            Create a New Template
+                            Create a New Automation
                         </a>
                     </div>
                 @endif
@@ -136,7 +136,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const deleteLinks = document.querySelectorAll('.launchTemplateDeleteModal');
+            const deleteLinks = document.querySelectorAll('.launchAutomationDeleteModal');
             const modal = document.querySelector('.productDeleteModalContainer');
             const productNameSpan = document.getElementById('productToDeleteName');
             const form = modal.querySelector('form');
@@ -171,7 +171,7 @@
                             <i data-lucide="alert-triangle" class="h-6 w-6"></i>
                         </div>
                         <h4 class="text-lg font-semibold text-slate-900">Delete product</h4>
-                        <p class="text-sm text-slate-500">Are you sure you want to remove <span id="productToDeleteName" class="font-semibold text-slate-900"></span>? This action cannot be undone.  It will also delete all scheduled emails that use this template</p>
+                        <p class="text-sm text-slate-500">Are you sure you want to remove <span id="productToDeleteName" class="font-semibold text-slate-900"></span>? This action cannot be undone.  It will also delete all scheduled emails that use this automation.</p>
                     </div>
                     <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
                         <x-secondary-button dusk="cancel-delete-product" type="button" class="justify-center">Cancel</x-secondary-button>

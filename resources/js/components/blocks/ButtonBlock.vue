@@ -1,45 +1,62 @@
 <template>
-    <div class="relative flex justify-center py-4">
-        <a
-            href="#"
-            :target="isEditing ? '_self' : '_blank'"
-            class="inline-block px-6 py-3 rounded-lg font-semibold text-white bg-black transition-colors duration-200"
-            :class="isEditing ? 'bg-blue-600' : 'bg-blue-500 hover:bg-blue-600'"
-            @click.prevent.stop="handleButtonClick"
-        >
-            {{ content }}
-        </a>
-
-        <div
-            v-if="isEditing"
-            class="absolute top-0 flex flex-col p-2 bg-white shadow-lg border rounded-lg z-10 space-y-2"
-            @click.stop
-        >
-            <div class="flex items-center space-x-2">
-                <span class="text-sm font-medium text-gray-700">Text:</span>
-                <input
-                    type="text"
-                    v-model="internalContent"
-                    @input="updateContent"
-                    class="w-full border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-            </div>
-            <div class="flex items-center space-x-2">
-                <span class="text-sm font-medium text-gray-700">URL:</span>
-                <input
-                    type="text"
-                    v-model="internalUrl"
-                    @input="updateUrl"
-                    class="w-full border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-            </div>
-            <button
-                @click="isEditing = false"
-                class="mt-2 w-full bg-gray-200 px-3 py-1 text-sm rounded hover:bg-gray-300"
+    <div class="space-y-4 py-4 text-center">
+        <div class="flex justify-center">
+            <a
+                href="#"
+                :target="isEditing ? '_self' : '_blank'"
+                class="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-sky-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-transform duration-200"
+                :class="isEditing ? 'ring-2 ring-indigo-200/70 ring-offset-2' : 'hover:-translate-y-0.5 hover:shadow-xl'
+                "
+                @click.prevent.stop="toggleEditing"
             >
-                Done
-            </button>
+                {{ content }}
+            </a>
         </div>
+
+        <transition name="fade">
+            <div
+                v-if="isEditing"
+                class="mx-auto w-full max-w-sm rounded-2xl border border-slate-200 bg-white/95 p-5 text-left shadow-xl shadow-indigo-500/15"
+                @click.stop
+            >
+                <div class="space-y-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            Button text
+                        </label>
+                        <input
+                            type="text"
+                            v-model="internalContent"
+                            @input="updateContent"
+                            class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                        />
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            Link URL
+                        </label>
+                        <input
+                            type="text"
+                            v-model="internalUrl"
+                            @input="updateUrl"
+                            class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                        />
+                        <p class="text-xs text-slate-500">
+                            Guests will be taken to this link when they tap your call-to-action.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        @click="isEditing = false"
+                        class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                    >
+                        Done
+                    </button>
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -83,8 +100,24 @@ const updateUrl = () => {
     emit('update:url', internalUrl.value);
 };
 
-const handleButtonClick = () => {
-        isEditing.value = !isEditing.value;
-
+const toggleEditing = () => {
+    isEditing.value = !isEditing.value;
 };
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 150ms ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+    opacity: 1;
+}
+</style>
