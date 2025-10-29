@@ -44,7 +44,7 @@
 <footer class="mt-auto pb-8">
     <div class="mx-auto text-center">
 
-        <img class="mx-auto mb-4 mt-24" src="{{ asset('img/EMSLogo.png') }}" alt="logo">
+        <img class="mx-auto mb-4 mt-24" src="{{ asset('emslogo.png') }}" alt="logo">
         <p class="open-sans">Personalising your stay</p>
     </div>
 </footer>
