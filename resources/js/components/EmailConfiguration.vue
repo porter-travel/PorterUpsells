@@ -7,8 +7,8 @@
             <h3 class="text-lg font-semibold">Email Settings</h3>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="lucide lucide-chevron-up-icon lucide-chevron-up">
-                <path d="m18 15-6-6-6 6"/>
+                 :class="['h-5 w-5 transition-transform duration-200 text-slate-500', emailSettingsOpen ? 'rotate-180' : '']">
+                <path d="m6 9 6 6 6-6"/>
             </svg>
         </summary>
         <div class="grid grid-cols-1 gap-4 mb-8 p-2 bg-grey/20">
@@ -189,9 +189,9 @@ const daysLabel = computed(() => {
     }
 });
 
-// In EmailConfiguration.vue <script setup>
-
-// ... existing code ...
+const toggleDropdown = () => {
+    isDropdownOpen.value = !isDropdownOpen.value;
+};
 
 const copyTag = async (tag) => {
     await console.log('Copying tag:', tag);
@@ -234,18 +234,17 @@ const copyTag = async (tag) => {
     }
 };
 
-// ... rest of the script ...
+// Function to handle the selection of a template type
+const selectTemplate = (type) => {
+    isDropdownOpen.value = false;
+    emit('template-selected', emailTemplates[type]);
+    // You would typically navigate or trigger a component change here
+    console.log(`Template type selected: ${type}`);
+};
 
-// NOTE: The 'propertyType' prop is now unused since it was not used in the original script.
-// If you still need it, you would define it using defineProps:
-/*
-defineProps({
-    propertyType: {
-        type: String,
-        default: 'default'
-    }
-});
-*/
+
+
+
 </script>
 
 <style scoped>

@@ -1,8 +1,8 @@
 <x-hotel-admin-layout :hotel="$hotel">
     <x-slot name="header">
         <div class="space-y-2">
-            <p class="text-xs font-semibold uppercase tracking-widest text-indigo-500">Products & experiences</p>
-            <h1 class="text-3xl font-semibold text-slate-900 sm:text-4xl">Add new products and experiences</h1>
+            <p class="text-xs font-semibold uppercase tracking-widest text-indigo-500">Products</p>
+            <h1 class="text-3xl font-semibold text-slate-900 sm:text-4xl">Add new products</h1>
             <p class="max-w-2xl text-sm text-slate-500">Build an on-brand menu of upsells for {{ $hotel->name }} that delights guests and drives incremental revenue.</p>
         </div>
     </x-slot>
@@ -12,12 +12,12 @@
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h2 class="text-xl font-semibold text-slate-900">Products</h2>
-                    <p class="text-sm text-slate-500">Reorder, update, or archive your products & experiences.</p>
+                    <p class="text-sm text-slate-500">Reorder, update, or archive your products.</p>
                 </div>
                 <div x-data="{ open: false }" class="relative">
                     <button type="button" @click="open = !open" class="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100">
                         <i data-lucide="plus" class="h-4 w-4"></i>
-                        Add experience
+                        Add product
                         <i data-lucide="chevron-down" class="h-4 w-4 transition" :class="{ 'rotate-180': open }"></i>
                     </button>
                     <div x-cloak x-show="open" @click.outside="open = false" x-transition class="absolute right-0 z-10 mt-2 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">

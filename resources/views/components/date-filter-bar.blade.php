@@ -83,26 +83,24 @@
             </div>
         @endisset
 
-        <div class="pb-1">
+        <div class="flex items-center gap-3 pb-1 sm:ml-auto">
             <x-primary-button type="submit" class="px-5 py-2">
                 <i data-lucide="sliders-horizontal" class="h-4 w-4"></i>
                 Filter
             </x-primary-button>
+
+            @isset($exportLink)
+                <a
+                    id="{{ $exportLinkId }}"
+                    href="{{ $exportLink }}"
+                    class="inline-flex items-center gap-2 rounded-2xl border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 shadow-sm transition hover:bg-indigo-100"
+                >
+                    <i data-lucide="download" class="h-4 w-4"></i>
+                    Export CSV
+                </a>
+            @endisset
         </div>
     </div>
-
-    @isset($exportLink)
-        <div class="flex items-center gap-3">
-            <a
-                id="{{ $exportLinkId }}"
-                href="{{ $exportLink }}"
-                class="inline-flex items-center gap-2 rounded-2xl border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 shadow-sm transition hover:bg-indigo-100"
-            >
-                <i data-lucide="download" class="h-4 w-4"></i>
-                Export CSV
-            </a>
-        </div>
-    @endisset
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

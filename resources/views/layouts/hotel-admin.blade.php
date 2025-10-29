@@ -40,7 +40,7 @@
             'active' => request()->routeIs('dashboard'),
         ],
         [
-            'label' => 'Products & Experiences',
+            'label' => 'Products',
             'icon' => 'sparkles',
             'href' => $hotel ? route('hotel.edit', ['id' => $hotel->id]) : route('hotel.create'),
             'active' => request()->routeIs('hotel.edit') || request()->routeIs('product.*'),
@@ -167,7 +167,7 @@
 
                 <div class="flex items-center justify-between border-b border-white/5 px-6 py-4">
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                        <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay" class="h-8">
+                        <img src="{{ asset('emslogo.png') }}" alt="Enhance My Stay" class="h-8">
                     </a>
                     <button
                         type="button"
@@ -217,7 +217,7 @@
 
             <div class="flex items-center gap-3">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
-                    <img src="{{ asset('img/EMSLogo.png') }}" alt="Enhance My Stay" class="h-9">
+                    <img src="{{ asset('emslogo.png') }}" alt="Enhance My Stay" class="h-9">
                 </a>
             </div>
             {{-- Property details removed from desktop sidebar per request --}}
@@ -269,12 +269,6 @@
                         </button>
                     </div>
                     <div class="flex items-center gap-4">
-
-                        <div class="hidden sm:flex items-center gap-3 rounded-2xl border border-slate-200/70 bg-gradient-to-r from-indigo-100/80 via-sky-100 to-emerald-100/80 px-3 py-2 text-sm text-slate-600 shadow-sm">
-                            <i data-lucide="bell" class="h-4 w-4 text-indigo-500"></i>
-                            <span class="text-slate-700">Notifications</span>
-
-                        </div>
                         <div class="flex items-center gap-3">
                             <div class="hidden text-right sm:block">
                                 <p class="text-sm font-semibold text-slate-900">{{ auth()->user()->name ?? 'Account' }}</p>
@@ -337,15 +331,6 @@
                                         Share this link with guests to showcase your curated marketplace.
                                     </p>
                                 </div>
-                                @if($hotels->count() > 1)
-                                    <a
-                                        href="{{ route('hotel.edit', ['id' => $activeHotel->id]) }}"
-                                        class="inline-flex items-center gap-2 rounded-xl border border-indigo-100 bg-indigo-50/70 px-3 py-1.5 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-100"
-                                    >
-                                        <i data-lucide="sparkles" class="h-3.5 w-3.5"></i>
-                                        Manage brand
-                                    </a>
-                                @endif
                             </div>
                         </div>
                     @endif

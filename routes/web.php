@@ -135,7 +135,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::post('/admin/hotel/{hotel_id}/email/store-customisations', [HotelEmailController::class, 'storeCustomisations'])->name('email.store-customisations');
 
 
-    Route::get('/admin/hotel/{hotel_id}/email/v2/list', [\App\Http\Controllers\HotelEmailController::class, 'listTemplates'])->name('email-v2.list-templates');
+//    Route::get('/admin/hotel/{hotel_id}/email/v2/list', [\App\Http\Controllers\HotelEmailController::class, 'listTemplates'])->name('email-v2.list-templates');
     Route::get('/admin/hotel/{hotel_id}/email/v2/add', [\App\Http\Controllers\HotelEmailController::class, 'addTemplate'])->name('email-v2.add-template');
     Route::get('/admin/hotel/{hotel_id}/email/v2/edit/{template_id}', [\App\Http\Controllers\HotelEmailController::class, 'editTemplate'])->name('email-v2.edit-template');
     Route::get('/admin/hotel/email/v2/delete/{template_id}', [\App\Http\Controllers\HotelEmailController::class, 'deleteTemplate'])->name('email-v2.delete-template');
