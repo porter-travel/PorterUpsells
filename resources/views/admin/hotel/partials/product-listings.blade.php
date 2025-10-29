@@ -73,8 +73,8 @@
             <i data-lucide="sparkles" class="h-6 w-6"></i>
         </div>
         <div class="space-y-2">
-            <h3 class="text-xl font-semibold text-slate-900">Create your first experience</h3>
-            <p class="max-w-md text-sm text-slate-500">Bring your signature amenities and local partnerships to life with tailored product cards.</p>
+            <h3 class="text-xl font-semibold text-slate-900">Create your first product</h3>
+            <p class="max-w-md text-sm text-slate-500">From local gems to in-house favourites — sell more with tailored product cards.</p>
         </div>
         <a href="/admin/hotel/{{ $hotel->id }}/product/create"
            class="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100">
