@@ -331,15 +331,6 @@
                                         Share this link with guests to showcase your curated marketplace.
                                     </p>
                                 </div>
-                                @if($hotels->count() > 1)
-                                    <a
-                                        href="{{ route('hotel.edit', ['id' => $activeHotel->id]) }}"
-                                        class="inline-flex items-center gap-2 rounded-xl border border-indigo-100 bg-indigo-50/70 px-3 py-1.5 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-100"
-                                    >
-                                        <i data-lucide="sparkles" class="h-3.5 w-3.5"></i>
-                                        Manage brand
-                                    </a>
-                                @endif
                             </div>
                         </div>
                     @endif
