@@ -40,6 +40,10 @@
             'description' => 'Subtotal generated from guest orders.',
         ],
     ];
+
+    $topProducts = collect($productAnalytics)->take(5);
+    $topCustomers = $customerAnalytics->take(5);
+    $dateRangeLabel = \Carbon\Carbon::parse($startDate)->format('j M Y') . ' - ' . \Carbon\Carbon::parse($endDate)->format('j M Y');
 @endphp
 
 <x-hotel-admin-layout :hotel="$hotel">
@@ -130,6 +134,102 @@
                 @endforeach
             </div>
         </section>
+
+        @if($topProducts->isNotEmpty() || $topCustomers->isNotEmpty())
+            <section class="space-y-10">
+                @if($topProducts->isNotEmpty())
+                    <div class="space-y-4">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-900">Most popular products</h2>
+                            <p class="mt-2 text-sm text-slate-500">Experiences generating the most orders between {{ $dateRangeLabel }}.</p>
+                        </div>
+                        <div class="overflow-hidden rounded-3xl border border-white/10 bg-white/80 shadow-lg shadow-indigo-200/20">
+                            <div class="overflow-x-auto">
+                                <table id="topProductTable" class="min-w-full divide-y divide-white/40 text-left text-sm text-slate-600">
+                                    <thead class="bg-indigo-50/60 text-xs font-semibold uppercase tracking-widest text-indigo-600">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3" data-sort="product_name">
+                                                <div class="flex items-center gap-2">
+                                                    Product
+                                                    <span class="sort-arrow text-indigo-400"></span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right" data-sort="total_orders">
+                                                <div class="flex items-center justify-end gap-2">
+                                                    Orders
+                                                    <span class="sort-arrow text-indigo-400"></span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right" data-sort="total_value">
+                                                <div class="flex items-center justify-end gap-2">
+                                                    Revenue
+                                                    <span class="sort-arrow text-indigo-400"></span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-white/40">
+                                        @foreach($topProducts as $product)
+                                            <tr class="transition hover:bg-indigo-50/60">
+                                                <td class="px-6 py-4 font-medium text-slate-700" data-key="product_name">{{ $product['product_name'] }}</td>
+                                                <td class="px-6 py-4 text-right text-slate-700" data-key="total_orders">{{ $product['quantity'] }}</td>
+                                                <td class="px-6 py-4 text-right text-slate-700" data-key="total_value">£{{ $product['total_value'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                @if($topCustomers->isNotEmpty())
+                    <div class="space-y-4">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-900">Highest spending customers</h2>
+                            <p class="mt-2 text-sm text-slate-500">Guests investing the most in your upsell programme between {{ $dateRangeLabel }}.</p>
+                        </div>
+                        <div class="overflow-hidden rounded-3xl border border-white/10 bg-white/80 shadow-lg shadow-indigo-200/20">
+                            <div class="overflow-x-auto">
+                                <table id="topCustomerTable" class="min-w-full divide-y divide-white/40 text-left text-sm text-slate-600">
+                                    <thead class="bg-indigo-50/60 text-xs font-semibold uppercase tracking-widest text-indigo-600">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3" data-sort="customer_email">
+                                                <div class="flex items-center gap-2">
+                                                    Customer
+                                                    <span class="sort-arrow text-indigo-400"></span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right" data-sort="total_orders">
+                                                <div class="flex items-center justify-end gap-2">
+                                                    Orders
+                                                    <span class="sort-arrow text-indigo-400"></span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right" data-sort="total_value">
+                                                <div class="flex items-center justify-end gap-2">
+                                                    Revenue
+                                                    <span class="sort-arrow text-indigo-400"></span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-white/40">
+                                        @foreach($topCustomers as $customer)
+                                            <tr class="transition hover:bg-indigo-50/60">
+                                                <td class="px-6 py-4 font-medium text-slate-700" data-key="customer_email">{{ $customer->email }}</td>
+                                                <td class="px-6 py-4 text-right text-slate-700" data-key="total_orders">{{ $customer->total_orders }}</td>
+                                                <td class="px-6 py-4 text-right text-slate-700" data-key="total_value">£{{ $customer->total_value }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </section>
+        @endif
 
         @if(!$hotel && count($hotelOrders) > 0)
             <section class="space-y-4">
@@ -338,6 +438,8 @@
                 }
             };
 
+            initializeTableSorting('#topProductTable', 'total_value');
+            initializeTableSorting('#topCustomerTable', 'total_value');
             initializeTableSorting('#hotelOrdersTableBody', 'total_value');
             initializeTableSorting('#productOrdersTableBody', 'total_value');
             initializeTableSorting('#customerOrdersTableBody', 'total_value');
