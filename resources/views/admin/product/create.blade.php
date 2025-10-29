@@ -48,10 +48,6 @@
                     <h2 class="text-xl font-semibold text-slate-900">Core details</h2>
                     <p class="text-sm text-slate-500">Set up the visuals, pricing, and description for this product.</p>
                 </div>
-                <div class="inline-flex items-center gap-2 rounded-xl border border-indigo-100 bg-indigo-50/80 px-3 py-1.5 text-xs font-semibold text-indigo-600">
-                    <i data-lucide="shield-check" class="h-4 w-4"></i>
-                    Autosave enabled
-                </div>
             </div>
 
             <div class="mt-8">
@@ -68,29 +64,25 @@
                         ])
                     </div>
 
-                   {{-- Experience Settings --}}
-<section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-            <h3 class="text-lg font-semibold text-slate-900">Experience settings</h3>
-            <p class="text-sm text-slate-500">
-                Control availability, scheduling, and fulfilment rules for this product.
-            </p>
-        </div>
-        <div class="inline-flex items-center gap-2 rounded-xl border border-indigo-100 bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-600">
-            <i data-lucide="sparkles" class="h-4 w-4"></i>
-            Smart defaults applied
-        </div>
-    </div>
+                    {{-- Experience Settings --}}
+                    <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+                        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <h3 class="text-lg font-semibold text-slate-900">Experience settings</h3>
+                                <p class="text-sm text-slate-500">
+                                    Control availability, scheduling, and fulfilment rules for this product.
+                                </p>
+                            </div>
+                        </div>
 
-    <div class="mt-6 space-y-8">
-        {{-- Include partial --}}
-        @include('admin.product.partials.specifics', [
-            'method' => 'create',
-            'type' => $type
-        ])
-    </div>
-</section>
+                        <div class="mt-6 space-y-8">
+                            {{-- Include partial --}}
+                            @include('admin.product.partials.specifics', [
+                                'method' => 'create',
+                                'type' => $type
+                            ])
+                        </div>
+                    </section>
 
 
                     {{-- Variations --}}
