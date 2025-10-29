@@ -22,7 +22,7 @@
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div class="space-y-1">
                     <h2 class="text-xl font-semibold text-slate-900">Email preview</h2>
-                    <p class="text-sm text-slate-500">Drag, drop and edit blocks to craft the perfect guest journey.</p>
+                    <p class="text-sm text-slate-500">Drag, drop and edit blocks to craft the perfect email.</p>
                 </div>
                 <button
                     type="button"

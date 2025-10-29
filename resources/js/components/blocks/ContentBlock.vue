@@ -1,10 +1,10 @@
 <template>
-    <div class="relative group">
+    <div :class="['relative group', isEditing ? 'pt-12' : '']">
         <div
             :class="[
                 'min-h-[120px] w-full rounded-2xl border border-slate-200/70 bg-white/90 px-4 py-3 text-sm leading-relaxed text-slate-700 shadow-sm transition focus:outline-none focus:ring-0 focus-visible:outline-none',
                 dynamicAlignmentClasses,
-                isEditing ? 'border-indigo-200 shadow-md shadow-indigo-100/50 pt-10 pr-12' : 'hover:border-indigo-200 hover:shadow'
+                isEditing ? 'border-indigo-200 shadow-md shadow-indigo-100/50' : 'hover:border-indigo-200 hover:shadow'
             ]"
             contenteditable="true"
             ref="editableDiv"
@@ -18,7 +18,7 @@
         <transition name="fade">
             <div
                 v-if="isEditing"
-                class="absolute top-3 right-3 z-20 flex items-center gap-1 rounded-full border border-slate-700/70 bg-slate-900/95 px-2 py-1 text-white shadow-2xl"
+                class="absolute left-1/2 top-3 z-20 flex -translate-x-1/2 items-center gap-1 rounded-full border border-slate-700/70 bg-slate-900/95 px-2 py-1 text-white shadow-2xl"
             >
                 <button
                     type="button"
