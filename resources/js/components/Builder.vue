@@ -5,7 +5,7 @@
                 <EmailConfiguration
                     v-model:meta="emailMeta"
                     @send-test-email="sendTestEmail"
-                    @template-selected="selectTemplate"
+                    @automation-selected="applyAutomationPreset"
                 />
             </div>
 
@@ -330,14 +330,14 @@ const blockMeta = blockCatalogue.reduce((accumulator, option) => {
 
 onMounted(() => {
     if (templateId.value) {
-        // Fetch existing template data
+        // Fetch existing automation data
         axios.get(`/admin/hotel/${props.hotelId}/email_builder/${templateId.value}/template_data`)
             .then(response => {
                 if (response.data && response.data.template.body) {
                     try {
                         blocks.value = JSON.parse(response.data.template.body);
                     } catch (e) {
-                        console.error('Failed to parse template body:', e);
+                        console.error('Failed to parse automation body:', e);
                     }
                 }
                 if (response.data) {
@@ -349,7 +349,7 @@ onMounted(() => {
                 }
             })
             .catch(error => {
-                console.error('Error fetching template data:', error);
+                console.error('Error fetching automation data:', error);
             });
     }
 })
@@ -438,7 +438,7 @@ const sendTestEmail = (email) => {
 
 };
 
-const selectTemplate = (data) => {
+const applyAutomationPreset = (data) => {
     emailMeta.value.email_name = data.emailName || '';
     emailMeta.value.email_subject = data.emailSubject || '';
     emailMeta.value.when_to_send = data.whenToSend || 'before_arrival';
@@ -447,7 +447,7 @@ const selectTemplate = (data) => {
     try {
         blocks.value = JSON.parse(data.emailBody || '[]');
     } catch (error) {
-        console.error('Failed to load template body from preset:', error);
+        console.error('Failed to load automation body from preset:', error);
         blocks.value = [];
     }
 };
@@ -481,7 +481,7 @@ const saveContent = () => {
                 templateId.value = response.data.template_id;
             }
         } else {
-            alert('Failed to save content.');
+            alert('Failed to save automation content.');
         }
     }).catch(error => {
         console.error('Error saving content:', error);
