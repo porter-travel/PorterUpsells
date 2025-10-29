@@ -5,29 +5,33 @@
                 {{ __('Calendar Orders for: ') . $product->name }}
             </h2>
 
+            @php
+                $queryString = request()->getQueryString();
+                $queryString = $queryString ? '?' . $queryString : '';
+                $productsCollection = collect($products);
+                $hasAlternateProducts = $productsCollection->where('id', '!=', $product->id)->isNotEmpty();
+            @endphp
             <div id="product-selector" class="relative flex items-center rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
                 <span class="text-sm font-medium text-slate-700">
                 {{$product->name}}
                     </span>
-                <ul class="absolute left-0 top-full z-20 mt-2 hidden w-48 overflow-hidden rounded-xl border border-slate-200 bg-white py-2 shadow-lg">
-                    @php
-                        $queryString = request()->getQueryString();
-                        $queryString = $queryString ? '?' . $queryString : '';
-                    @endphp
-                    @foreach($products as $loopProduct)
-                        <li class="@if($product->id == $loopProduct->id) hidden @endif">
-                            <a href="{{ route('calendar.list-bookings-for-product', ['hotel_id' => $hotel->id, 'product_id' => $loopProduct->id]) . $queryString }}" class="block px-4 py-2 text-sm text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
-                                {{$loopProduct->name}}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
+                @if($hasAlternateProducts)
+                    <ul class="absolute left-0 top-full z-20 mt-2 hidden w-48 overflow-hidden rounded-xl border border-slate-200 bg-white py-2 shadow-lg">
+                        @foreach($productsCollection as $loopProduct)
+                            <li class="@if($product->id == $loopProduct->id) hidden @endif">
+                                <a href="{{ route('calendar.list-bookings-for-product', ['hotel_id' => $hotel->id, 'product_id' => $loopProduct->id]) . $queryString }}" class="block px-4 py-2 text-sm text-slate-600 transition hover:bg-slate-50 hover:text-slate-900">
+                                    {{$loopProduct->name}}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
 
-                <button class="ml-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-[#FF5E57] hover:text-[#FF5E57]">
-                    <svg width="15" height="8" viewBox="0 0 15 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.5 8L15 0H0L7.5 8Z" fill="black"/>
-                    </svg>
-                </button>
+                    <button class="ml-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition hover:border-[#FF5E57] hover:text-[#FF5E57]">
+                        <svg width="15" height="8" viewBox="0 0 15 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.5 8L15 0H0L7.5 8Z" fill="black"/>
+                        </svg>
+                    </button>
+                @endif
             </div>
         </div>
     </x-slot>
@@ -65,103 +69,109 @@
                             </div>
                         </div>
                     </div>
-                    <div class="relative rounded-[28px] border border-slate-200 bg-white shadow-[0_24px_60px_-24px_rgba(15,23,42,0.2)]">
-                        <div class="absolute inset-0 rounded-[28px] border border-white"></div>
-                        <div class="relative flex h-[80vh] overflow-hidden rounded-[28px] bg-slate-50">
-
-                        @if($availableTimes)
-                            <div style="width: {{(count($availableTimes) * 16.66667)}}%" class="absolute left-[8.33333%] top-0 z-10 -translate-y-full rounded-t-3xl border border-b-0 border-slate-200 bg-white px-5 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-slate-500 shadow-sm">
-                                Times
-                            </div>
-                        <div
-                            class="relative z-0 flex h-full basis-1/12 flex-col overflow-hidden rounded-bl-3xl border border-r border-slate-200 bg-white px-2">
-                            @foreach($availableTimes[0] as $key => $slot)
-                                @if($key != 0)
-                                    <div
-                                        style="top: {{(100 / count($availableTimes[0])) * ($key)}}%; width: {{(count($availableTimes) * 16.66667)}}%; left: 8.33333%"
-                                        class="absolute border-t border-slate-200"></div>
-                                @endif
-                                <div class="relative w-full" style="height: {{100 / count($availableTimes[0])}}%">
-                                    <p class="pt-6 text-center text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">{{$slot['time']}}</p>
+                    @php
+                        $timeSegments = $availableTimes[0] ?? [];
+                        $timeSegmentCount = max(1, count($timeSegments));
+                        $slotCount = $availableTimes ? count($availableTimes) : 0;
+                    @endphp
+                    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
+                        @if($availableTimes && $slotCount > 0 && $timeSegments)
+                            <div class="grid h-[72vh] w-full" style="grid-template-columns: 112px repeat({{ $slotCount }}, minmax(0, 1fr));">
+                                <div class="grid grid-rows-[64px_1fr] border-r border-slate-200 bg-slate-50">
+                                    <div class="flex items-center justify-center border-b border-slate-200 bg-slate-100 text-xs font-semibold uppercase tracking-[0.3em] text-slate-600">
+                                        Times
+                                    </div>
+                                    <div class="flex h-full flex-col">
+                                        @foreach($timeSegments as $index => $slot)
+                                            <div
+                                                class="flex items-center justify-center px-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500 {{ $index + 1 !== $timeSegmentCount ? 'border-b border-slate-200' : '' }}"
+                                                style="height: {{ 100 / $timeSegmentCount }}%;"
+                                            >
+                                                {{$slot['time']}}
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
-                            @endforeach
-                        </div>
-                        @foreach($availableTimes as $key => $availability)
 
-                            <div class="relative h-full w-1/6 basis-1/6">
-                                <div class="absolute top-0 z-10 -translate-y-full w-full rounded-t-3xl border border-b-0 border-slate-200 bg-white px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 shadow-sm">
-                                    Slot {{$key + 1}}
-                                </div>
-                                <div
-                                    class="flex h-full flex-col justify-between border border-l-0 border-slate-200 bg-white p-2 @if($key == array_key_last($availableTimes)) rounded-br-3xl @endif">
-                                    @foreach($availability as $slotKey => $slot)
-                                        @if($slot['booking'] && $slot['booking']['parent_booking_id'])
-                                            @continue
-                                        @endif
-                                        <div class="group relative w-full cursor-pointer"
-                                             style="height: {{(100 / count($availableTimes[0])) * ($slot['booking'] ? $slot['booking']['bookings_count'] : 1)}}%">
-
-                                            @if(!empty($slot['booking']))
-                                                <div
-                                                    data-time="{{$slot['time']}}"
-                                                    data-slot="{{$key}}"
-                                                    data-end-time="{{$slot['booking']['end_time']}}"
-                                                    data-booking-id="{{$slot['booking']['id']}}"
-                                                    data-name="{{$slot['booking']['name']}}"
-                                                    data-room="{{$slot['booking']['room_number']}}"
-                                                    data-email="{{$slot['booking']['email']}}"
-                                                    data-phone="{{$slot['booking']['mobile']}}"
-                                                    class="mx-1 flex h-full items-stretch rounded-2xl border border-slate-200 bg-white p-2 shadow transition hover:-translate-y-0.5 hover:border-[#FF5E57]/70 hover:shadow-lg modifyModalBookingTrigger">
-                                                    @if($slot['booking']['name'] == '__block__')
-
-
-                                                        <div class="flex h-full w-full flex-col justify-between rounded-xl bg-rose-50 p-3 text-left">
-                                                            <p class="text-xs font-semibold uppercase tracking-wide text-rose-500">Block</p>
-                                                            <p class="text-sm font-medium text-rose-600">{{substr($slot['booking']['start_time'], 0, -3)}}
-                                                                - {{substr($slot['booking']['end_time'], 0, -3)}}</p>
-                                                        </div>
-                                                    @else
-
-
-                                                        <div class="flex h-full w-full flex-col justify-between rounded-xl bg-sky-50 p-3 text-left text-slate-700">
-                                                            <p class="text-sm font-semibold text-slate-900">{{$slot['booking']['name']}}</p>
-                                                            @if($slot['booking']['room_number'])
-                                                                <p class="text-xs text-slate-500">Room: {{$slot['booking']['room_number']}}</p>
-                                                            @endif
-                                                            <p class="text-xs font-medium tracking-wide text-slate-600">{{substr($slot['booking']['start_time'], 0, -3)}}
-                                                                - {{substr($slot['booking']['end_time'], 0, -3)}}</p>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            @else
-
-                                                <div data-time="{{$slot['time']}}"
-                                                     data-slot="{{$key}}"
-                                                     class="mx-1 flex h-full items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white p-1 text-slate-400 transition hover:border-[#FF5E57] hover:bg-[#FF5E57]/5 hover:text-[#FF5E57] newModalBookingTrigger">
-                                                    <div class="flex h-full w-full items-center justify-center rounded-xl border border-dashed border-inherit bg-slate-50 p-2">
-                                                        <svg class="h-6 w-6" viewBox="0 0 512 512">
-                                                            <path fill="currentColor"
-                                                                  d="M417.4,224H288V94.6c0-16.9-14.3-30.6-32-30.6c-17.7,0-32,13.7-32,30.6V224H94.6C77.7,224,64,238.3,64,256c0,17.7,13.7,32,30.6,32H224v129.4c0,16.9,14.3,30.6,32,30.6c17.7,0,32-13.7,32-30.6V288h129.4c16.9,0,30.6-14.3,30.6-32C448,238.3,434.3,224,417.4,224z"/>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            @endif
+                                @foreach($availableTimes as $key => $availability)
+                                    <div class="grid grid-rows-[64px_1fr] border-r border-slate-200 bg-white last:border-r-0">
+                                        <div class="flex items-center justify-center border-b border-slate-200 bg-slate-100 text-xs font-semibold uppercase tracking-[0.25em] text-slate-600">
+                                            Slot {{$key + 1}}
                                         </div>
-                                    @endforeach
-
-
-                                </div>
+                                        <div class="relative flex flex-col">
+                                            @for($lineIndex = 1; $lineIndex < $timeSegmentCount; $lineIndex++)
+                                                <div class="pointer-events-none absolute left-0 right-0 border-t border-slate-100" style="top: {{ ($lineIndex / $timeSegmentCount) * 100 }}%"></div>
+                                            @endfor
+                                            <div class="relative flex h-full flex-col p-3">
+                                                @foreach($availability as $slotKey => $slot)
+                                                    @if($slot['booking'] && $slot['booking']['parent_booking_id'])
+                                                        @continue
+                                                    @endif
+                                                    @php
+                                                        $blockCount = $slot['booking']['bookings_count'] ?? 1;
+                                                        $blockHeight = max(1, $blockCount) * (100 / $timeSegmentCount);
+                                                    @endphp
+                                                    <div
+                                                        class="group relative w-full"
+                                                        style="height: {{ $blockHeight }}%"
+                                                    >
+                                                        @if(!empty($slot['booking']))
+                                                            @php
+                                                                $isBlocked = $slot['booking']['name'] == '__block__';
+                                                            @endphp
+                                                            <div
+                                                                data-time="{{$slot['time']}}"
+                                                                data-slot="{{$key}}"
+                                                                data-end-time="{{$slot['booking']['end_time']}}"
+                                                                data-booking-id="{{$slot['booking']['id']}}"
+                                                                data-name="{{$slot['booking']['name']}}"
+                                                                data-room="{{$slot['booking']['room_number']}}"
+                                                                data-email="{{$slot['booking']['email']}}"
+                                                                data-phone="{{$slot['booking']['mobile']}}"
+                                                                class="flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-xl border border-transparent p-3 text-left text-white shadow-sm transition hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white modifyModalBookingTrigger {{ $isBlocked ? 'bg-gradient-to-br from-rose-500/90 to-rose-600/90 focus:ring-rose-300' : 'bg-gradient-to-br from-sky-500/90 to-sky-600/90 focus:ring-sky-300' }}"
+                                                            >
+                                                                @if($isBlocked)
+                                                                    <div class="flex h-full w-full flex-col justify-between">
+                                                                        <p class="text-xs font-semibold uppercase tracking-wide text-white/90">Block</p>
+                                                                        <p class="text-sm font-semibold">{{substr($slot['booking']['start_time'], 0, -3)}} - {{substr($slot['booking']['end_time'], 0, -3)}}</p>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="flex h-full w-full flex-col justify-between">
+                                                                        <p class="text-sm font-semibold leading-tight">{{$slot['booking']['name']}}</p>
+                                                                        @if($slot['booking']['room_number'])
+                                                                            <p class="text-xs text-white/80">Room: {{$slot['booking']['room_number']}}</p>
+                                                                        @endif
+                                                                        <p class="text-xs font-semibold text-white/90">{{substr($slot['booking']['start_time'], 0, -3)}} - {{substr($slot['booking']['end_time'], 0, -3)}}</p>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                        @else
+                                                            <div
+                                                                data-time="{{$slot['time']}}"
+                                                                data-slot="{{$key}}"
+                                                                class="flex h-full w-full cursor-pointer items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 text-slate-400 transition hover:border-sky-400 hover:bg-sky-50 hover:text-sky-600 newModalBookingTrigger"
+                                                            >
+                                                                <div class="flex items-center gap-2 text-sm font-medium">
+                                                                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <line x1="12" y1="5" x2="12" y2="19" />
+                                                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                                                    </svg>
+                                                                    <span>Add booking</span>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-
-                        @endforeach
                         @else
-                            <div class="flex h-full w-full items-center justify-center bg-white">
+                            <div class="flex h-[72vh] w-full items-center justify-center bg-white">
                                 <p class="rounded-full border border-slate-200 bg-slate-50 px-6 py-3 text-sm font-medium text-slate-500 shadow-sm">No bookings available for this product on this date.</p>
                             </div>
                         @endif
-                        </div>
-
-
                     </div>
                 </div>
             </div>
@@ -505,12 +515,16 @@
         });
 
         const productSelector = document.getElementById('product-selector');
-        const productSelectorList = productSelector.querySelector('ul');
-        const productSelectorButton = productSelector.querySelector('button');
+        if (productSelector) {
+            const productSelectorList = productSelector.querySelector('ul');
+            const productSelectorButton = productSelector.querySelector('button');
 
-        productSelectorButton.addEventListener('click', () => {
-            productSelectorList.classList.toggle('hidden');
-        });
+            if (productSelectorButton && productSelectorList) {
+                productSelectorButton.addEventListener('click', () => {
+                    productSelectorList.classList.toggle('hidden');
+                });
+            }
+        }
 
     </script>
 </x-hotel-admin-layout>
