@@ -182,7 +182,7 @@
                         <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-rose-100 text-rose-600">
                             <i data-lucide="alert-triangle" class="h-6 w-6"></i>
                         </div>
-                        <h4 class="text-lg font-semibold text-slate-900">Delete product</h4>
+                        <h4 class="text-lg font-semibold text-slate-900">Delete automation</h4>
                         <p class="text-sm text-slate-500">Are you sure you want to remove <span id="productToDeleteName" class="font-semibold text-slate-900"></span>? This action cannot be undone.  It will also delete all scheduled emails that use this automation.</p>
                     </div>
                     <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">

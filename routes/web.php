@@ -158,7 +158,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     Route::get('/admin/hotel/{hotel_id}/email_builder/{example_key?}', [EmailTemplatesController::class, 'create'])->name('email.builder');
     Route::get('/admin/hotel/{hotel_id}/email_builder/{template_id}/edit', [EmailTemplatesController::class, 'edit'])->name('email.builder.edit');
-    Route::get('/admin/hotel/{hotel_id}/email_builder/{template_id}/delete', [EmailTemplatesController::class, 'destroy'])->name('email.builder.destroy');
+    Route::post('/admin/hotel/{hotel_id}/email_builder/{template_id}/delete', [EmailTemplatesController::class, 'destroy'])->name('email.builder.destroy');
     Route::get('/admin/hotel/{hotel_id}/email_builder/{template_id}/template_data', [EmailTemplatesController::class, 'getTemplateData'])->name('email.builder.get-template-data');
 
     Route::post('/admin/hotel/{hotel_id}/email_builder/store', [EmailTemplatesController::class, 'store'])->name('email.builder.store');

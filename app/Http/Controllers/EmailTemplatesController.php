@@ -143,7 +143,7 @@ class EmailTemplatesController extends Controller
 
         $template->delete();
 
-        return response()->json(['success' => 'Email template deleted successfully.']);
+        return redirect()->route('email-v2.list-templates', ['hotel_id' => $hotel_id]);
     }
 
     public function sendTestEmail(Request $request, $hotel_id)
