@@ -477,6 +477,7 @@ const sendTestEmail = (email, use_test_booking) => {
         console.error('Error sending test email:', error);
         alert('An error occurred while sending test email.');
     })
+}
 
     const applyAutomationPreset = (data) => {
         emailMeta.value.email_name = data.emailName || '';
@@ -528,6 +529,6 @@ const sendTestEmail = (email, use_test_booking) => {
             console.error('Error saving content:', error);
             alert('An error occurred while saving content.');
         })
-    }
+
 };
 </script>
