@@ -43,6 +43,7 @@ class BookingController extends Controller
                 'days' => $request->send_email,
                 'booking' => $booking,
                 'arrival_date' => $content['arrival_date'],
+                'departure_date' => $content['departure_date'],
                 'email_address' => $content['email_address'],
                 'hotel' => $hotel,
                 'content' => $content,

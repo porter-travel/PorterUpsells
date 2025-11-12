@@ -108,6 +108,16 @@ class Hotel extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function emailTemplates()
+    {
+        return $this->hasMany(EmailTemplate::class);
+    }
+
+    public function activeEmailTemplates()
+    {
+        return $this->emailTemplates()->where('is_active', true)->get();
+    }
+
     public function emailSchedule(){
         $emails = $this->meta()->where('key', 'like', 'email-schedule%')->get();
         $schedule = [];
@@ -119,5 +129,6 @@ class Hotel extends Model
         }
         return $schedule;
     }
+
 
 }

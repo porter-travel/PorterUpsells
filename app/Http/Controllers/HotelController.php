@@ -129,6 +129,17 @@ class HotelController extends Controller
         return view('admin.hotel.edit', ['hotel' => $hotel, 'resdiary_microsite_name' => $resdiary_microsite_name, 'products' => $products]);
     }
 
+    public function branding(Request $request, $id)
+    {
+        $hotel = \App\Models\Hotel::find($id);
+
+        if ($hotel->user_id != auth()->user()->id && auth()->user()->role != 'superadmin'){
+            return redirect()->route('dashboard');
+        }
+
+        return view('admin.hotel.branding', ['hotel' => $hotel]);
+    }
+
     public function update(Request $request, $id)
     {
 //        dd($request);

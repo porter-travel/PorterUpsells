@@ -1,6 +1,6 @@
 <x-hotel-admin-layout :hotel="$hotel">
     <x-slot name="header">
-        <h2 class="font-extrabold open-sans text-2xl text-black leading-tight uppercase">
+        <h2 class="font-extrabold poppins text-2xl text-black leading-tight uppercase">
             {{ __('Edit Product: ') . $product->name }}
         </h2>
     </x-slot>
@@ -29,16 +29,19 @@
                         @include('admin.product.partials.specifics', ['method' => 'update'])
 @endif
 
-                        <div @if($type == 'restaurant') class="hidden" @endif id="variantContainer">
-                            <div class="my-6 flex items-center justify-between flex-wrap">
-                                <h3 class="text-xl mr-4">Variations</h3>
+
+                        <div id="variantContainer">
+                            <div class="my-6 flex flex-wrap items-center justify-between gap-4">
+                                <h3 class="text-xl text-slate-900">Variations</h3>
 
 
                                 <div>
-                                    <button data-id="{{count($product->variations) + 1}}"
-                                            class="add-item flex items-center px-8 py-2 bg-mint rounded-full"
-                                            role="button">
-                                        <img style="pointer-events: none" src="/img/icons/plus.svg" alt="add" class="mr-2">
+                                    <button
+                                        data-id="{{count($product->variations) + 1}}"
+                                        class="add-item inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100"
+                                        role="button"
+                                    >
+                                        <i data-lucide="plus" class="h-4 w-4"></i>
                                         Add a variation
                                     </button>
                                 </div>

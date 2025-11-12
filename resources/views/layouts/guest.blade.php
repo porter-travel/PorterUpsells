@@ -22,13 +22,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{$title ?? 'Enhance My Stay'}}</title>
-    <link rel="icon" type="image/x-icon" href="{{$favicon ?? '/img/hank.png'}}">
+    <link rel="icon" type="image/x-icon" href="{{ $favicon ?? asset('favicon.ico') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=grandstander:700,900|open-sans:400,700" rel="stylesheet"/>
+    <link href="https://fonts.bunny.net/css?family=poppins:400,700" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="{{asset('fonts/clash.css?1')}}">
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -41,7 +43,8 @@
 
 <footer class="mt-auto pb-8">
     <div class="mx-auto text-center">
-        <img class="mx-auto mb-4 mt-24" src="/img/logo.svg" alt="logo">
+
+        <img class="mx-auto mb-4 mt-24 w-40" src="{{ asset('EMSLogoBlack.png') }}" alt="logo">
         <p class="open-sans">Personalising your stay</p>
     </div>
 </footer>

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="grandstander text-2xl">ResDiary Connection</h2>
+        <h2 class="clash-display text-2xl">ResDiary Connection</h2>
     </x-slot>
 
     <div class="container mx-auto">

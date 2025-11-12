@@ -8,30 +8,21 @@ use App\Http\Controllers\FulfilmentController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\HotelEmailController;
 use App\Http\Controllers\IntegrationTokenController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResDiaryController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\EmailTemplatesController;
 use App\Http\Middleware\IsSuperUser;
 use App\Models\Hotel;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->to('https://emsgrow.com/');
 });
-
-
-Route::get('/about', function () {
-    return view('about');
-});
-
-Route::get('/contact', function () {
-    return view('contact');
-});
-
-Route::post('/submit-contact-form',[WelcomeController::class, 'submit_form'] )->name('welcome.submit-form');
 
 Route::get('/hotel/{id}/welcome', [HotelController::class, 'welcome'] )->name('hotel.welcome');
 
@@ -79,6 +70,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('admin/hotel/create', [HotelController::class, 'create'] )->name('hotel.create');
 
     Route::get('admin/hotel/{id}/edit', [HotelController::class, 'edit'] )->name('hotel.edit');
+    Route::get('admin/hotel/{id}/branding', [HotelController::class, 'branding'] )->name('hotel.branding');
     Route::post('admin/hotel/{id}/update', [HotelController::class, 'update'] )->name('hotel.update');
 
     Route::get('admin/hotel/{id}/product/create/{type?}', [ProductController::class, 'create'] )->name('product.create');
@@ -142,9 +134,45 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/admin/hotel/{id}/email/customise', [HotelEmailController::class, 'show'])->name('email.customise');
     Route::post('/admin/hotel/{hotel_id}/email/store-customisations', [HotelEmailController::class, 'storeCustomisations'])->name('email.store-customisations');
 
+
+//    Route::get('/admin/hotel/{hotel_id}/email/v2/list', [\App\Http\Controllers\HotelEmailController::class, 'listTemplates'])->name('email-v2.list-templates');
+    Route::get('/admin/hotel/{hotel_id}/email/v2/add', [\App\Http\Controllers\HotelEmailController::class, 'addTemplate'])->name('email-v2.add-template');
+    Route::get('/admin/hotel/{hotel_id}/email/v2/edit/{template_id}', [\App\Http\Controllers\HotelEmailController::class, 'editTemplate'])->name('email-v2.edit-template');
+    Route::get('/admin/hotel/email/v2/delete/{template_id}', [\App\Http\Controllers\HotelEmailController::class, 'deleteTemplate'])->name('email-v2.delete-template');
+    Route::post('/admin/hotel/{hotel_id}/email/v2/store', [\App\Http\Controllers\HotelEmailController::class, 'storeTemplate'])->name('email-v2.store-template');
+
     Route::get('/admin/hotel/{id}/overview', [OverviewController::class, 'index'])->name('overview.index');
 
     Route::post('/admin/chat/rewrite-product-descriptions', [ChatController::class, 'rewrite_product_descriptions'])->name('chat.rewrite-product-descriptions');
+
+
+    Route::get('/media', [MediaController::class, 'index'])->name('media.index');
+    Route::get('/media/{media}/edit', [MediaController::class, 'edit'])->name('media.edit');
+    Route::post('/media/upload', [MediaController::class, 'upload'])->name('media.upload');
+    Route::post('/media/upload/ajax', [MediaController::class, 'uploadAJAX'])->name('media.uploadAJAX');
+    Route::put('/media/{media}', [MediaController::class, 'update'])->name('media.update');
+    Route::post('/media/list/ajax', [MediaController::class, 'listAjax'])->name('media.listAjax');
+
+
+    Route::get('/admin/hotel/{hotel_id}/email/v2/list', [EmailTemplatesController::class, 'listTemplates'])->name('email-v2.list-templates');
+
+    Route::get('/admin/hotel/{hotel_id}/email_builder/{example_key?}', [EmailTemplatesController::class, 'create'])->name('email.builder');
+    Route::get('/admin/hotel/{hotel_id}/email_builder/{template_id}/edit', [EmailTemplatesController::class, 'edit'])->name('email.builder.edit');
+    Route::post('/admin/hotel/{hotel_id}/email_builder/{template_id}/delete', [EmailTemplatesController::class, 'destroy'])->name('email.builder.destroy');
+    Route::get('/admin/hotel/{hotel_id}/email_builder/{template_id}/template_data', [EmailTemplatesController::class, 'getTemplateData'])->name('email.builder.get-template-data');
+
+    Route::post('/admin/hotel/{hotel_id}/email_builder/store', [EmailTemplatesController::class, 'store'])->name('email.builder.store');
+
+    Route::post('/admin/hotel/{hotel_id}/email_builder/send-test-email', [EmailTemplatesController::class, 'sendTestEmail'])->name('email.builder.send-test-email');
+
+    Route::get('/builder/preview', function () {
+        $blocks = json_decode(\Storage::disk('local')->get('template.json'), true);
+        return view('email.builder-template', compact('blocks'));
+    });
+
+
+
+
 });
 
 Route::middleware('auth')->group(function () {

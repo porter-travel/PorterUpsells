@@ -11,11 +11,11 @@
                 @include ('hotel.partials.hotel-logo', ['hotel' => $hotel])
             </div>
 
-            <p class="hotel-main-box-text-color text-center font-bold open-sans text-2xl border-b border-darkGrey pb-6">
+            <p class="hotel-main-box-text-color text-center font-bold poppins text-2xl border-b border-darkGrey pb-6">
                 Thank you for personalising your upcoming stay
             </p>
 
-            <p class="text-xl font-bold open-sans my-4 hotel-main-box-text-color">Your Order</p>
+            <p class="text-xl font-bold poppins my-4 hotel-main-box-text-color">Your Order</p>
 
             @if(isset($cartItems) && count($cartItems) > 0)
 
