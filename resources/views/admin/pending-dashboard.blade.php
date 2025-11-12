@@ -1,5 +1,4 @@
-<x-app-layout>
-
+<x-hotel-admin-layout>
     <div class="container mx-auto">
         <h2 class="uppercase text-4xl mt-8">Subscribe</h2>
     </div>
@@ -22,4 +21,4 @@
                               customer-email="{{$user->email}}">
         </stripe-pricing-table>
     @endif
-</x-app-layout>
+</x-hotel-admin-layout>
