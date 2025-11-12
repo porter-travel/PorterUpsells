@@ -20,29 +20,29 @@ class CustomerEmailService
 
         //WE want to remove this and replace with the new schedule if it exists
         //For now run both in parallel and when the new templates are ready for all customers we can remove this old code
-        foreach ($params['days'] as $email) {
-            $customer_email = new CustomerEmail(['booking_id' => $params['booking']->id]);
+        // foreach ($params['days'] as $email) {
+        //     $customer_email = new CustomerEmail(['booking_id' => $params['booking']->id]);
 
-            if (is_numeric($email)) {
-                $customer_email->email_type = 'pre-arrival';
-                $customer_email->scheduled_at = Carbon::parse($params['arrival_date'])->subDays($email)->setTime(11, 30);
-            } else {
-                $customer_email->email_type = $email;
-                $customer_email->scheduled_at = Carbon::now();
-                Mail::to($params['email_address'])->send(new \App\Mail\CustomerEmail($params['hotel'], $params['content']));
-                $customer_email->sent_at = Carbon::now();
-                TrackEmailSends::dispatch($params['hotel']->id);
-            }
+        //     if (is_numeric($email)) {
+        //         $customer_email->email_type = 'pre-arrival';
+        //         $customer_email->scheduled_at = Carbon::parse($params['arrival_date'])->subDays($email)->setTime(11, 30);
+        //     } else {
+        //         $customer_email->email_type = $email;
+        //         $customer_email->scheduled_at = Carbon::now();
+        //         Mail::to($params['email_address'])->send(new \App\Mail\CustomerEmail($params['hotel'], $params['content']));
+        //         $customer_email->sent_at = Carbon::now();
+        //         TrackEmailSends::dispatch($params['hotel']->id);
+        //     }
 
-            $customer_email->save();
-        }
+        //     $customer_email->save();
+        // }
 
 
         //This is the new code to handle the new email schedule if it exists
 
         $emails = $params['hotel']->emailTemplates()->get();
 
-        $hotel = Hotel::find(2);
+        $hotel = Hotel::find($params['hotel']->id);
         $emails = $hotel->activeEmailTemplates();
         if ($emails->count() == 0)
             return;

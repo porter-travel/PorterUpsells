@@ -147,6 +147,7 @@
                                     :hotel-name="hotelName"
                                     :hotel-logo="hotelLogo"
                                     :hotel-featured-image="hotelFeaturedImage"
+                                    :hotel-id="props.hotelId"
                                 />
                             </div>
                             <div class="flex justify-center border-t border-slate-100 px-4 py-3">

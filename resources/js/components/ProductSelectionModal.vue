@@ -46,6 +46,9 @@ const props = defineProps({
         type: Number,
         required: true,
     },
+    hotelId: {
+        type: Number
+    }
 });
 
 const emit = defineEmits(['product-selected', 'close']);
@@ -54,8 +57,9 @@ const products = ref([]);
 const loading = ref(true);
 
 const fetchProducts = async () => {
+    console.log(props.hotelId)
     try {
-        const response = await axios.post('/admin/hotel/1/list-products-as-json'); // Replace '1' with your hotel ID
+        const response = await axios.post('/admin/hotel/' + props.hotelId + '/list-products-as-json'); // Replace '1' with your hotel ID
         products.value = response.data;
     } catch (error) {
         console.error('Failed to fetch products:', error);
