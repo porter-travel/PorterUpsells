@@ -21,7 +21,7 @@ use App\Models\Hotel;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return redirect()->to('https://emsgrow.com/');
 });
 
 Route::get('/hotel/{id}/welcome', [HotelController::class, 'welcome'] )->name('hotel.welcome');

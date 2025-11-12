@@ -4,6 +4,7 @@
         <div class="bg-white px-8 pt-20 pb-12 max-w-[500px] mx-auto rounded-3xl relative">
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
+        <img class="mx-auto mb-4 mt-24 w-40" src="{{ asset('EMSLogoBlack.png') }}" alt="logo">
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
