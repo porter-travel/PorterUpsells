@@ -41,6 +41,7 @@
         :slot-key="currentSlotKey"
         @product-selected="handleProductSelected"
         @close="showModal = false"
+        :hotel-id="props.hotelId"
     />
 </template>
 
@@ -53,6 +54,9 @@ const props = defineProps({
         type: Array,
         default: () => [null, null, null, null], // Default to 4 empty slots
     },
+    hotelId: {
+        type: Number
+    }
 });
 
 const emit = defineEmits(['update:products']);
