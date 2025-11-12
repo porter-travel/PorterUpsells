@@ -294,7 +294,7 @@ class CheckoutController extends Controller
                 return response()->json(['success' => 'Order created successfully']);
             } else {
                 Mail::to('alex@gluestudio.co.uk', 'Alex')->send(new ConfigTest(json_encode($event)));
-                                $session = \Stripe\Checkout\Session::retrieve([
+                $session = \Stripe\Checkout\Session::retrieve([
                     'id' => $event->data->object->id,
                     'expand' => ['line_items'],
                 ]);
@@ -305,6 +305,7 @@ class CheckoutController extends Controller
                 $client_reference_id = substr($client_reference_id, 5);
                 $user = User::find($client_reference_id);
                 $user->account_status = 'active';
+                $user->max_properties = $session->line_items->data[0]->quantity;
                 $user->save();
                 return response()->json(['success' => 'User account activated successfully']);
 
