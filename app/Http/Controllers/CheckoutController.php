@@ -314,9 +314,13 @@ class CheckoutController extends Controller
 
 
         } elseif($event->type == 'customer.subscription.updated'){
+            Mail::to('alex@gluestudio.co.uk', 'Alex')->send(new ConfigTest(json_encode($event)));
+
             User::where('stripe_customer_id', $event->data->object->customer)->first()->update([
                 'max_properties' => $event->data->object->items->data[0]->quantity
             ]);
+            return response()->json(['success' => 'User account updated successfully']);
+
         }
 
 
