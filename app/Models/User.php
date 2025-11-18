@@ -21,6 +21,7 @@ class User extends Authenticatable
         'email',
         'password',
         'stripe_customer_id',
+        'max_properties'
     ];
 
     /**
