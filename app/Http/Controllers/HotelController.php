@@ -77,7 +77,8 @@ class HotelController extends Controller
 
     function create(Request $request)
     {
-        return view('admin.hotel.create');
+        $user = $request->user();
+        return view('admin.hotel.create', ['user' => $user]);
     }
 
     function store(Request $request)

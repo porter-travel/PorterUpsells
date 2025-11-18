@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Hotel::class);
     }
+
+    public function propertyCount()
+    {
+        return $this->hotels()->count();
+    }
 }
