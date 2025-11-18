@@ -306,12 +306,17 @@ class CheckoutController extends Controller
                 $user = User::find($client_reference_id);
                 $user->account_status = 'active';
                 $user->max_properties = $session->line_items->data[0]->quantity;
+                $user->stripe_customer_id = $session->customer;
                 $user->save();
                 return response()->json(['success' => 'User account activated successfully']);
 
             }
 
 
+        } elseif($event->type == 'customer.subscription.updated'){
+            User::where('stripe_customer_id', $event->data->object->customer)->first()->update([
+                'max_properties' => $event->data->object->items->data[0]->quantity
+            ]);
         }
 
 
