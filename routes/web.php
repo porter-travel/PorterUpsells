@@ -21,6 +21,9 @@ use App\Models\Hotel;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    if(env('APP_ENV') === 'local'){
+        return redirect()->route('dashboard');
+    }
     return redirect()->to('https://emsgrow.com/');
 });
 
