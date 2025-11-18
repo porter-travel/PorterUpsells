@@ -96,7 +96,7 @@
                     <p class="text-sm text-slate-500">Access billing history, upgrade plans, and manage invoices.</p>
                 </div>
             </div>
-            <a href="https://billing.stripe.com/p/login/cN2aF2996gkpbGEdQQ" class="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100">
+            <a href="{{env('APP_ENV') == 'production' ? 'https://billing.stripe.com/p/login/cN2aF2996gkpbGEdQQ' : 'https://billing.stripe.com/p/login/test_cN28ys43n10xdyMcMM'}}" class="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:border-indigo-300 hover:bg-indigo-100">
                 <i data-lucide="external-link" class="h-4 w-4"></i>
                 Manage subscription
             </a>

@@ -293,18 +293,33 @@ class CheckoutController extends Controller
 
                 return response()->json(['success' => 'Order created successfully']);
             } else {
-//                Mail::to('alex@gluestudio.co.uk', 'Alex')->send(new ConfigTest(json_encode($event)));
+                Mail::to('alex@gluestudio.co.uk', 'Alex')->send(new ConfigTest(json_encode($event)));
+                $session = \Stripe\Checkout\Session::retrieve([
+                    'id' => $event->data->object->id,
+                    'expand' => ['line_items'],
+                ]);
+                Mail::to('alex@gluestudio.co.uk', 'Alex')->send(new ConfigTest(json_encode($session)));
 
                 $client_reference_id = $event->data->object->client_reference_id;
                 //Remove the string 'USER_' from the client_reference_id
                 $client_reference_id = substr($client_reference_id, 5);
                 $user = User::find($client_reference_id);
                 $user->account_status = 'active';
+                $user->max_properties = $session->line_items->data[0]->quantity;
+                $user->stripe_customer_id = $session->customer;
                 $user->save();
                 return response()->json(['success' => 'User account activated successfully']);
 
             }
 
+
+        } elseif($event->type == 'customer.subscription.updated'){
+            Mail::to('alex@gluestudio.co.uk', 'Alex')->send(new ConfigTest(json_encode($event)));
+
+            User::where('stripe_customer_id', $event->data->object->customer)->first()->update([
+                'max_properties' => $event->data->object->items->data[0]->quantity
+            ]);
+            return response()->json(['success' => 'User account updated successfully']);
 
         }
 

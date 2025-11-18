@@ -20,6 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'stripe_customer_id',
+        'max_properties'
     ];
 
     /**
@@ -48,5 +50,10 @@ class User extends Authenticatable
     public function hotels()
     {
         return $this->hasMany(Hotel::class);
+    }
+
+    public function propertyCount()
+    {
+        return $this->hotels()->count();
     }
 }
