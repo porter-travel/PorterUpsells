@@ -37,18 +37,26 @@ class BookingController extends Controller
             'booking_ref' => $content['booking_ref'],
         ]);
 
-        if ($request->has('send_email')) {
-            $customerEmailService = new CustomerEmailService();
-            $customerEmailService->setupEmailSchedule([
-                'days' => $request->send_email,
-                'booking' => $booking,
+        $Hotel = Hotel::find($id);
+
+        $emailSchedule = $Hotel->emailSchedule();
+
+        $customerEmailService = new CustomerEmailService();
+        $customerEmailService->setupEmailSchedule([
+            'days' => $emailSchedule,
+            'booking' => $booking,
+            'arrival_date' => $content['arrival_date'],
+            'email_address' => $content['email_address'],
+            'hotel' => $Hotel,
+            'content' => [
+                'guest_name' => '',
                 'arrival_date' => $content['arrival_date'],
                 'departure_date' => $content['departure_date'],
                 'email_address' => $content['email_address'],
-                'hotel' => $hotel,
-                'content' => $content,
-            ]);
-        }
+                'booking_ref' => $content['booking_ref']
+            ],
+        ]);
+
 
         return to_route('bookings.list', ['id' => $id]);
 

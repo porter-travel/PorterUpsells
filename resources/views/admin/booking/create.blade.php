@@ -111,66 +111,7 @@
                         </div>
                     </div>
 
-                    <div class="space-y-4">
-                        <div class="space-y-2">
-                            <h3 class="text-lg font-semibold text-slate-900">Pre-arrival emails</h3>
-                            <p class="text-sm text-slate-500">Choose when the welcome journey is sent. We'll handle the scheduling automatically.</p>
-                        </div>
-                        <div class="grid gap-3 sm:grid-cols-2">
-                            <label class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-sm transition hover:border-indigo-200 hover:bg-indigo-50/60">
-                                <input
-                                    type="checkbox"
-                                    name="send_email[]"
-                                    value="now"
-                                    @checked(in_array('now', $selectedEmailSchedules))
-                                    class="mt-1 h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-                                >
-                                <span class="flex flex-col">
-                                    <span class="font-semibold text-slate-900">Send immediately</span>
-                                    <span class="text-xs text-slate-500">Share the welcome guide as soon as the booking is saved.</span>
-                                </span>
-                            </label>
-                            <label class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-sm transition hover:border-indigo-200 hover:bg-indigo-50/60">
-                                <input
-                                    type="checkbox"
-                                    name="send_email[]"
-                                    value="30"
-                                    @checked(in_array('30', $selectedEmailSchedules))
-                                    class="mt-1 h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-                                >
-                                <span class="flex flex-col">
-                                    <span class="font-semibold text-slate-900">30 days before arrival</span>
-                                    <span class="text-xs text-slate-500">Keep long-lead guests excited about their stay.</span>
-                                </span>
-                            </label>
-                            <label class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-sm transition hover:border-indigo-200 hover:bg-indigo-50/60">
-                                <input
-                                    type="checkbox"
-                                    name="send_email[]"
-                                    value="7"
-                                    @checked(in_array('7', $selectedEmailSchedules))
-                                    class="mt-1 h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-                                >
-                                <span class="flex flex-col">
-                                    <span class="font-semibold text-slate-900">7 days before arrival</span>
-                                    <span class="text-xs text-slate-500">Remind guests to plan add-ons once plans are confirmed.</span>
-                                </span>
-                            </label>
-                            <label class="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-sm transition hover:border-indigo-200 hover:bg-indigo-50/60">
-                                <input
-                                    type="checkbox"
-                                    name="send_email[]"
-                                    value="2"
-                                    @checked(in_array('2', $selectedEmailSchedules))
-                                    class="mt-1 h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
-                                >
-                                <span class="flex flex-col">
-                                    <span class="font-semibold text-slate-900">2 days before arrival</span>
-                                    <span class="text-xs text-slate-500">Prompt last-minute upgrades right before check-in.</span>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
+
 
                     <x-primary-button class="w-full justify-center text-base">Store booking</x-primary-button>
                 </form>
